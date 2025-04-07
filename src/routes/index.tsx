@@ -37,11 +37,11 @@ function Home() {
         <div className="flex flex-col gap-4">
           <H1 className="font-medium">Leonardo Petrucci</H1>
           <span className="text-muted-foreground text-sm">
-            As a software developer at Webflow, I specialize in building modern
-            web applications using Typescript and React. My experience covers
-            both fullstack and frontend development, with a particular
-            enthusiasm for leveraging robust design systems and utilizing MDX to
-            create scalable and well-documented user experiences for the web.
+            Software developer at Webflow, specialising in building modern web
+            applications using Typescript and React. My experience covers both
+            fullstack and frontend development, with a particular focus on
+            leveraging robust design systems and utilising MDX to create
+            scalable and well-documented user experiences for the web.
           </span>
           <div className="flex flex-row gap-2">
             <InfoItem>October 1994</InfoItem>
