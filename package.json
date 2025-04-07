@@ -1,11 +1,11 @@
 {
-  "name": "tanstack-start-example-basic",
+  "name": "leonardo.petruc.ci",
   "private": true,
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "vinxi dev",
     "build": "vinxi build",
+    "dev": "vinxi dev",
     "start": "vinxi start"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "redaxios": "^0.5.1",
+    "sst": "3.12.3",
     "tailwind-merge": "^2.6.0",
     "tw-animate-css": "^1.2.5",
     "vinxi": "0.5.3"
@@ -37,5 +38,7 @@
     "typescript": "^5.7.2",
     "vite-tsconfig-paths": "^5.1.4"
   },
-  "packageManager": "pnpm@10.2.0+sha512.0d27364e0139c6aadeed65ada153135e0ca96c8da42123bd50047f961339dc7a758fc2e944b428f52be570d1bd3372455c1c65fa2e7aa0bfbf931190f9552001"
+  "overrides": {
+    "nitropack": "npm:nitropack-nightly@latest"
+  }
 }

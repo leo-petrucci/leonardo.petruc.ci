@@ -67,6 +67,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <Scripts />
           </div>
         </div>
+        <footer className="mt-8 mb-4 text-center text-sm text-gray-500">
+          © {new Date().getFullYear()} Leonardo Petrucci. All rights reserved.
+        </footer>
       </body>
     </html>
   );

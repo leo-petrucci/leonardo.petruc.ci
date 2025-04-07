@@ -1,11 +1,25 @@
 import { H1 } from '@/components/ui/typography';
-import { WorkCard } from '@/components/WorkCard/WorkCard';
+import { WorkCard } from '@/components/molecules/WorkCard';
 import { createFileRoute } from '@tanstack/react-router';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { InfoItem, InfoMap } from '@/components/atoms/Info';
+import { SocialCard } from '@/components/molecules/SocialCard';
+import { GithubSocialCard } from '@/components/organisms/GithubSocialCard';
 
 export const Route = createFileRoute('/')({
   component: Home,
+  loader: async () => {
+    const base =
+      import.meta.env.MODE === 'development'
+        ? 'http://localhost:3000'
+        : 'https://leonardo.petruc.ci';
+    const response = await fetch(import.meta.env.VITE_GITHUB_FUNCTION_URL);
+    if (!response.ok) {
+      throw new Error('Failed to fetch contributions');
+    }
+    const data = await response.json();
+    return data as { totalContributions: number };
+  },
 });
 
 function Home() {
@@ -44,19 +58,28 @@ function Home() {
             companyName="Webflow"
             bgColor="#E2EDFE"
           />
+          <GithubSocialCard />
+          <SocialCard
+            title="@leonardo-petrucci"
+            subTitle="Send me a request!"
+            companyName="LinkedIn"
+            companyLogo="/LinkedinLogo.png"
+            bgColor="#E2EDFE"
+            to="https://www.linkedin.com/in/leonardo-petrucci/"
+          />
           <WorkCard
             title="Senior Fullstack Engineer"
             subTitle="September 2022 - April 2025"
             companyLogo="/MojoLogo.svg"
             companyName="Mojo Mortgages"
-            bgColor="#feecdc"
+            bgColor="#FEF4EB"
           />
           <WorkCard
             title="Frontend Engineer"
             subTitle="July 2020 - September 2022"
             companyLogo="/StaffscannerLogo.svg"
             companyName="Staffscanner"
-            bgColor="#B8E6FF"
+            bgColor="#E6F6FF"
           />
         </div>
       </div>
