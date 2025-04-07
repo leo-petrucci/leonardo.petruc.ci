@@ -17,7 +17,7 @@ export default $config({
       },
     });
 
-    new sst.aws.TanstackStart('Site', {
+    new sst.aws.TanStackStart('Site', {
       domain: {
         name: 'leonardo.petruc.ci',
         redirects: ['www.leonardo.petruc.ci'],
