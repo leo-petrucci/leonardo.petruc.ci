@@ -35,7 +35,7 @@ jobs:
         with:
           path: |
             .sst
-          key: ${{ runner.os }}-sst
+          key: ${{ runner.os }}-sst-new
 
       - name: Deploy SST App
         env:
