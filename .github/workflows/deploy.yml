@@ -44,5 +44,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           AWS_REGION: eu-west-1
           AWS_DEFAULT_REGION: eu-west-1
-        run: bunx sst deploy --stage prod
-        # run: env | grep AWS_
+        run: |
+          echo "AWS_REGION: $AWS_REGION"
+          echo "AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
+          bunx sst deploy --stage prod
