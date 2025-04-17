@@ -26,7 +26,7 @@ export const Route = createRootRoute({
         title:
           'Leonardo Petrucci',
         description: `Leonardo Petrucci's personal site. A collection of my work, projects, and thoughts.`,
-        image: '/Opengraph.png',
+        image: '/OpenGraph.png',
       }),
     ],
     links: [
