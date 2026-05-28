@@ -11,7 +11,7 @@ export type Job = {
   company: string;
   companyLogo: string;
   startDate: Date;
-  endDate: Date | null; // null = current
+  endDate: Date | null;
   bgColor: string;
 };
 
@@ -40,8 +40,6 @@ function durationLabel(months: number): string {
 
 export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
   const now = new Date();
-
-  // Display oldest → newest (chronological left to right)
   const chronological = [...jobs].reverse();
   const mostRecentIdx = chronological.length - 1;
 
@@ -49,11 +47,10 @@ export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
     return acc + monthsBetween(job.startDate, job.endDate ?? now);
   }, 0);
 
-  const [activeIdx, setActiveIdx] = useState<number | null>(null);
-  const displayIdx = activeIdx ?? mostRecentIdx;
-  const activeJob = chronological[displayIdx];
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const displayIdx = hoveredIdx ?? mostRecentIdx;
 
-  {/* Build segment boundaries for labels */}
+  // Build boundary labels
   const boundaries: { label: string; positionPercent: number }[] = [];
   let cumulative = 0;
   chronological.forEach((job, i) => {
@@ -83,8 +80,16 @@ export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
               (monthsBetween(job.startDate, job.endDate ?? now) /
                 totalMonths) *
               100;
+            const isCurrent = i === mostRecentIdx;
+            const isHovered = displayIdx === i;
             return (
-              <Tooltip key={i}>
+              <Tooltip
+                key={i}
+                open={isHovered}
+                onOpenChange={(open) => {
+                  if (!open && hoveredIdx === i) setHoveredIdx(null);
+                }}
+              >
                 <TooltipTrigger asChild>
                   <div
                     className="relative h-full cursor-pointer transition-all duration-200 hover:opacity-80"
@@ -96,21 +101,44 @@ export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
                           ? '2px solid white'
                           : undefined,
                     }}
-                    onMouseEnter={() => setActiveIdx(i)}
-                    onMouseLeave={() => setActiveIdx(null)}
-                  />
-                </TooltipTrigger>
-                <TooltipContent side="top" className="w-56">
-                  <p className="font-semibold">{job.company}</p>
-                  <p className="text-muted-foreground mt-0.5">
-                    {job.title}
-                  </p>
-                  <p className="text-muted-foreground/70 text-xs mt-1">
-                    {formatPeriod(job.startDate, job.endDate)} ·{' '}
-                    {durationLabel(
-                      monthsBetween(job.startDate, job.endDate ?? now),
+                    onMouseEnter={() => setHoveredIdx(i)}
+                    onMouseLeave={() => setHoveredIdx(null)}
+                  >
+                    {isCurrent && (
+                      <div
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-4 h-4 rounded-full border-2 border-background z-10"
+                        style={{ backgroundColor: job.bgColor }}
+                      />
                     )}
-                  </p>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="w-60">
+                  <div className="flex items-start gap-3">
+                    {job.companyLogo && (
+                      <img
+                        src={job.companyLogo}
+                        alt={job.company}
+                        className="h-8 w-8 rounded object-contain mt-0.5"
+                      />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-foreground">
+                        {job.company}
+                      </p>
+                      <p className="text-muted-foreground text-sm">
+                        {job.title}
+                      </p>
+                      <p className="text-muted-foreground/60 text-xs mt-1">
+                        {formatPeriod(job.startDate, job.endDate)} ·{' '}
+                        {durationLabel(
+                          monthsBetween(
+                            job.startDate,
+                            job.endDate ?? now,
+                          ),
+                        )}
+                      </p>
+                    </div>
+                  </div>
                 </TooltipContent>
               </Tooltip>
             );
@@ -132,26 +160,6 @@ export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
             {b.label}
           </span>
         ))}
-      </div>
-
-      {/* Active job info (defaults to most recent) */}
-      <div className="mt-6 p-4 rounded-lg border bg-card text-card-foreground flex items-center gap-3">
-        <img
-          src={activeJob.companyLogo}
-          className="h-6 w-6 object-contain"
-          alt=""
-        />
-        <div className="flex-1">
-          <p className="text-sm font-medium">{activeJob.company}</p>
-          <p className="text-xs text-muted-foreground">{activeJob.title}</p>
-        </div>
-        <p className="text-xs text-muted-foreground text-right">
-          {formatPeriod(activeJob.startDate, activeJob.endDate)}
-          <br />
-          {durationLabel(
-            monthsBetween(activeJob.startDate, activeJob.endDate ?? now),
-          )}
-        </p>
       </div>
     </div>
   );
