@@ -9,6 +9,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import * as React from 'react';
 import { DefaultCatchBoundary } from '@/components/DefaultCatchBoundary';
 import { NotFound } from '@/components/NotFound';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import appCss from '@/styles/app.css?url';
 import { seo } from '@/utils/seo';
 
@@ -60,17 +61,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-geist-mono">
-        <div className="flex flex-col items-center">
-          <div className="max-w-4xl w-full">
-            {children}
-            <TanStackRouterDevtools position="bottom-right" />
-            <Scripts />
+        <Provider>
+          <div className="flex flex-col items-center">
+            <div className="max-w-4xl w-full">
+              {children}
+              <TanStackRouterDevtools position="bottom-right" />
+              <Scripts />
+            </div>
           </div>
-        </div>
-        <footer className="mt-8 mb-4 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} Leonardo Petrucci. All rights reserved.
-        </footer>
+          <footer className="mt-8 mb-4 text-center text-sm text-gray-500">
+            © {new Date().getFullYear()} Leonardo Petrucci. All rights reserved.
+          </footer>
+        </Provider>
       </body>
     </html>
   );
+}
+
+function Provider({ children }: { children: React.ReactNode }) {
+  return <TooltipProvider>{children}</TooltipProvider>;
 }

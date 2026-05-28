@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vinxi build",
-    "dev": "HOST=0.0.0.0 vinxi dev",
+    "dev": "GH_TOKEN=$(gh auth token) HOST=0.0.0.0 vinxi dev",
     "start": "vinxi start"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "framer-motion": "^12.6.3",
     "lucide-react": "^0.486.0",
     "maplibre-gl": "^5.3.0",
+    "radix-ui": "^1.4.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "redaxios": "^0.5.1",

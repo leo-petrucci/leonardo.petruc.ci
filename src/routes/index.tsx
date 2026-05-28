@@ -10,11 +10,15 @@ import { JobTimeline, type Job } from '@/components/molecules/JobTimeline';
 export const Route = createFileRoute('/')({
   component: Home,
   loader: async () => {
-    const base =
+    const baseUrl =
       import.meta.env.MODE === 'development'
         ? 'http://localhost:3000'
         : 'https://leonardo.petruc.ci';
-    const response = await fetch(import.meta.env.VITE_GITHUB_FUNCTION_URL);
+    const url =
+      import.meta.env.MODE === 'development'
+        ? `${baseUrl}/api/github`
+        : import.meta.env.VITE_GITHUB_FUNCTION_URL;
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch contributions');
     }

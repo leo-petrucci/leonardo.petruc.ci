@@ -1,4 +1,9 @@
 import { H2 } from '@/components/ui/typography';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export type Job = {
   title: string;
@@ -50,27 +55,29 @@ export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
                 totalMonths) *
               100;
             return (
-              <div
-                key={i}
-                className="group relative h-full cursor-pointer transition-all duration-200 hover:brightness-110 hover:scale-y-150"
-                style={{ width: `${width}%`, backgroundColor: job.bgColor }}
-              >
-                {/* Tooltip */}
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                  <div className="bg-popover text-popover-foreground rounded-lg border shadow-lg p-3 text-sm">
-                    <p className="font-semibold">{job.company}</p>
-                    <p className="text-muted-foreground mt-0.5">
-                      {job.title}
-                    </p>
-                    <p className="text-muted-foreground/70 text-xs mt-1">
-                      {formatPeriod(job.startDate, job.endDate)} ·{' '}
-                      {durationLabel(
-                        monthsBetween(job.startDate, job.endDate ?? now),
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <Tooltip key={i}>
+                <TooltipTrigger asChild>
+                  <div
+                    className="relative h-full cursor-pointer transition-all duration-200 hover:opacity-80 hover:h-3 hover:-translate-y-0.5"
+                    style={{
+                      width: `${width}%`,
+                      backgroundColor: job.bgColor,
+                    }}
+                  />
+                </TooltipTrigger>
+                <TooltipContent side="top" className="w-56">
+                  <p className="font-semibold">{job.company}</p>
+                  <p className="text-muted-foreground mt-0.5">
+                    {job.title}
+                  </p>
+                  <p className="text-muted-foreground/70 text-xs mt-1">
+                    {formatPeriod(job.startDate, job.endDate)} ·{' '}
+                    {durationLabel(
+                      monthsBetween(job.startDate, job.endDate ?? now),
+                    )}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
             );
           })}
         </div>
@@ -94,22 +101,12 @@ export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
                   year: 'numeric',
                 })}
               </span>
-              {i === jobs.length - 1 && job.endDate === null && (
-                <span className="text-[11px] text-muted-foreground/60 leading-tight">
-                  Present
-                </span>
-              )}
-              {i === jobs.length - 1 && job.endDate && (
-                <span className="text-[11px] text-muted-foreground/60 leading-tight">
-                  {job.endDate.toLocaleDateString('en-US', {
-                    month: 'short',
-                    year: 'numeric',
-                  })}
-                </span>
-              )}
             </div>
           );
         })}
+        <span className="text-[11px] text-muted-foreground/60 leading-tight">
+          Present
+        </span>
       </div>
     </div>
   );
