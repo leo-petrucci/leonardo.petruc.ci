@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vinxi build",
-    "dev": "vinxi dev",
+    "dev": "HOST=0.0.0.0 vinxi dev",
     "start": "vinxi start"
   },
   "dependencies": {
