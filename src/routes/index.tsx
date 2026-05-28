@@ -5,6 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { InfoItem, InfoMap } from '@/components/atoms/Info';
 import { SocialCard } from '@/components/molecules/SocialCard';
 import { GithubSocialCard } from '@/components/organisms/GithubSocialCard';
+import { JobTimeline, type Job } from '@/components/molecules/JobTimeline';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -50,37 +51,47 @@ function Home() {
           </div>
           <hr />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <WorkCard
-            title="Senior Frontend Engineer"
-            subTitle="April 2025 - Current"
-            companyLogo="/WebflowLogo.svg"
-            companyName="Webflow"
-            bgColor="#E2EDFE"
+        <div className="flex flex-col gap-8">
+          <JobTimeline
+            jobs={[
+              {
+                title: 'Senior Frontend Engineer',
+                company: 'Webflow',
+                companyLogo: '/WebflowLogo.svg',
+                startDate: new Date('2025-04-01'),
+                endDate: null,
+                bgColor: '#E2EDFE',
+              },
+              {
+                title: 'Senior Fullstack Engineer',
+                company: 'Mojo Mortgages',
+                companyLogo: '/MojoLogo.svg',
+                startDate: new Date('2022-09-01'),
+                endDate: new Date('2025-04-01'),
+                bgColor: '#FEF4EB',
+              },
+              {
+                title: 'Frontend Engineer',
+                company: 'Staffscanner',
+                companyLogo: '/StaffscannerLogo.svg',
+                startDate: new Date('2020-07-01'),
+                endDate: new Date('2022-09-01'),
+                bgColor: '#E6F6FF',
+              },
+            ] satisfies Job[]}
           />
-          <GithubSocialCard />
-          <SocialCard
-            title="@leonardo-petrucci"
-            subTitle="Send me a request!"
-            companyName="LinkedIn"
-            companyLogo="/LinkedinLogo.png"
-            bgColor="#E2EDFE"
-            to="https://www.linkedin.com/in/leonardo-petrucci/"
-          />
-          <WorkCard
-            title="Senior Fullstack Engineer"
-            subTitle="September 2022 - April 2025"
-            companyLogo="/MojoLogo.svg"
-            companyName="Mojo Mortgages"
-            bgColor="#FEF4EB"
-          />
-          <WorkCard
-            title="Frontend Engineer"
-            subTitle="July 2020 - September 2022"
-            companyLogo="/StaffscannerLogo.svg"
-            companyName="Staffscanner"
-            bgColor="#E6F6FF"
-          />
+          <hr />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <GithubSocialCard />
+            <SocialCard
+              title="@leonardo-petrucci"
+              subTitle="Send me a request!"
+              companyName="LinkedIn"
+              companyLogo="/LinkedinLogo.png"
+              bgColor="#E2EDFE"
+              to="https://www.linkedin.com/in/leonardo-petrucci/"
+            />
+          </div>
         </div>
       </div>
     </div>
