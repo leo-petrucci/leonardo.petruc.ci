@@ -1,10 +1,5 @@
 import { useState } from 'react';
 import { H2 } from '@/components/ui/typography';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 export type Job = {
   title: string;
@@ -47,8 +42,9 @@ export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
     return acc + monthsBetween(job.startDate, job.endDate ?? now);
   }, 0);
 
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const displayIdx = hoveredIdx ?? mostRecentIdx;
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const displayIdx = activeIdx ?? mostRecentIdx;
+  const activeJob = chronological[displayIdx];
 
   // Build boundary labels
   const boundaries: { label: string; positionPercent: number }[] = [];
@@ -81,66 +77,29 @@ export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
                 totalMonths) *
               100;
             const isCurrent = i === mostRecentIdx;
-            const isHovered = displayIdx === i;
             return (
-              <Tooltip
-                key={i}
-                open={isHovered}
-                onOpenChange={(open) => {
-                  if (!open && hoveredIdx === i) setHoveredIdx(null);
-                }}
-              >
-                <TooltipTrigger asChild>
-                  <div
-                    className="relative h-full cursor-pointer transition-all duration-200 hover:opacity-80"
-                    style={{
-                      width: `${width}%`,
-                      backgroundColor: job.bgColor,
-                      borderRight:
-                        i < chronological.length - 1
-                          ? '2px solid white'
-                          : undefined,
-                    }}
-                    onMouseEnter={() => setHoveredIdx(i)}
-                    onMouseLeave={() => setHoveredIdx(null)}
-                  >
-                    {isCurrent && (
-                      <div
-                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-4 h-4 rounded-full border-2 border-background z-10"
-                        style={{ backgroundColor: job.bgColor }}
-                      />
-                    )}
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent side="top" className="w-60">
-                  <div className="flex items-start gap-3">
-                    {job.companyLogo && (
-                      <img
-                        src={job.companyLogo}
-                        alt={job.company}
-                        className="h-8 w-8 rounded object-contain mt-0.5"
-                      />
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-foreground">
-                        {job.company}
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        {job.title}
-                      </p>
-                      <p className="text-muted-foreground/60 text-xs mt-1">
-                        {formatPeriod(job.startDate, job.endDate)} ·{' '}
-                        {durationLabel(
-                          monthsBetween(
-                            job.startDate,
-                            job.endDate ?? now,
-                          ),
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </TooltipContent>
-              </Tooltip>
+              <div key={i} className="relative">
+                <div
+                  className="relative h-full cursor-pointer transition-all duration-200 hover:opacity-80"
+                  style={{
+                    width: `${width}%`,
+                    backgroundColor: job.bgColor,
+                    borderRight:
+                      i < chronological.length - 1
+                        ? '2px solid white'
+                        : undefined,
+                  }}
+                  onMouseEnter={() => setActiveIdx(i)}
+                  onMouseLeave={() => setActiveIdx(null)}
+                >
+                  {isCurrent && (
+                    <div
+                      className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-4 h-4 rounded-full border-2 border-background z-10"
+                      style={{ backgroundColor: job.bgColor }}
+                    />
+                  )}
+                </div>
+              </div>
             );
           })}
         </div>
@@ -160,6 +119,36 @@ export const JobTimeline = ({ jobs }: { jobs: Job[] }) => {
             {b.label}
           </span>
         ))}
+      </div>
+
+      {/* Active job tooltip */}
+      <div className="relative flex justify-center mt-4">
+        <div className="bg-popover text-popover-foreground rounded-lg border shadow-lg p-3 text-sm inline-flex items-center gap-3">
+          {activeJob.companyLogo && (
+            <img
+              src={activeJob.companyLogo}
+              alt={activeJob.company}
+              className="h-8 w-8 rounded object-contain shrink-0 self-center"
+            />
+          )}
+          <div>
+            <p className="font-semibold text-foreground">
+              {activeJob.company}
+            </p>
+            <p className="text-muted-foreground text-sm">
+              {activeJob.title}
+            </p>
+            <p className="text-muted-foreground/60 text-xs mt-0.5">
+              {formatPeriod(activeJob.startDate, activeJob.endDate)} ·{' '}
+              {durationLabel(
+                monthsBetween(
+                  activeJob.startDate,
+                  activeJob.endDate ?? now,
+                ),
+              )}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
