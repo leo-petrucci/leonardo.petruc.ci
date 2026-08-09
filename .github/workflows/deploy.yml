@@ -42,6 +42,13 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          WEBFLOW_API_TOKEN: ${{ secrets.WEBFLOW_API_TOKEN }}
+          COLLECTION_ID: ${{ secrets.COLLECTION_ID }}
+          BODY_FIELD: ${{ secrets.BODY_FIELD }}
+          ALLOWED_ORIGIN: ${{ secrets.ALLOWED_ORIGIN }}
+          ALLOWED_HOST: ${{ secrets.ALLOWED_HOST }}
+          FALLBACK_COUNT: ${{ secrets.FALLBACK_COUNT }}
+          PAD_WIDTH: ${{ secrets.PAD_WIDTH }}
           AWS_REGION: eu-west-1
           AWS_DEFAULT_REGION: eu-west-1
         run: |

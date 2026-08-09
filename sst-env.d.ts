@@ -10,8 +10,22 @@ declare module "sst" {
       "type": "sst.aws.Function"
       "url": string
     }
+    "HitCounter": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
+    "HitCounterFunction": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
     "Site": {
       "type": "sst.aws.TanstackStart"
+      "url": string
+    }
+    "WebflowWordCountFunction": {
+      "name": string
+      "type": "sst.aws.Function"
       "url": string
     }
   }
