@@ -1,0 +1,8 @@
+{
+  "name": "@leonardo-petrucci/libsql-sandbox",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "sst": "3.13.2"
+  }
+}
