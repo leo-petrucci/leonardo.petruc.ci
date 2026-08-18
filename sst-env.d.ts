@@ -5,6 +5,10 @@
 
 declare module "sst" {
   export interface Resource {
+    "CMS": {
+      "type": "sst.aws.Nextjs"
+      "url": string
+    }
     "GitHubFunction": {
       "name": string
       "type": "sst.aws.Function"

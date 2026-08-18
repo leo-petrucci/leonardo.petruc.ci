@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as IridescentDebuggerIndexImport } from './routes/iridescent-debugger/index'
+import { Route as PostsSlugImport } from './routes/posts.$slug'
 
 // Create/Update Routes
 
@@ -28,6 +29,12 @@ const IridescentDebuggerIndexRoute = IridescentDebuggerIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const PostsSlugRoute = PostsSlugImport.update({
+  id: '/posts/$slug',
+  path: '/posts/$slug',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -37,6 +44,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/posts/$slug': {
+      id: '/posts/$slug'
+      path: '/posts/$slug'
+      fullPath: '/posts/$slug'
+      preLoaderRoute: typeof PostsSlugImport
       parentRoute: typeof rootRoute
     }
     '/iridescent-debugger/': {
@@ -53,36 +67,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/posts/$slug': typeof PostsSlugRoute
   '/iridescent-debugger': typeof IridescentDebuggerIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/posts/$slug': typeof PostsSlugRoute
   '/iridescent-debugger': typeof IridescentDebuggerIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/posts/$slug': typeof PostsSlugRoute
   '/iridescent-debugger/': typeof IridescentDebuggerIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/iridescent-debugger'
+  fullPaths: '/' | '/posts/$slug' | '/iridescent-debugger'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/iridescent-debugger'
-  id: '__root__' | '/' | '/iridescent-debugger/'
+  to: '/' | '/posts/$slug' | '/iridescent-debugger'
+  id: '__root__' | '/' | '/posts/$slug' | '/iridescent-debugger/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PostsSlugRoute: typeof PostsSlugRoute
   IridescentDebuggerIndexRoute: typeof IridescentDebuggerIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PostsSlugRoute: PostsSlugRoute,
   IridescentDebuggerIndexRoute: IridescentDebuggerIndexRoute,
 }
 
@@ -97,11 +116,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/posts/$slug",
         "/iridescent-debugger/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/posts/$slug": {
+      "filePath": "posts.$slug.tsx"
     },
     "/iridescent-debugger/": {
       "filePath": "iridescent-debugger/index.tsx"
