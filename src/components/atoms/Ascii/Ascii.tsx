@@ -99,6 +99,7 @@ interface GridCtxValue {
   innerRef?: { current: HTMLDivElement | null };
   lh?: number;
   padY?: number;
+  cw?: number;
 }
 
 /** Passed down so Rule components don't re-measure anything. */
@@ -111,7 +112,13 @@ const GridCtx = createContext<GridCtxValue>({
   innerRef: undefined,
   lh: 0,
   padY: 0,
+  cw: 0,
 });
+
+/** Access the enclosing AsciiBox's measured geometry (cell width, cols, etc.). */
+function useAsciiBox(): GridCtxValue {
+  return useContext(GridCtx);
+}
 
 /**
  * The three segments of one horizontal edge with a label carved into it:
@@ -906,6 +913,7 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
                 innerRef: inner,
                 lh,
                 padY,
+                cw,
               }}
             >
               {children}
@@ -1158,5 +1166,13 @@ function HeadingPair() {
   );
 }
 
-export { AsciiBox, AsciiRule, HeroBox, SnapBox, SettingsDemo, HeadingPair };
+export {
+  AsciiBox,
+  AsciiRule,
+  HeroBox,
+  SnapBox,
+  SettingsDemo,
+  HeadingPair,
+  useAsciiBox,
+};
 export type { BoxCharSet, AsciiBoxHandle, AsciiBoxProps, AsciiLayout };

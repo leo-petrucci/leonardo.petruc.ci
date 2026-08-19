@@ -40,6 +40,8 @@ export function ScrambleChar(props: {
   color?: string;
   start?: boolean;
   instant?: boolean;
+  inline?: boolean;
+  align?: 'left' | 'center';
 }) {
   const {
     target,
@@ -51,6 +53,8 @@ export function ScrambleChar(props: {
     color,
     start = true,
     instant = false,
+    inline = false,
+    align = 'center',
   } = props;
 
   const [display, setDisplay] = useState(target);
@@ -103,11 +107,11 @@ export function ScrambleChar(props: {
     <span
       aria-hidden="true"
       style={{
-        display: 'block',
+        display: inline ? 'inline-block' : 'block',
         width: '1ch',
-        height: '1lh',
+        ...(inline ? {} : { height: '1lh' }),
         lineHeight: '1lh',
-        textAlign: 'center',
+        textAlign: align,
         overflow: 'hidden',
         whiteSpace: 'pre',
         color: color ?? 'inherit',
