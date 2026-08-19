@@ -13,6 +13,10 @@ export const Route = createFileRoute('/')({
       import.meta.env.MODE === 'development'
         ? 'http://localhost:3000'
         : 'https://leonardo.petruc.ci';
+    const functionUrl = import.meta.env.VITE_GITHUB_FUNCTION_URL;
+    if (!functionUrl) {
+      return { totalContributions: 0 };
+    }
     const response = await fetch(import.meta.env.VITE_GITHUB_FUNCTION_URL);
     if (!response.ok) {
       throw new Error('Failed to fetch contributions');
@@ -23,6 +27,7 @@ export const Route = createFileRoute('/')({
 });
 
 function Home() {
+  console.log('Home page rendered');
   return (
     <div>
       <style>

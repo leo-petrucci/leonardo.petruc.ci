@@ -1,6 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
+
+/* Departure Mono — self-hosted, served from /public/departuremono */
+@font-face {
+  font-family: 'Departure Mono';
+  src:
+    url('/departuremono/DepartureMono-Regular.woff2') format('woff2'),
+    url('/departuremono/DepartureMono-Regular.woff') format('woff'),
+    url('/departuremono/DepartureMono-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 body {
   /* background-color: #585086; */
@@ -54,7 +65,7 @@ body {
 }
 
 .dark {
-  --background: oklch(0.14 0 285.82);
+  --background: #161618;
   --foreground: oklch(0.98 0 0);
   --card: oklch(0.14 0 285.82);
   --card-foreground: oklch(0.98 0 0);
@@ -102,6 +113,7 @@ body {
 
 @theme inline {
   --font-geist-mono: 'Geist Mono', monospace;
+  --font-departure: 'Departure Mono', monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -162,14 +174,18 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    /* @apply bg-background text-foreground; */
+    background-color: var(--background);
+    color: var(--foreground);
+    --ascii-frame-color: var(--muted-foreground);
   }
 }
 
+/* 
 .maplibregl-marker {
   left: 0;
   position: absolute;
   top: 0;
   transition: opacity .2s;
   will-change: transform;
-}
+} */

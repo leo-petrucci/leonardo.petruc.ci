@@ -23,8 +23,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title:
-          'Leonardo Petrucci',
+        title: 'Leonardo Petrucci',
         description: `Leonardo Petrucci's personal site. A collection of my work, projects, and thoughts.`,
         image: '/OpenGraph.png',
       }),
@@ -49,6 +48,9 @@ function RootComponent() {
   return (
     <RootDocument>
       <Outlet />
+      {/* <footer className="mt-8 mb-4 text-center text-sm text-gray-500">
+        © {new Date().getFullYear()} Leonardo Petrucci. All rights reserved.
+      </footer> */}
     </RootDocument>
   );
 }
@@ -59,17 +61,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="font-geist-mono">
+      <body className="font-departure dark">
         <div className="flex flex-col items-center">
           <div className="max-w-4xl w-full">
             {children}
-            <TanStackRouterDevtools position="bottom-right" />
+            {/* <TanStackRouterDevtools position="bottom-right" /> */}
             <Scripts />
           </div>
         </div>
-        <footer className="mt-8 mb-4 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} Leonardo Petrucci. All rights reserved.
-        </footer>
       </body>
     </html>
   );
