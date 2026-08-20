@@ -182,14 +182,14 @@ function edgeNode(
   cols: number,
   label: string | undefined,
   align: Align,
-  labelStyles?: CSSProperties
+  labelClass?: string
 ): ReactNode {
   const { head, label: lbl, tail } = edgeParts(fill, cols, label, align);
   return (
     <>
       {c1}
       {head}
-      {lbl != null && <span style={labelStyles}>{lbl}</span>}
+      {lbl != null && <span className={labelClass}>{lbl}</span>}
       {tail}
       {c2}
     </>
@@ -407,8 +407,16 @@ interface AsciiBoxHandle {
 
 /** A horizontal divider that spans the content column and joins the rails. */
 function AsciiRule() {
-  const { cols, padX, joins, reveal, ready, innerRef, lh = 0, padY = 0 } =
-    useContext(GridCtx);
+  const {
+    cols,
+    padX,
+    joins,
+    reveal,
+    ready,
+    innerRef,
+    lh = 0,
+    padY = 0,
+  } = useContext(GridCtx);
   const ruleRef = useRef<HTMLDivElement | null>(null);
   const [row, setRow] = useState<number | null>(null);
 
@@ -464,13 +472,11 @@ function AsciiRule() {
     <div
       data-divider=""
       aria-hidden="true"
+      className="whitespace-pre overflow-hidden text-[var(--ascii-frame-color,inherit)]"
       style={{
-        whiteSpace: 'pre',
-        overflow: 'hidden',
         width: `calc(${cols} * 1ch)`,
         marginLeft: `calc(${-padX} * 1ch)`,
         marginRight: `calc(${-padX} * 1ch)`,
-        color: 'var(--ascii-frame-color, inherit)',
       }}
     >
       {joins[1].repeat(cols)}
@@ -534,7 +540,8 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
 
   const reducedMotion = useReducedMotion();
   const inViewEnabled =
-    !!reveal && (typeof reveal === 'object' ? reveal.trigger === 'inView' : false);
+    !!reveal &&
+    (typeof reveal === 'object' ? reveal.trigger === 'inView' : false);
   const inView = useInViewOnce(host, inViewEnabled);
 
   // Resolve the border characters. `chars` may be a named preset or a raw
@@ -784,20 +791,13 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
     if (onLayout && cw) onLayout({ cols, rows, cw, lh });
   }, [cols, rows, cw, lh]);
 
-  const frame: CSSProperties = {
-    whiteSpace: 'pre',
-    minWidth: 0,
-    overflow: 'hidden',
-    opacity:
-      frameOpacity == null ? 'var(--ascii-frame-opacity, 1)' : frameOpacity,
-    color:
-      frameColor == null ? 'var(--ascii-frame-color, inherit)' : frameColor,
-  };
-
-  const labelStyles: CSSProperties = {
-    color:
-      labelColor == null ? 'var(--ascii-label-color, inherit)' : labelColor,
-  };
+  const frameClass =
+    'whitespace-pre min-w-0 overflow-hidden opacity-[var(--ascii-frame-opacity,1)] text-[var(--ascii-frame-color,inherit)]';
+  const frameColorResolved =
+    frameColor == null ? 'var(--ascii-frame-color, inherit)' : frameColor;
+  const labelClass = 'text-[var(--ascii-label-color,inherit)]';
+  const labelColorResolved =
+    labelColor == null ? 'var(--ascii-label-color, inherit)' : labelColor;
 
   const revealOn = !!reveal;
   const rcfg = reveal && typeof reveal === 'object' ? reveal : {};
@@ -816,8 +816,8 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
     charset: rCharset,
     start: rStart,
     instant: reducedMotion,
-    frameColor: frame.color,
-    labelColor: labelStyles.color,
+    frameColor: frameColorResolved,
+    labelColor: labelColorResolved,
   };
 
   // `rail[i]` is true when content row i has a divider, so the side rails can
@@ -855,7 +855,8 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
       >
         <div
           aria-hidden="true"
-          style={{ ...frame, gridColumn: '1 / 4', gridRow: 1 }}
+          className={frameClass}
+          style={{ gridColumn: '1 / 4', gridRow: 1 }}
         >
           {cw
             ? revealOn
@@ -876,11 +877,15 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
                   cols,
                   label ? `[ ${label} ]` : undefined,
                   labelAlign,
-                  labelStyles
+                  labelClass
                 )
             : ''}
         </div>
-        <div aria-hidden="true" style={{ ...frame, gridColumn: 1, gridRow: 2 }}>
+        <div
+          aria-hidden="true"
+          className={frameClass}
+          style={{ gridColumn: 1, gridRow: 2 }}
+        >
           {revealOn
             ? cw
               ? railCells(
@@ -920,7 +925,11 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
             </GridCtx.Provider>
           </div>
         </div>
-        <div aria-hidden="true" style={{ ...frame, gridColumn: 3, gridRow: 2 }}>
+        <div
+          aria-hidden="true"
+          className={frameClass}
+          style={{ gridColumn: 3, gridRow: 2 }}
+        >
           {revealOn
             ? cw
               ? railCells(
@@ -933,7 +942,8 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
         </div>
         <div
           aria-hidden="true"
-          style={{ ...frame, gridColumn: '1 / 4', gridRow: 3 }}
+          className={frameClass}
+          style={{ gridColumn: '1 / 4', gridRow: 3 }}
         >
           {cw
             ? revealOn
@@ -954,7 +964,7 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
                   cols,
                   footer,
                   labelAlign,
-                  labelStyles
+                  labelClass
                 )
             : ''}
         </div>
@@ -963,22 +973,9 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
       <div
         ref={probe}
         aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: 0,
-          height: 0,
-          overflow: 'hidden',
-          visibility: 'hidden',
-          pointerEvents: 'none',
-          userSelect: 'none',
-        }}
+        className="absolute top-0 left-0 w-0 h-0 overflow-hidden invisible pointer-events-none select-none"
       >
-        <span
-          ref={pw}
-          style={{ display: 'block', width: 'max-content', whiteSpace: 'pre' }}
-        >
+        <span ref={pw} className="block w-max whitespace-pre">
           {'M'.repeat(120)}
         </span>
       </div>
@@ -991,17 +988,9 @@ AsciiBox.Rule = AsciiRule;
 
 /* ---------- examples used by the page ---------- */
 
-const soft: CSSProperties = { color: 'var(--soft, oklch(0.52 0.015 60))' };
-const bare: CSSProperties = {
-  font: 'inherit',
-  color: 'inherit',
-  background: 'none',
-  border: 0,
-  padding: 0,
-  margin: 0,
-  cursor: 'pointer',
-  textAlign: 'left',
-};
+const soft = 'text-[var(--soft,oklch(0.52_0.015_60))]';
+const bare =
+  'font-[inherit] text-inherit bg-transparent border-0 p-0 m-0 cursor-pointer text-left';
 
 /** A fixed-width box used as a page heading. */
 function HeroBox() {
@@ -1009,7 +998,7 @@ function HeroBox() {
     <AsciiBox
       cols={24}
       padX={0}
-      style={{ fontSize: 20, lineHeight: 1.5, textAlign: 'center' }}
+      className="text-[20px] leading-[1.5] text-center"
     >
       My Container
     </AsciiBox>
@@ -1026,11 +1015,8 @@ interface SnapBoxProps {
 function SnapBox({ chars = 'ascii', fontSize = 16, onLayout }: SnapBoxProps) {
   return (
     <div
-      style={{
-        fontSize: Number(fontSize) || 16,
-        lineHeight: 1.5,
-        height: '100%',
-      }}
+      className="leading-[1.5] h-full"
+      style={{ fontSize: Number(fontSize) || 16 }}
     >
       <AsciiBox
         chars={chars}
@@ -1039,7 +1025,7 @@ function SnapBox({ chars = 'ascii', fontSize = 16, onLayout }: SnapBoxProps) {
         fill
         fillY
         onLayout={onLayout}
-        style={{ height: '100%', overflow: 'hidden' }}
+        className="h-full overflow-hidden"
       >
         Content reflows, the frame follows. Every edge lands on a character
         cell, so nothing drifts by a fraction of a pixel.
@@ -1066,19 +1052,12 @@ function SettingsDemo() {
       label="settings"
       footer="esc to close"
       padY={1}
-      style={{ fontSize: 14, lineHeight: '24px', maxWidth: '100%' }}
+      className="max-w-full"
     >
-      <div style={{ fontWeight: 500 }}>Notifications</div>
-      <div style={soft}>Two nested boxes, laid out with flex + gap.</div>
+      <div className="font-medium">Notifications</div>
+      <div className={soft}>Two nested boxes, laid out with flex + gap.</div>
       <AsciiBox.Rule />
-      <div
-        style={{
-          display: 'flex',
-          gap: 16,
-          flexWrap: 'wrap',
-          alignItems: 'flex-start',
-        }}
-      >
+      <div className="flex flex-wrap gap-4 items-start">
         <AsciiBox chars="light" label={on ? 'on' : 'off'}>
           Digest, daily
           <br />
@@ -1091,29 +1070,18 @@ function SettingsDemo() {
         </AsciiBox>
       </div>
       <AsciiBox.Rule />
-      <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      <div className="flex gap-3 items-center">
         <button
           type="button"
           onClick={copy}
-          style={{
-            font: 'inherit',
-            fontSize: 13,
-            lineHeight: '22px',
-            color: 'inherit',
-            background: 'transparent',
-            border: '1px solid var(--ink, oklch(0.26 0.02 60))',
-            padding: '0 10px',
-            height: 24,
-            boxSizing: 'border-box',
-            cursor: 'pointer',
-          }}
+          className="font-[inherit] text-[13px] leading-[22px] text-inherit bg-transparent border border-solid border-[var(--ink,oklch(0.26_0.02_60))] px-2.5 h-6 box-border cursor-pointer"
         >
           [ {copied ? 'copied as text' : 'copy as ascii'} ]
         </button>
         <button
           type="button"
           onClick={() => setOn((v) => !v)}
-          style={{ ...bare, ...soft }}
+          className={`${bare} ${soft}`}
         >
           {on ? '\u25cf' : '\u25cb'} digest — real button, real state
         </button>
@@ -1125,42 +1093,25 @@ function SettingsDemo() {
 /** Two headings side by side, showing the two label idioms. */
 function HeadingPair() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 32,
-        alignItems: 'flex-start',
-      }}
-    >
-      <AsciiBox cols={46} padY={1} style={{ fontSize: 14, lineHeight: '24px' }}>
-        <h3
-          style={{
-            margin: 0,
-            font: "400 26px/48px 'Instrument Serif', Georgia, serif",
-          }}
-        >
+    <div className="flex flex-wrap gap-8 items-start">
+      <AsciiBox cols={46} padY={1}>
+        <h3 className="m-0 font-[400_26px/48px_'Instrument_Serif',Georgia,serif]">
           What changed
         </h3>
-        <p style={{ margin: 0 }}>
+        <p className="m-0">
           Cells are measured from the box's own font, so a heading only has to
           land on whole rows. Mixed families, weights and sizes are all fine.
         </p>
         <AsciiBox.Rule />
-        <div style={soft}>v0.3.1 — 18 Aug</div>
+        <div className={soft}>v0.3.1 — 18 Aug</div>
       </AsciiBox>
-      <AsciiBox
-        label="or put the heading in the edge"
-        cols={38}
-        padY={1}
-        style={{ fontSize: 14, lineHeight: '24px' }}
-      >
-        <p style={{ margin: 0 }}>
+      <AsciiBox label="or put the heading in the edge" cols={38} padY={1}>
+        <p className="m-0">
           A label reads as a title, costs no rows, and stays inside the frame at
           any width.
         </p>
         <AsciiBox.Rule />
-        <p style={{ margin: 0 }}>Two idioms, same box.</p>
+        <p className="m-0">Two idioms, same box.</p>
       </AsciiBox>
     </div>
   );

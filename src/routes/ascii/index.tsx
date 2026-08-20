@@ -67,25 +67,9 @@ function RouteComponent() {
         labelColor="var(--chart-1)"
         labelAlign="center"
         reveal
-        style={{
-          fontSize: 14,
-          lineHeight: '24px',
-        }}
         fill
       >
-        {/* <h1
-          style={{
-            lineHeight: '48px',
-            fontSize: '48px',
-          }}
-        >
-          LEONARDO_PETRUCCI
-        </h1> */}
-        <h1
-          className="font-bold"
-        >
-          LEONARDO_PETRUCCI
-        </h1>
+        <h1>LEONARDO_PETRUCCI</h1>
         <AsciiBox.Rule />
         <div className="flex flex-row gap-4">
           <img src="/me-pixel.png" className="w-24 h-24" />
