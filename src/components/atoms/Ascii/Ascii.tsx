@@ -792,7 +792,7 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
   }, [cols, rows, cw, lh]);
 
   const frameClass =
-    'whitespace-pre min-w-0 overflow-hidden opacity-[var(--ascii-frame-opacity,1)] text-[var(--ascii-frame-color,inherit)]';
+    'whitespace-pre min-w-0 opacity-[var(--ascii-frame-opacity,1)] text-[var(--ascii-frame-color,inherit)]';
   const frameColorResolved =
     frameColor == null ? 'var(--ascii-frame-color, inherit)' : frameColor;
   const labelClass = 'text-[var(--ascii-label-color,inherit)]';
@@ -902,7 +902,6 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
             gridColumn: 2,
             gridRow: 2,
             minWidth: 0,
-            overflow: 'hidden',
             boxSizing: 'border-box',
             padding: `calc(${padY} * 1lh) calc(${padX} * 1ch)`,
           }}
@@ -992,47 +991,6 @@ const soft = 'text-[var(--soft,oklch(0.52_0.015_60))]';
 const bare =
   'font-[inherit] text-inherit bg-transparent border-0 p-0 m-0 cursor-pointer text-left';
 
-/** A fixed-width box used as a page heading. */
-function HeroBox() {
-  return (
-    <AsciiBox
-      cols={24}
-      padX={0}
-      className="text-[20px] leading-[1.5] text-center"
-    >
-      My Container
-    </AsciiBox>
-  );
-}
-
-interface SnapBoxProps {
-  chars?: BoxCharSet;
-  fontSize?: number;
-  onLayout?: (layout: AsciiLayout) => void;
-}
-
-/** A box that fills its parent and reports its geometry as the view resizes. */
-function SnapBox({ chars = 'ascii', fontSize = 16, onLayout }: SnapBoxProps) {
-  return (
-    <div
-      className="leading-[1.5] h-full"
-      style={{ fontSize: Number(fontSize) || 16 }}
-    >
-      <AsciiBox
-        chars={chars}
-        label="resize me"
-        labelAlign="center"
-        fill
-        fillY
-        onLayout={onLayout}
-        className="h-full overflow-hidden"
-      >
-        Content reflows, the frame follows. Every edge lands on a character
-        cell, so nothing drifts by a fraction of a pixel.
-      </AsciiBox>
-    </div>
-  );
-}
 
 /** A settings-style demo exercising rules, nested boxes and copy-as-text. */
 function SettingsDemo() {
@@ -1120,8 +1078,6 @@ function HeadingPair() {
 export {
   AsciiBox,
   AsciiRule,
-  HeroBox,
-  SnapBox,
   SettingsDemo,
   HeadingPair,
   useAsciiBox,

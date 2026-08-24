@@ -14,6 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as IridescentDebuggerIndexImport } from './routes/iridescent-debugger/index'
 import { Route as AsciiIndexImport } from './routes/ascii/index'
+import { Route as AsciiInputImport } from './routes/ascii/input'
+import { Route as AsciiDocsImport } from './routes/ascii/docs'
 
 // Create/Update Routes
 
@@ -35,6 +37,18 @@ const AsciiIndexRoute = AsciiIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AsciiInputRoute = AsciiInputImport.update({
+  id: '/ascii/input',
+  path: '/ascii/input',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AsciiDocsRoute = AsciiDocsImport.update({
+  id: '/ascii/docs',
+  path: '/ascii/docs',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -44,6 +58,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/ascii/docs': {
+      id: '/ascii/docs'
+      path: '/ascii/docs'
+      fullPath: '/ascii/docs'
+      preLoaderRoute: typeof AsciiDocsImport
+      parentRoute: typeof rootRoute
+    }
+    '/ascii/input': {
+      id: '/ascii/input'
+      path: '/ascii/input'
+      fullPath: '/ascii/input'
+      preLoaderRoute: typeof AsciiInputImport
       parentRoute: typeof rootRoute
     }
     '/ascii/': {
@@ -67,12 +95,16 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ascii/docs': typeof AsciiDocsRoute
+  '/ascii/input': typeof AsciiInputRoute
   '/ascii': typeof AsciiIndexRoute
   '/iridescent-debugger': typeof IridescentDebuggerIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ascii/docs': typeof AsciiDocsRoute
+  '/ascii/input': typeof AsciiInputRoute
   '/ascii': typeof AsciiIndexRoute
   '/iridescent-debugger': typeof IridescentDebuggerIndexRoute
 }
@@ -80,27 +112,44 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/ascii/docs': typeof AsciiDocsRoute
+  '/ascii/input': typeof AsciiInputRoute
   '/ascii/': typeof AsciiIndexRoute
   '/iridescent-debugger/': typeof IridescentDebuggerIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ascii' | '/iridescent-debugger'
+  fullPaths:
+    | '/'
+    | '/ascii/docs'
+    | '/ascii/input'
+    | '/ascii'
+    | '/iridescent-debugger'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ascii' | '/iridescent-debugger'
-  id: '__root__' | '/' | '/ascii/' | '/iridescent-debugger/'
+  to: '/' | '/ascii/docs' | '/ascii/input' | '/ascii' | '/iridescent-debugger'
+  id:
+    | '__root__'
+    | '/'
+    | '/ascii/docs'
+    | '/ascii/input'
+    | '/ascii/'
+    | '/iridescent-debugger/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AsciiDocsRoute: typeof AsciiDocsRoute
+  AsciiInputRoute: typeof AsciiInputRoute
   AsciiIndexRoute: typeof AsciiIndexRoute
   IridescentDebuggerIndexRoute: typeof IridescentDebuggerIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AsciiDocsRoute: AsciiDocsRoute,
+  AsciiInputRoute: AsciiInputRoute,
   AsciiIndexRoute: AsciiIndexRoute,
   IridescentDebuggerIndexRoute: IridescentDebuggerIndexRoute,
 }
@@ -116,12 +165,20 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/ascii/docs",
+        "/ascii/input",
         "/ascii/",
         "/iridescent-debugger/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/ascii/docs": {
+      "filePath": "ascii/docs.tsx"
+    },
+    "/ascii/input": {
+      "filePath": "ascii/input.tsx"
     },
     "/ascii/": {
       "filePath": "ascii/index.tsx"
