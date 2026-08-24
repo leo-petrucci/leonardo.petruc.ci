@@ -6,6 +6,11 @@ import {
   type TimelineEntry,
 } from '@/components/atoms/Ascii/TimelineBar';
 import { CornerButton } from '@/components/atoms/CornerButton';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export const Route = createFileRoute('/ascii/docs')({
   component: RouteComponent,
@@ -214,6 +219,34 @@ function RouteComponent() {
         <p className="text-ascii-sm">
           <code>compact</code> tightens padding (24px tall vs 40px). All other
           props pass through to the underlying button element.
+        </p>
+      </Section>
+
+      <Section id="tooltip" title="Tooltip">
+        <p>
+          A Radix tooltip styled to match: mono type, dashed border, popover
+          fill, no rounding. Hover the buttons to see it.
+        </p>
+        <AsciiBox.Rule />
+        <div className="flex gap-4 items-center">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <CornerButton>HOVER ME</CornerButton>
+            </TooltipTrigger>
+            <TooltipContent>tooltip on top</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <CornerButton compact>TOP</CornerButton>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">tooltip on bottom</TooltipContent>
+          </Tooltip>
+        </div>
+        <AsciiBox.Rule />
+        <p className="text-ascii-sm">
+          <code>TooltipContent</code> accepts all Radix props: <code>side</code>
+          , <code>align</code>, <code>sideOffset</code>. Wrap interactive
+          triggers with <code>asChild</code>.
         </p>
       </Section>
 

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { Fragment } from 'react';
 import { AsciiBox, SettingsDemo } from '@/components/atoms/Ascii/Ascii';
 import {
   TimelineBar,
@@ -69,16 +70,18 @@ const ARTICLES: Article[] = [
     excerpt:
       'How we split tokens, primitives and recipes at Mojo so the product could grow without the UI fracturing. How we split tokens, primitives and recipes at Mojo so the product could grow without the UI fracturing.',
     href: '#',
+    type: 'writing',
   },
-  // {
-  //   id: 'ascii-ui',
-  //   title: 'Rendering UI from a character grid',
-  //   category: 'EXPERIMENTS',
-  //   date: '2026-02-04',
-  //   excerpt:
-  //     'Every border on this page lands on a whole monospace cell. Here is the measurement trick that makes it honest. Every border on this page lands on a whole monospace cell. Here is the measurement trick that makes it honest.',
-  //   href: '#',
-  // },
+  {
+    id: 'ascii-ui',
+    title: 'Rendering UI from a character grid',
+    category: 'EXPERIMENTS',
+    date: '2026-02-04',
+    excerpt:
+      'Every border on this page lands on a whole monospace cell. Here is the measurement trick that makes it honest. Every border on this page lands on a whole monospace cell. Here is the measurement trick that makes it honest.',
+    href: '#',
+    type: 'project',
+  },
   // {
   //   id: 'gamedev-loop',
   //   title: 'A game loop in a weekend',
@@ -126,12 +129,19 @@ function RouteComponent() {
         <AsciiBox.Rule />
         <TimelineBar entries={TIMELINE} fill />
       </AsciiBox>
-
-      <div className="grid grid-cols-1 gap-2">
-        {ARTICLES.map((article) => (
-          <ArticleCard key={article.id} article={article} />
+      <AsciiBox
+        frameColor="var(--border)"
+        labelColor="var(--accent)"
+        reveal
+        fill
+      >
+        {ARTICLES.map((article, i) => (
+          <Fragment key={article.id}>
+            {i > 0 && <AsciiBox.Rule />}
+            <ArticleCard article={article} />
+          </Fragment>
         ))}
-      </div>
+      </AsciiBox>
     </div>
   );
 }
