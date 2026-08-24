@@ -5,7 +5,8 @@ import {
   TimelineBar,
   type TimelineEntry,
 } from '@/components/atoms/Ascii/TimelineBar';
-import { ArticleCard, type Article } from '@/components/molecules/ArticleCard';
+import { ArticleCard } from '@/components/molecules/ArticleCard';
+import { ARTICLES } from '@/lib/articles';
 
 export const Route = createFileRoute('/ascii/')({
   component: RouteComponent,
@@ -59,47 +60,6 @@ const TIMELINE: TimelineEntry[] = [
     end: 'present',
     image: '/pixelated-webflow.png',
   },
-];
-
-const ARTICLES: Article[] = [
-  {
-    id: 'design-systems',
-    title: 'Designing a system, not a style',
-    category: 'ENGINEERING',
-    date: '2026-03-12',
-    excerpt:
-      'How we split tokens, primitives and recipes at Mojo so the product could grow without the UI fracturing. How we split tokens, primitives and recipes at Mojo so the product could grow without the UI fracturing.',
-    href: '#',
-    type: 'writing',
-  },
-  {
-    id: 'ascii-ui',
-    title: 'Rendering UI from a character grid',
-    category: 'EXPERIMENTS',
-    date: '2026-02-04',
-    excerpt:
-      'Every border on this page lands on a whole monospace cell. Here is the measurement trick that makes it honest. Every border on this page lands on a whole monospace cell. Here is the measurement trick that makes it honest.',
-    href: '#',
-    type: 'project',
-  },
-  // {
-  //   id: 'gamedev-loop',
-  //   title: 'A game loop in a weekend',
-  //   category: 'GAMES',
-  //   date: '2025-11-20',
-  //   excerpt:
-  //     'Notes from building a tiny roguelike: fixed timestep, an ECS that is just arrays, and why I shipped it anyway. Notes from building a tiny roguelike: fixed timestep, an ECS that is just arrays, and why I shipped it anyway.',
-  //   href: '#',
-  // },
-  // {
-  //   id: 'react-perf',
-  //   title: 'Profiling React without guessing',
-  //   category: 'ENGINEERING',
-  //   date: '2025-09-08',
-  //   excerpt:
-  //     'A repeatable routine for finding the one render that matters, and the three fixes that cover most slow pages. A repeatable routine for finding the one render that matters, and the three fixes that cover most slow pages.',
-  //   href: '#',
-  // },
 ];
 
 function RouteComponent() {

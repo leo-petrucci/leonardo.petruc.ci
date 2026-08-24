@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { CornerButton } from '@/components/atoms/CornerButton';
 import { DitherField } from '@/components/organisms/DitherField';
 import {
@@ -59,7 +60,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           paused={!hovered}
         />
       </div>
-      <div className="flex flex-1 flex-col gap-4">
+      <div className="grid flex-1 grid-cols-[1fr_auto] grid-rows-[1fr_auto] gap-4">
         <div className="flex flex-col gap-2">
           <div className="flex flex-row items-center gap-2">
             <Tooltip>
@@ -76,7 +77,14 @@ export function ArticleCard({ article }: ArticleCardProps) {
           </div>
           <p className="text-ascii-sm line-clamp-2">{article.excerpt}</p>
         </div>
-        <CornerButton compact>READ</CornerButton>
+        <div aria-hidden />
+        <div aria-hidden />
+        <Link
+          to={article.href}
+          className="justify-self-end self-end"
+        >
+          <CornerButton compact>READ</CornerButton>
+        </Link>
       </div>
     </div>
   );
