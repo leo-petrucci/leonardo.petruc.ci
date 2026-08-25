@@ -4,6 +4,7 @@
 
 - Use Bun: `bun install`, `bun dev`, `bun run build`, and `bun start`. The CI workflow also installs with Bun.
 - `bun run build` is the available green verification; this repo defines no test, lint, or typecheck scripts.
+- Tests: `bun run test` (vitest + jsdom, `src/**/*.test.{ts,tsx}`). Watch mode: `bun run test:watch`.
 - Do not use `bunx tsc --noEmit` as a required check until the existing ref-type error in `src/components/ui/button.tsx` is resolved.
 
 ## Application

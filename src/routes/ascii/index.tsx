@@ -94,6 +94,18 @@ function RouteComponent() {
               </div>
             </div>
             <AsciiBox.Rule />
+            <div className="flex flex-wrap gap-4 items-center">
+              <span className="text-ascii-sm uppercase tracking-wide">
+                experiments
+              </span>
+              <Link
+                to='/ascii/animations'
+                className='underline text-[var(--accent)]'
+              >
+                ascii animations lab
+              </Link>
+            </div>
+            <AsciiBox.Rule />
             <TimelineBar entries={TIMELINE} fill />
           </AsciiBox>
           <AsciiBox
