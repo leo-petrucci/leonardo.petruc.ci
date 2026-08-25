@@ -265,6 +265,74 @@ describe('voronoi program', () => {
   });
 });
 
+/* ---------- raymarch specifics ---------- */
+
+describe('raymarch program', () => {
+  it('renders lit, colored cells against a blank background', () => {
+    const params = makeParams();
+    const program = makeProgram('raymarch', () => params);
+    const state: Record<string, unknown> = {};
+    const ctx = makeCtx(60, 20, 0);
+    program.boot!(ctx, state);
+    program.pre!(makeCtx(60, 20, 1), state);
+    let lit = 0;
+    let blank = 0;
+    for (let y = 0; y < 20; y++) {
+      for (let x = 0; x < 60; x++) {
+        const r = program.main!({ x, y, index: 0 }, makeCtx(60, 20, 1), state);
+        if (r === ' ') blank++;
+        else {
+          lit++;
+          expect(typeof r === 'string' ? undefined : r.color).toBe(params.color);
+        }
+      }
+    }
+    expect(lit).toBeGreaterThan(20); // the object is visible
+    expect(blank).toBeGreaterThan(20); // the background is empty
+  });
+
+  it('animates over time', () => {
+    const params = makeParams({ settle: false });
+    const { frames } = runFull('raymarch', params, 12, 40, 12);
+    expect(frames[0]).not.toEqual(frames[11]);
+  });
+
+  it('decays to stillness while settling', () => {
+    const params = makeParams({ settle: true });
+    const program = makeProgram('raymarch', () => params);
+    const state: Record<string, unknown> = {};
+    program.boot!(makeCtx(), state);
+    for (let i = 0; i < 300; i++) program.pre!(makeCtx(40, 10, i + 1), state);
+    expect(state.v).toBeCloseTo(params.minSpeed * 8, 6);
+  });
+
+  it('scales the object with the scale param', () => {
+    const small = runFull('raymarch', makeParams({ scale: 1 }), 1, 60, 20).frames[0];
+    const big = runFull('raymarch', makeParams({ scale: 8 }), 1, 60, 20).frames[0];
+    const count = (s: string) => [...s].filter((c) => c !== ' ').length;
+    expect(count(big)).toBeGreaterThan(count(small));
+  });
+});
+
+/* ---------- warp specifics ---------- */
+
+describe('warp program', () => {
+  it('animates over time while looping', () => {
+    const params = makeParams({ settle: false });
+    const { frames } = runFull('warp', params, 20);
+    expect(frames[0]).not.toEqual(frames[19]);
+  });
+
+  it('decays to stillness while settling', () => {
+    const params = makeParams({ settle: true });
+    const program = makeProgram('warp', () => params);
+    const state: Record<string, unknown> = {};
+    program.boot!(makeCtx(), state);
+    for (let i = 0; i < 300; i++) program.pre!(makeCtx(40, 10, i + 1), state);
+    expect(state.v).toBeCloseTo(params.minSpeed * 2, 6);
+  });
+});
+
 /* ---------- flowfield specifics ---------- */
 
 describe('flowfield program', () => {

@@ -2,17 +2,22 @@ import { useMemo, useRef, useState } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
 
 import { AsciiBox } from '@/components/atoms/Ascii/Ascii';
+import { AsciiViz } from '@/components/atoms/Ascii/AsciiViz';
 import {
   AsciiAnimation,
   type Program,
 } from '@/components/atoms/Ascii/AsciiAnimation';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
-import { CenteredGrid, CenteredGridItem } from '@/components/layout/CenteredGrid';
+import {
+  CenteredGrid,
+  CenteredGridItem,
+} from '@/components/layout/CenteredGrid';
 import {
   DEFAULT_PARAMS,
   PROGRAM_NAMES,
   RAMP_PRESETS,
+  TYPE_PRESETS,
   makeProgram,
   type AnimParams,
   type ProgramName,
@@ -83,6 +88,14 @@ function RouteComponent() {
   const randomizeSeed = () =>
     patch({ seed: Math.floor(Math.random() * 0xffffffff) });
 
+  const selectType = (n: ProgramName) => {
+    if (n === name) return;
+    setName(n);
+    const d = TYPE_PRESETS[n];
+    patch({ scale: d.scale, aspect: d.aspect, speed: d.speed });
+    setDensity(d.density);
+  };
+
   const canvasStyle = {
     fontSize: `${density}px`,
     lineHeight: 1.2,
@@ -90,7 +103,7 @@ function RouteComponent() {
   };
 
   return (
-    <CenteredGrid variant='wide'>
+    <CenteredGrid variant="wide">
       <CenteredGridItem asChild>
         <div className="flex flex-col gap-4">
           <AsciiBox
@@ -102,13 +115,14 @@ function RouteComponent() {
             <h1>ASCII_ANIMATIONS</h1>
             <AsciiBox.Rule />
             <p>
-              A control panel for character-cell animations — animated Voronoi
-              fields, flow noise and plasma, driven by seeded simplex noise.
-              Same trick as the Oxide blog headers: a tiny engine measures one
-              cell of the host font and diff-renders a char buffer each frame.
+              A control panel for character-cell animations — Voronoi fields,
+              flow noise, plasma and a raymarched 3D scene, driven by seeded
+              simplex noise. Same trick as the Oxide blog headers: a tiny engine
+              measures one cell of the host font and diff-renders a char buffer
+              each frame.
             </p>
             <p className="text-ascii-sm">
-              <Link to='/ascii' className="underline">
+              <Link to="/ascii" className="underline">
                 &lt; back to /ascii
               </Link>
             </p>
@@ -125,15 +139,15 @@ function RouteComponent() {
           >
             <div
               className="w-full overflow-hidden"
-              data-version='v2'
+              data-version="v2"
               style={{ height: Math.round(density * 1.2 * CANVAS_ROWS) }}
             >
               <AsciiAnimation
                 program={program}
                 paused={paused}
                 alt={`${name} ascii animation`}
-                className='w-full h-full'
-                canvasClassName='w-full h-full'
+                className="w-full h-full"
+                canvasClassName="w-full h-full"
                 canvasStyle={canvasStyle}
               />
             </div>
@@ -152,7 +166,7 @@ function RouteComponent() {
                   key={n}
                   type="button"
                   className={`${btn} ${name === n ? btnOn : ''}`}
-                  onClick={() => setName(n)}
+                  onClick={() => selectType(n)}
                 >
                   {n === name ? '\u25cf' : '\u25cb'} {n}
                 </button>
@@ -188,7 +202,7 @@ function RouteComponent() {
                     className="h-6 text-[13px]"
                   />
                   <button type="button" className={btn} onClick={randomizeSeed}>
-                    [ rnd ]
+                    rnd
                   </button>
                 </div>
               </Ctl>
@@ -227,7 +241,7 @@ function RouteComponent() {
 
               <Ctl label="scale" value={params.scale.toFixed(1)}>
                 <Slider
-                  min={0.5}
+                  min={0.1}
                   max={10}
                   step={0.1}
                   value={[params.scale]}
@@ -265,7 +279,10 @@ function RouteComponent() {
                 />
               </Ctl>
 
-              <Ctl label="settle to stillness" value={params.settle ? 'on' : 'off'}>
+              <Ctl
+                label="settle to stillness"
+                value={params.settle ? 'on' : 'off'}
+              >
                 <button
                   type="button"
                   className={`${btn} ${params.settle ? btnOn : ''}`}
@@ -317,6 +334,41 @@ function RouteComponent() {
                     />
                   ))}
                 </div>
+              </div>
+            </div>
+          </AsciiBox>
+
+          <AsciiBox
+            label="usage"
+            footer="AsciiViz — one line, seeded, per-type presets"
+            padY={1}
+            fill
+            frameColor="var(--border)"
+            labelColor="var(--accent)"
+          >
+            <p className="m-0">
+              Drop one anywhere. Every setting is optional; the type picks the
+              defaults and the seed makes it reproducible.
+            </p>
+            <pre className="text-ascii-sm m-0 overflow-x-auto">
+              {`import { AsciiViz } from '@/components/atoms/Ascii/AsciiViz';
+
+<AsciiViz type='raymarch' seed={42} />
+<AsciiViz type='warp' color='#9ece6a' density={10} rows={16} />`}
+            </pre>
+            <AsciiBox.Rule />
+            <div className="flex flex-col gap-2">
+              <div>
+                <div className="text-ascii-sm uppercase tracking-wide text-muted-foreground mb-1">
+                  {`<AsciiViz type='raymarch' seed={42} />`}
+                </div>
+                <AsciiViz type="raymarch" seed={42} />
+              </div>
+              <div>
+                <div className="text-ascii-sm uppercase tracking-wide text-muted-foreground mb-1">
+                  {`<AsciiViz type='warp' color='#9ece6a' density={10} rows={16} />`}
+                </div>
+                <AsciiViz type="warp" color="#9ece6a" density={10} rows={16} />
               </div>
             </div>
           </AsciiBox>

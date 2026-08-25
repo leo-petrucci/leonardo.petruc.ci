@@ -11,6 +11,7 @@ import {
   CenteredGrid,
   CenteredGridItem,
 } from '@/components/layout/CenteredGrid';
+import { SiteTitle } from '@/components/atoms/SiteTitle';
 
 export const Route = createFileRoute('/ascii/')({
   component: RouteComponent,
@@ -77,7 +78,7 @@ function RouteComponent() {
             reveal
             fill
           >
-            <h1>LEONARDO_PETRUCCI</h1>
+            <SiteTitle />
             <AsciiBox.Rule />
             <div className="flex flex-row gap-3">
               <div className="shrink-0 border-r border-dashed border-border pr-3">
@@ -92,18 +93,6 @@ function RouteComponent() {
                 </p>
                 <p>I also gamedev as a hobby!</p>
               </div>
-            </div>
-            <AsciiBox.Rule />
-            <div className="flex flex-wrap gap-4 items-center">
-              <span className="text-ascii-sm uppercase tracking-wide">
-                experiments
-              </span>
-              <Link
-                to='/ascii/animations'
-                className='underline text-[var(--accent)]'
-              >
-                ascii animations lab
-              </Link>
             </div>
             <AsciiBox.Rule />
             <TimelineBar entries={TIMELINE} fill />
