@@ -43,7 +43,7 @@ function toArticle(slug: string, raw: string): LoadedArticle {
     category: meta.category ?? 'NOTES',
     date: meta.date ?? '',
     excerpt: meta.excerpt ?? body.split('\n').find((l) => l.trim()) ?? '',
-    href: `/ascii/articles/${slug}`,
+    href: `/articles/${slug}`,
     link: meta.link || undefined,
     type,
     body,

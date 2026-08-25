@@ -10,7 +10,7 @@ import { AsciiViz } from '@/components/atoms/Ascii/AsciiViz';
 import { SiteTitle } from '@/components/atoms/SiteTitle';
 import { DitherField } from '@/components/organisms/DitherField';
 
-export const Route = createFileRoute('/ascii/articles/$slug')({
+export const Route = createFileRoute('/articles/$slug')({
   component: RouteComponent,
 });
 
@@ -53,7 +53,7 @@ function RouteComponent() {
             The path you asked for does not map to any stored document.
           </p>
         </AsciiBox>
-        <Link to="/ascii" className="self-start">
+        <Link to="/" className="self-start">
           <CornerButton compact>&lt; BACK</CornerButton>
         </Link>
       </div>
