@@ -17,6 +17,8 @@ export interface Article {
   date: string;
   excerpt: string;
   href: string;
+  /** External url. When set the card opens this in a new tab instead of the article page. */
+  link?: string;
   type: ArticleType;
 }
 
@@ -79,12 +81,20 @@ export function ArticleCard({ article }: ArticleCardProps) {
         </div>
         <div aria-hidden />
         <div aria-hidden />
-        <Link
-          to={article.href}
-          className="justify-self-end self-end"
-        >
-          <CornerButton compact>READ</CornerButton>
-        </Link>
+        {article.link ? (
+          <a
+            href={article.link}
+            target="_blank"
+            rel="noreferrer"
+            className="justify-self-end self-end"
+          >
+            <CornerButton compact>VIEW</CornerButton>
+          </a>
+        ) : (
+          <Link to={article.href} className="justify-self-end self-end">
+            <CornerButton compact>READ</CornerButton>
+          </Link>
+        )}
       </div>
     </div>
   );

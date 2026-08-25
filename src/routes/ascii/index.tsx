@@ -7,6 +7,10 @@ import {
 } from '@/components/atoms/Ascii/TimelineBar';
 import { ArticleCard } from '@/components/molecules/ArticleCard';
 import { ARTICLES } from '@/lib/articles';
+import {
+  CenteredGrid,
+  CenteredGridItem,
+} from '@/components/layout/CenteredGrid';
 
 export const Route = createFileRoute('/ascii/')({
   component: RouteComponent,
@@ -64,44 +68,49 @@ const TIMELINE: TimelineEntry[] = [
 
 function RouteComponent() {
   return (
-    <div className="flex flex-col gap-2">
-      <AsciiBox
-        frameColor="var(--border)"
-        labelColor="var(--accent)"
-        reveal
-        fill
-      >
-        <h1>LEONARDO_PETRUCCI</h1>
-        <AsciiBox.Rule />
-        <div className="flex flex-row gap-3">
-          <div className="shrink-0 border-r border-dashed border-border pr-3">
-            <img src="/me-pixel.png" className="w-24 h-24 object-contain" />
-          </div>
-          <div>
-            <p>
-              Software developer at Webflow, specialising in building modern web
-              applications using Typescript and React. I work in both fullstack
-              and frontend development including building design systems.
-            </p>
-            <p>I also gamedev as a hobby!</p>
-          </div>
+    <CenteredGrid variant='wide'>
+      <CenteredGridItem asChild>
+        <div className="flex flex-col gap-2">
+          <AsciiBox
+            frameColor="var(--border)"
+            labelColor="var(--accent)"
+            reveal
+            fill
+          >
+            <h1>LEONARDO_PETRUCCI</h1>
+            <AsciiBox.Rule />
+            <div className="flex flex-row gap-3">
+              <div className="shrink-0 border-r border-dashed border-border pr-3">
+                <img src="/me-pixel.png" className="w-24 h-24 object-contain" />
+              </div>
+              <div>
+                <p>
+                  Software developer at Webflow, specialising in building modern
+                  web applications using Typescript and React. I work in both
+                  fullstack and frontend development including building design
+                  systems.
+                </p>
+                <p>I also gamedev as a hobby!</p>
+              </div>
+            </div>
+            <AsciiBox.Rule />
+            <TimelineBar entries={TIMELINE} fill />
+          </AsciiBox>
+          <AsciiBox
+            frameColor="var(--border)"
+            labelColor="var(--accent)"
+            reveal
+            fill
+          >
+            {ARTICLES.map((article, i) => (
+              <Fragment key={article.id}>
+                {i > 0 && <AsciiBox.Rule />}
+                <ArticleCard article={article} />
+              </Fragment>
+            ))}
+          </AsciiBox>
         </div>
-        <AsciiBox.Rule />
-        <TimelineBar entries={TIMELINE} fill />
-      </AsciiBox>
-      <AsciiBox
-        frameColor="var(--border)"
-        labelColor="var(--accent)"
-        reveal
-        fill
-      >
-        {ARTICLES.map((article, i) => (
-          <Fragment key={article.id}>
-            {i > 0 && <AsciiBox.Rule />}
-            <ArticleCard article={article} />
-          </Fragment>
-        ))}
-      </AsciiBox>
-    </div>
+      </CenteredGridItem>
+    </CenteredGrid>
   );
 }

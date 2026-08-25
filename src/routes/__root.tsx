@@ -62,13 +62,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-departure dark">
-        <div className="flex flex-col items-center">
-          <div className="max-w-4xl w-full">
+        {/* <div className="flex flex-col items-center">
+          <div className="max-w-4xl w-full"> */}
             {children}
             {/* <TanStackRouterDevtools position="bottom-right" /> */}
             <Scripts />
-          </div>
-        </div>
+          {/* </div>
+        </div> */}
       </body>
     </html>
   );

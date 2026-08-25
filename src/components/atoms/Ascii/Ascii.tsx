@@ -856,7 +856,7 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
         <div
           aria-hidden="true"
           className={frameClass}
-          style={{ gridColumn: '1 / 4', gridRow: 1 }}
+          style={{ gridColumn: '1 / 4', gridRow: 1, minHeight: `1lh` }}
         >
           {cw
             ? revealOn
@@ -942,7 +942,7 @@ const AsciiBox = forwardRef<AsciiBoxHandle, AsciiBoxProps>(function AsciiBox(
         <div
           aria-hidden="true"
           className={frameClass}
-          style={{ gridColumn: '1 / 4', gridRow: 3 }}
+          style={{ gridColumn: '1 / 4', gridRow: 3, minHeight: 24 }}
         >
           {cw
             ? revealOn
@@ -990,7 +990,6 @@ AsciiBox.Rule = AsciiRule;
 const soft = 'text-[var(--soft,oklch(0.52_0.015_60))]';
 const bare =
   'font-[inherit] text-inherit bg-transparent border-0 p-0 m-0 cursor-pointer text-left';
-
 
 /** A settings-style demo exercising rules, nested boxes and copy-as-text. */
 function SettingsDemo() {
@@ -1075,11 +1074,5 @@ function HeadingPair() {
   );
 }
 
-export {
-  AsciiBox,
-  AsciiRule,
-  SettingsDemo,
-  HeadingPair,
-  useAsciiBox,
-};
+export { AsciiBox, AsciiRule, SettingsDemo, HeadingPair, useAsciiBox };
 export type { BoxCharSet, AsciiBoxHandle, AsciiBoxProps, AsciiLayout };

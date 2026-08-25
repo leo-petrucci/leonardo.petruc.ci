@@ -3,6 +3,7 @@ title: Rendering UI from a character grid
 category: EXPERIMENTS
 date: 2026-02-04
 type: project
+link: https://github.com/leonardopetrucci
 ---
 
 Every border on this page lands on a whole monospace cell. Here is the
