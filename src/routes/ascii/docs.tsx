@@ -74,8 +74,8 @@ function RouteComponent() {
           example on this page is the real component, live.
         </p>
         <p className="text-ascii-sm">
-          <Link to="/ascii" className="underline">
-            &lt; back to /ascii
+          <Link to="/" className="underline">
+            &lt; back home
           </Link>
         </p>
       </AsciiBox>

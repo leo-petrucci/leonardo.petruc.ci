@@ -8,163 +8,137 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiGithubRouteImport } from './routes/api/github'
+import { Route as ApiUsersRouteImport } from './routes/api/users'
+import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
+import { Route as AsciiAnimationsRouteImport } from './routes/ascii/animations'
+import { Route as AsciiDocsRouteImport } from './routes/ascii/docs'
+import { Route as AsciiInputRouteImport } from './routes/ascii/input'
+import { Route as IridescentDebuggerIndexRouteImport } from './routes/iridescent-debugger/index'
+import { Route as ApiUsersIdRouteImport } from './routes/api/users.$id'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-import { Route as IridescentDebuggerIndexImport } from './routes/iridescent-debugger/index'
-import { Route as AsciiInputImport } from './routes/ascii/input'
-import { Route as AsciiDocsImport } from './routes/ascii/docs'
-import { Route as AsciiAnimationsImport } from './routes/ascii/animations'
-import { Route as ArticlesSlugImport } from './routes/articles.$slug'
-
-// Create/Update Routes
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IridescentDebuggerIndexRoute = IridescentDebuggerIndexImport.update({
-  id: '/iridescent-debugger/',
-  path: '/iridescent-debugger/',
-  getParentRoute: () => rootRoute,
+const ApiGithubRoute = ApiGithubRouteImport.update({
+  id: '/api/github',
+  path: '/api/github',
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AsciiInputRoute = AsciiInputImport.update({
-  id: '/ascii/input',
-  path: '/ascii/input',
-  getParentRoute: () => rootRoute,
+const ApiUsersRoute = ApiUsersRouteImport.update({
+  id: '/api/users',
+  path: '/api/users',
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AsciiDocsRoute = AsciiDocsImport.update({
-  id: '/ascii/docs',
-  path: '/ascii/docs',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AsciiAnimationsRoute = AsciiAnimationsImport.update({
-  id: '/ascii/animations',
-  path: '/ascii/animations',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ArticlesSlugRoute = ArticlesSlugImport.update({
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
   id: '/articles/$slug',
   path: '/articles/$slug',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/articles/$slug': {
-      id: '/articles/$slug'
-      path: '/articles/$slug'
-      fullPath: '/articles/$slug'
-      preLoaderRoute: typeof ArticlesSlugImport
-      parentRoute: typeof rootRoute
-    }
-    '/ascii/animations': {
-      id: '/ascii/animations'
-      path: '/ascii/animations'
-      fullPath: '/ascii/animations'
-      preLoaderRoute: typeof AsciiAnimationsImport
-      parentRoute: typeof rootRoute
-    }
-    '/ascii/docs': {
-      id: '/ascii/docs'
-      path: '/ascii/docs'
-      fullPath: '/ascii/docs'
-      preLoaderRoute: typeof AsciiDocsImport
-      parentRoute: typeof rootRoute
-    }
-    '/ascii/input': {
-      id: '/ascii/input'
-      path: '/ascii/input'
-      fullPath: '/ascii/input'
-      preLoaderRoute: typeof AsciiInputImport
-      parentRoute: typeof rootRoute
-    }
-    '/iridescent-debugger/': {
-      id: '/iridescent-debugger/'
-      path: '/iridescent-debugger'
-      fullPath: '/iridescent-debugger'
-      preLoaderRoute: typeof IridescentDebuggerIndexImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
+const AsciiAnimationsRoute = AsciiAnimationsRouteImport.update({
+  id: '/ascii/animations',
+  path: '/ascii/animations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AsciiDocsRoute = AsciiDocsRouteImport.update({
+  id: '/ascii/docs',
+  path: '/ascii/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AsciiInputRoute = AsciiInputRouteImport.update({
+  id: '/ascii/input',
+  path: '/ascii/input',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IridescentDebuggerIndexRoute = IridescentDebuggerIndexRouteImport.update({
+  id: '/iridescent-debugger/',
+  path: '/iridescent-debugger/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiUsersIdRoute = ApiUsersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/articles/$slug': typeof ArticlesSlugRoute
-  '/ascii/animations': typeof AsciiAnimationsRoute
-  '/ascii/docs': typeof AsciiDocsRoute
-  '/ascii/input': typeof AsciiInputRoute
-  '/iridescent-debugger': typeof IridescentDebuggerIndexRoute
-}
-
-export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/articles/$slug': typeof ArticlesSlugRoute
-  '/ascii/animations': typeof AsciiAnimationsRoute
-  '/ascii/docs': typeof AsciiDocsRoute
-  '/ascii/input': typeof AsciiInputRoute
-  '/iridescent-debugger': typeof IridescentDebuggerIndexRoute
-}
-
-export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
+  '/api/github': typeof ApiGithubRoute
+  '/api/users': typeof ApiUsersRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
   '/ascii/animations': typeof AsciiAnimationsRoute
   '/ascii/docs': typeof AsciiDocsRoute
   '/ascii/input': typeof AsciiInputRoute
   '/iridescent-debugger/': typeof IridescentDebuggerIndexRoute
+  '/api/users/$id': typeof ApiUsersIdRoute
 }
-
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/api/github': typeof ApiGithubRoute
+  '/api/users': typeof ApiUsersRouteWithChildren
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/ascii/animations': typeof AsciiAnimationsRoute
+  '/ascii/docs': typeof AsciiDocsRoute
+  '/ascii/input': typeof AsciiInputRoute
+  '/iridescent-debugger': typeof IridescentDebuggerIndexRoute
+  '/api/users/$id': typeof ApiUsersIdRoute
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/api/github': typeof ApiGithubRoute
+  '/api/users': typeof ApiUsersRouteWithChildren
+  '/articles/$slug': typeof ArticlesSlugRoute
+  '/ascii/animations': typeof AsciiAnimationsRoute
+  '/ascii/docs': typeof AsciiDocsRoute
+  '/ascii/input': typeof AsciiInputRoute
+  '/iridescent-debugger/': typeof IridescentDebuggerIndexRoute
+  '/api/users/$id': typeof ApiUsersIdRoute
+}
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/articles/$slug'
-    | '/ascii/animations'
-    | '/ascii/docs'
-    | '/ascii/input'
-    | '/iridescent-debugger'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/articles/$slug'
-    | '/ascii/animations'
-    | '/ascii/docs'
-    | '/ascii/input'
-    | '/iridescent-debugger'
-  id:
-    | '__root__'
-    | '/'
+    | '/api/github'
+    | '/api/users'
     | '/articles/$slug'
     | '/ascii/animations'
     | '/ascii/docs'
     | '/ascii/input'
     | '/iridescent-debugger/'
+    | '/api/users/$id'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/api/github'
+    | '/api/users'
+    | '/articles/$slug'
+    | '/ascii/animations'
+    | '/ascii/docs'
+    | '/ascii/input'
+    | '/iridescent-debugger'
+    | '/api/users/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/github'
+    | '/api/users'
+    | '/articles/$slug'
+    | '/ascii/animations'
+    | '/ascii/docs'
+    | '/ascii/input'
+    | '/iridescent-debugger/'
+    | '/api/users/$id'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiGithubRoute: typeof ApiGithubRoute
+  ApiUsersRoute: typeof ApiUsersRouteWithChildren
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   AsciiAnimationsRoute: typeof AsciiAnimationsRoute
   AsciiDocsRoute: typeof AsciiDocsRoute
@@ -172,51 +146,105 @@ export interface RootRouteChildren {
   IridescentDebuggerIndexRoute: typeof IridescentDebuggerIndexRoute
 }
 
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/github': {
+      id: '/api/github'
+      path: '/api/github'
+      fullPath: '/api/github'
+      preLoaderRoute: typeof ApiGithubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users': {
+      id: '/api/users'
+      path: '/api/users'
+      fullPath: '/api/users'
+      preLoaderRoute: typeof ApiUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ascii/animations': {
+      id: '/ascii/animations'
+      path: '/ascii/animations'
+      fullPath: '/ascii/animations'
+      preLoaderRoute: typeof AsciiAnimationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ascii/docs': {
+      id: '/ascii/docs'
+      path: '/ascii/docs'
+      fullPath: '/ascii/docs'
+      preLoaderRoute: typeof AsciiDocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ascii/input': {
+      id: '/ascii/input'
+      path: '/ascii/input'
+      fullPath: '/ascii/input'
+      preLoaderRoute: typeof AsciiInputRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iridescent-debugger/': {
+      id: '/iridescent-debugger/'
+      path: '/iridescent-debugger'
+      fullPath: '/iridescent-debugger/'
+      preLoaderRoute: typeof IridescentDebuggerIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users/$id': {
+      id: '/api/users/$id'
+      path: '/$id'
+      fullPath: '/api/users/$id'
+      preLoaderRoute: typeof ApiUsersIdRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
+  }
+}
+
+interface ApiUsersRouteChildren {
+  ApiUsersIdRoute: typeof ApiUsersIdRoute
+}
+
+const ApiUsersRouteChildren: ApiUsersRouteChildren = {
+  ApiUsersIdRoute: ApiUsersIdRoute,
+}
+
+const ApiUsersRouteWithChildren = ApiUsersRoute._addFileChildren(
+  ApiUsersRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiGithubRoute: ApiGithubRoute,
+  ApiUsersRoute: ApiUsersRouteWithChildren,
   ArticlesSlugRoute: ArticlesSlugRoute,
   AsciiAnimationsRoute: AsciiAnimationsRoute,
   AsciiDocsRoute: AsciiDocsRoute,
   AsciiInputRoute: AsciiInputRoute,
   IridescentDebuggerIndexRoute: IridescentDebuggerIndexRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/articles/$slug",
-        "/ascii/animations",
-        "/ascii/docs",
-        "/ascii/input",
-        "/iridescent-debugger/"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/articles/$slug": {
-      "filePath": "articles.$slug.tsx"
-    },
-    "/ascii/animations": {
-      "filePath": "ascii/animations.tsx"
-    },
-    "/ascii/docs": {
-      "filePath": "ascii/docs.tsx"
-    },
-    "/ascii/input": {
-      "filePath": "ascii/input.tsx"
-    },
-    "/iridescent-debugger/": {
-      "filePath": "iridescent-debugger/index.tsx"
-    }
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
   }
 }
-ROUTE_MANIFEST_END */

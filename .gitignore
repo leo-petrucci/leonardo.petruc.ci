@@ -8,7 +8,9 @@ yarn.lock
 .env.prod
 .vercel
 .output
+.nitro
 .vinxi
+*.config.timestamp_*
 
 /build/
 /api/
