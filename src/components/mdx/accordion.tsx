@@ -30,11 +30,11 @@ export function Accordion({ title, defaultOpen, children }: MdxAccordionProps) {
       type="single"
       collapsible
       defaultValue={defaultOpen ? 'item' : undefined}
-      className="my-6 border-b border-dashed border-[var(--border)]"
+      className="my-6 ascii-dashed-bottom"
     >
       <AccordionItem value="item" className="border-none">
-        <AccordionTrigger className="group gap-2 py-3 font-departure text-ascii uppercase tracking-widest hover:no-underline hover:text-[var(--accent)] [&>svg]:hidden">
-          <span aria-hidden className="text-[var(--accent)]">
+        <AccordionTrigger className="group justify-start gap-3 py-3 font-departure text-ascii uppercase tracking-widest hover:no-underline hover:text-accent data-[state=open]:text-accent [&>svg]:hidden">
+          <span aria-hidden className="text-accent">
             <span className="group-data-[state=closed]:inline group-data-[state=open]:hidden">
               +
             </span>
@@ -42,9 +42,9 @@ export function Accordion({ title, defaultOpen, children }: MdxAccordionProps) {
               -
             </span>
           </span>
-          {title}
+          <span className="text-left">{title}</span>
         </AccordionTrigger>
-        <AccordionContent className="pb-4 text-sm">{children}</AccordionContent>
+        <AccordionContent className="pb-4 text-sm text-pretty">{children}</AccordionContent>
       </AccordionItem>
     </AccordionPrimitive>
   );

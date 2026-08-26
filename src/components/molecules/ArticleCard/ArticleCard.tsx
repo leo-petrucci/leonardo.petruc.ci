@@ -75,9 +75,11 @@ export function ArticleCard({ article }: ArticleCardProps) {
               </TooltipTrigger>
               <TooltipContent>{meta.tooltip}</TooltipContent>
             </Tooltip>
-            <h3>{article.title}</h3>
+            <h3 className="text-balance">{article.title}</h3>
           </div>
-          <p className="text-ascii-sm line-clamp-2 min-h-[2lh]">{article.excerpt}</p>
+          <p className="text-ascii-sm text-pretty line-clamp-2 min-h-[2lh] break-words">
+            {article.excerpt}
+          </p>
         </div>
         <div aria-hidden />
         <div aria-hidden />

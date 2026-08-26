@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
+import { GlitchChar } from '@/components/atoms/Ascii/Scramble';
 
 /** Supported admonition styles for {@link Callout}. */
 type CalloutType = 'info' | 'warning' | 'danger' | 'tip' | 'note';
@@ -17,27 +18,27 @@ const VARIANTS: Record<
   info: {
     marker: '[i]',
     label: 'info',
-    className: 'border-blue-500/40 bg-blue-500/5',
+    className: 'ascii-dashed-info bg-blue-500/5',
   },
   warning: {
     marker: '[!]',
     label: 'warn',
-    className: 'border-amber-500/40 bg-amber-500/5',
+    className: 'ascii-dashed-warn bg-amber-500/5',
   },
   danger: {
     marker: '[!!]',
     label: 'danger',
-    className: 'border-red-500/40 bg-red-500/5',
+    className: 'ascii-dashed-danger bg-red-500/5',
   },
   tip: {
     marker: '[*]',
     label: 'tip',
-    className: 'border-green-500/40 bg-green-500/5',
+    className: 'ascii-dashed-tip bg-green-500/5',
   },
   note: {
     marker: '[#]',
     label: 'note',
-    className: 'border-border bg-muted/40',
+    className: 'ascii-dashed-note bg-muted/40',
   },
 };
 
@@ -67,6 +68,32 @@ export interface CalloutProps {
  * @example
  * <Callout type="warning" title="Careful">Back up first.</Callout>
  */
+const CORNER_COLORS: Record<CalloutType, string> = {
+  info: 'text-blue-400/60',
+  warning: 'text-amber-400/60',
+  danger: 'text-red-400/60',
+  tip: 'text-green-400/60',
+  note: 'text-muted-foreground/40',
+};
+
+function CalloutCorner({ corner, type }: { corner: 'tl' | 'tr' | 'bl' | 'br'; type: CalloutType }) {
+  const pos: Record<typeof corner, React.CSSProperties> = {
+    tl: { top: 0, left: 0, transform: 'translate(-50%, -50%)' },
+    tr: { top: 0, right: 0, transform: 'translate(50%, -50%)' },
+    bl: { bottom: 0, left: 0, transform: 'translate(-50%, 50%)' },
+    br: { bottom: 0, right: 0, transform: 'translate(50%, 50%)' },
+  };
+  return (
+    <span
+      aria-hidden="true"
+      className={cn('absolute pointer-events-none', CORNER_COLORS[type])}
+      style={{ ...pos[corner], lineHeight: '1lh' }}
+    >
+      <GlitchChar target="+" />
+    </span>
+  );
+}
+
 export function Callout({ type = 'info', title, children, className }: CalloutProps) {
   const { marker, label, className: variantClassName } = VARIANTS[type];
   return (
@@ -75,21 +102,20 @@ export function Callout({ type = 'info', title, children, className }: CalloutPr
     <div
       role="note"
       className={cn(
-        'not-prose my-6 border border-dashed px-4 py-3 text-sm [&>div>p]:my-0',
+        'not-prose relative my-6 px-4 py-3.5 text-sm [&>div>p]:my-0',
         variantClassName,
         className,
       )}
     >
-      <p
-        className={cn(
-          'font-departure text-ascii-sm uppercase tracking-widest',
-          LABEL_COLORS[type],
-        )}
-      >
+      <CalloutCorner corner="tl" type={type} />
+      <CalloutCorner corner="tr" type={type} />
+      <CalloutCorner corner="bl" type={type} />
+      <CalloutCorner corner="br" type={type} />
+      <p className={cn('font-departure text-ascii-sm uppercase tracking-widest', LABEL_COLORS[type])}>
         {marker} {label}
-        {title ? <span className="text-foreground"> // {title}</span> : null}
+        {title ? <span className="font-mono normal-case tracking-normal text-foreground"> // {title}</span> : null}
       </p>
-      <div className="mt-1">{children}</div>
+      <div className="mt-2 text-pretty leading-relaxed text-foreground">{children}</div>
     </div>
   );
 }

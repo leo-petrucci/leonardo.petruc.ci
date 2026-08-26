@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { cn } from '@/lib/utils';
+import { GlitchChar } from '@/components/atoms/Ascii/Scramble';
 
 /**
  * Parses a highlight spec like `"3"` or `"{1,5-7}"` into a set of
@@ -72,31 +73,49 @@ export function CodeBlock({
     setTimeout(() => setCopied(false), 2000);
   };
 
+function CodeBlockCorner({ corner }: { corner: 'tl' | 'tr' | 'bl' | 'br' }) {
+  const pos: Record<typeof corner, React.CSSProperties> = {
+    tl: { top: 0, left: 0, transform: 'translate(-50%, -50%)' },
+    tr: { top: 0, right: 0, transform: 'translate(50%, -50%)' },
+    bl: { bottom: 0, left: 0, transform: 'translate(-50%, 50%)' },
+    br: { bottom: 0, right: 0, transform: 'translate(50%, 50%)' },
+  };
+  return (
+    <span
+      aria-hidden="true"
+      className="absolute pointer-events-none text-muted-foreground/40"
+      style={{ ...pos[corner], lineHeight: '1lh' }}
+    >
+      <GlitchChar target="+" />
+    </span>
+  );
+}
+
   return (
     // `not-prose` stops prose `pre`/`code` background and margin styles from
     // fighting the terminal chrome below.
-    <div
-      className={cn(
-        'not-prose my-6 border border-dashed border-[var(--border)] bg-[var(--muted)]',
-        className,
-      )}
-    >
-      <div className="flex items-center justify-between gap-4 border-b border-dashed border-[var(--border)] px-4 py-2 font-departure text-ascii-sm uppercase tracking-widest text-muted-foreground">
-        <span className="truncate">
-          {'// '}
-          {filename ?? 'code'}
+    <div className={cn('not-prose relative my-6 ascii-dashed-note bg-muted', className)}>
+      <CodeBlockCorner corner="tl" />
+      <CodeBlockCorner corner="tr" />
+      <CodeBlockCorner corner="bl" />
+      <CodeBlockCorner corner="br" />
+      <div className="flex items-center justify-between gap-3 ascii-dashed-bottom bg-muted/40 px-3 py-2">
+        <span className="truncate font-mono text-xs tracking-normal text-muted-foreground">
+          <span className="opacity-40">//</span> {filename ?? 'code'}
         </span>
-        <div className="flex shrink-0 items-center gap-4">
+        <div className="flex shrink-0 items-center gap-2">
           {language ? (
-            <span className="text-[var(--accent)]">[{language}]</span>
+            <span className="rounded bg-accent/10 px-1.5 py-0.5 font-mono text-xs font-medium tabular-nums text-accent">
+              {language}
+            </span>
           ) : null}
           <button
             type="button"
             onClick={copy}
-            aria-label="Copy code"
-            className="transition-colors hover:text-[var(--accent)]"
+            aria-label={copied ? 'Copied' : 'Copy code'}
+            className="inline-flex items-center rounded bg-foreground px-2.5 py-1 font-departure text-xs uppercase tracking-wide text-background transition-colors hover:bg-accent hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-muted"
           >
-            [{copied ? 'copied' : 'copy'}]
+            {copied ? 'copied' : 'copy'}
           </button>
         </div>
       </div>
@@ -107,9 +126,7 @@ export function CodeBlock({
               <div
                 key={i}
                 className={
-                  highlighted.has(i + 1)
-                    ? '-mx-4 border-l-2 border-[var(--accent)] bg-blue-500/10 px-[calc(1rem-2px)]'
-                    : undefined
+                  highlighted.has(i + 1) ? '-mx-4 border-l-2 border-accent bg-blue-500/10 px-[calc(1rem-2px)]' : undefined
                 }
               >
                 {line || '\u00A0'}

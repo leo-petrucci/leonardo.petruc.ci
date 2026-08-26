@@ -60,7 +60,16 @@ function toArticle(slug: string, raw: string): LoadedArticle {
     title: meta.title ?? slug,
     category: meta.category ?? 'NOTES',
     date: meta.date ?? '',
-    excerpt: meta.excerpt ?? body.split('\n').find((l) => l.trim()) ?? '',
+    excerpt:
+      meta.excerpt ??
+      body
+        .trim()
+        .split(/\n\s*\n/)[0]
+        ?.replace(/<[^>]+>/g, ' ')
+        .replace(/\n/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim() ??
+      '',
     href: `/articles/${slug}`,
     link: meta.link || undefined,
     type,

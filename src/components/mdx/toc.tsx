@@ -83,7 +83,7 @@ export function TOC({ headings, depth = 3, className }: TocProps) {
       <p className="font-departure text-ascii-sm uppercase tracking-widest text-muted-foreground">
         {'// contents'}
       </p>
-      <ul className="mt-3 list-none space-y-1 border-l border-dashed border-border p-0 text-sm">
+      <ul className="mt-3 list-none space-y-1 ascii-dashed-left p-0 text-sm">
         {items.map((item) => (
           <li key={item.id} className={item.level === 3 ? 'pl-8' : 'pl-4'}>
             <a

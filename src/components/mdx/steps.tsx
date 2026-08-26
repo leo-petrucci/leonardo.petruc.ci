@@ -46,14 +46,14 @@ export function Steps({ children }: { children?: ReactNode }) {
   return (
     // `not-prose` + `list-none` keep prose list padding and native ol
     // markers from clashing with the custom number badges and rail.
-    <ol className="my-6 list-none space-y-8 not-prose [&_p]:my-2 [&>li]:list-none">
+    <ol className="my-6 list-none space-y-8 not-prose tabular-nums [&_p]:my-2 [&_p]:text-pretty [&>li]:list-none">
       {steps.map((step, i) => (
-        <li key={i} className="relative list-none border-l border-dashed pl-8">
-          <span className="absolute -left-3 top-0 z-10 flex h-6 w-6 items-center justify-center border border-dashed bg-[var(--background)] font-departure text-ascii-sm text-[var(--accent)]">
+        <li key={i} className="relative list-none ascii-dashed-left pl-8">
+          <span className="absolute -left-3 top-0 z-10 flex h-6 w-6 items-center justify-center ascii-dashed-note bg-background font-departure text-ascii-sm text-accent">
             {i + 1}
           </span>
           {step.title ? (
-            <h3 className="scroll-m-20 pt-0.5 text-lg font-semibold tracking-tight">
+            <h3 className="scroll-m-20 pt-0.5 text-balance text-lg font-semibold tracking-tight">
               {step.title}
             </h3>
           ) : null}

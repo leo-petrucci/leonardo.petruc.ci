@@ -26,7 +26,7 @@ export function Image({ caption, className, alt, ...props }: MdxImageProps) {
         loading="lazy"
         decoding="async"
         alt={alt}
-        className="mx-auto max-w-full border border-dashed border-[var(--border)]"
+        className="mx-auto max-w-full ascii-dashed-note"
         {...props}
       />
       {caption ? (

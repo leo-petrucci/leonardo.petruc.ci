@@ -103,13 +103,13 @@ function RouteComponent() {
       <CenteredGrid>
         <CenteredGridItem className="flex flex-col gap-16">
           <div>
-            <h1>{article.title}</h1>
-            <div className="text-ascii-sm text-[var(--muted-foreground)]">
+            <h1 className="text-balance">{article.title}</h1>
+            <div className="text-ascii-sm tabular-nums text-[var(--muted-foreground)]">
               {article.date} // {words} WORDS // ~{minutes} MIN READ
             </div>
           </div>
           <article
-            className="prose dark:prose-invert max-w-none font-inter"
+            className="prose dark:prose-invert max-w-none font-inter text-pretty [&_h2]:text-balance [&_h3]:text-balance [&_p]:text-pretty"
             style={{
               gridColumn: '2',
             }}
@@ -132,7 +132,7 @@ function RouteComponent() {
           pixelSize={3}
         />
         <CenteredGrid>
-          <CenteredGridItem className="py-8 text-center text-ascii-sm text-[var(--muted-foreground)]">
+          <CenteredGridItem className="py-8 text-center text-ascii-sm tabular-nums text-[var(--muted-foreground)]">
             LEONARDO_PETRUCCI // {article.date}
           </CenteredGridItem>
         </CenteredGrid>
