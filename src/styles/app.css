@@ -47,11 +47,11 @@ body {
   --secondary-foreground: oklch(0.33 0 0);
   --muted: oklch(0.98 0 0);
   --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.98 0 0);
+  --accent: oklch(0.53 0.19 262.13);
   --accent-foreground: oklch(0.33 0 0);
   --destructive: oklch(0.62 0.21 25.77);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.94 0 0);
+  --border: oklch(0.3853 0.01 286.03);
   --input: oklch(0.94 0 0);
   --ring: oklch(0.77 0 0);
   --chart-1: oklch(0.82 0.13 84.49);
@@ -124,9 +124,6 @@ body {
   --sidebar-accent-foreground: oklch(0.97 0 286.38);
   --sidebar-border: oklch(0.27 0.01 286.03);
   --sidebar-ring: oklch(0.87 0.01 286.29);
-  --font-sans: undefined;
-  --font-serif: undefined;
-  --font-mono: undefined;
   --radius: 0rem;
   --shadow-2xs: 0 0px 0px 0px hsl(0 0% 0% / 0);
   --shadow-xs: 0 0px 0px 0px hsl(0 0% 0% / 0);

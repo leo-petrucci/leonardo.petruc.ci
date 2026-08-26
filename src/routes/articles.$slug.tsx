@@ -6,6 +6,7 @@ import {
   CenteredGridItem,
 } from '@/components/layout/CenteredGrid';
 import { ARTICLES, getArticle } from '@/lib/articles';
+import { mdxComponents } from '@/components/mdx';
 import { AsciiViz } from '@/components/atoms/Ascii/AsciiViz';
 import { SiteTitle } from '@/components/atoms/SiteTitle';
 import { DitherField } from '@/components/organisms/DitherField';
@@ -60,7 +61,7 @@ function RouteComponent() {
     );
   }
 
-  const { article, html } = found;
+  const { article, html, component: ArticleBody } = found;
   const { words, minutes } = stats(article.body);
 
   const hash = hashString(`${article.title}:${article.body}`);
@@ -109,11 +110,16 @@ function RouteComponent() {
           </div>
           <article
             className="prose dark:prose-invert max-w-none font-inter"
-            dangerouslySetInnerHTML={{ __html: html }}
             style={{
               gridColumn: '2',
             }}
-          />
+          >
+            {ArticleBody ? (
+              <ArticleBody components={mdxComponents} />
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: html ?? '' }} />
+            )}
+          </article>
         </CenteredGridItem>
       </CenteredGrid>
       <footer className="relative overflow-hidden">

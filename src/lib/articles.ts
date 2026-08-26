@@ -1,15 +1,33 @@
 import { marked } from 'marked';
+import type { ComponentType } from 'react';
 import type { Article, ArticleType } from '@/components/molecules/ArticleCard';
+import type { MdxComponents } from '@/components/mdx';
 
+/** An article with its raw body and, for `.mdx`, its compiled component. */
 export interface LoadedArticle extends Article {
   body: string;
+  /** Compiled MDX module; absent for plain markdown articles. */
+  component?: ComponentType<{ components?: MdxComponents }>;
 }
 
-const files = import.meta.glob<string>('../content/articles/*.md', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-});
+// Raw source of every article, used for frontmatter parsing and stats.
+const files = import.meta.glob<string>(
+  ['../content/articles/*.md', '../content/articles/*.mdx'],
+  {
+    query: '?raw',
+    import: 'default',
+    eager: true,
+  },
+);
+
+// Pre-compiled React components for `.mdx` articles, keyed by module path.
+const mdxComponents = import.meta.glob<ComponentType<{ components?: MdxComponents }>>(
+  '../content/articles/*.mdx',
+  {
+    import: 'default',
+    eager: true,
+  },
+);
 
 function parseFrontmatter(raw: string): {
   meta: Record<string, string>;
@@ -31,7 +49,7 @@ function parseFrontmatter(raw: string): {
 
 function slugFromPath(path: string): string {
   const base = path.split('/').pop() ?? path;
-  return base.replace(/\.md$/, '');
+  return base.replace(/\.mdx?$/, '');
 }
 
 function toArticle(slug: string, raw: string): LoadedArticle {
@@ -47,6 +65,7 @@ function toArticle(slug: string, raw: string): LoadedArticle {
     link: meta.link || undefined,
     type,
     body,
+    component: mdxComponents[`../content/articles/${slug}.mdx`],
   };
 }
 
@@ -56,11 +75,18 @@ export const ARTICLES: Article[] = Object.entries(files)
 
 const BY_SLUG = new Map(ARTICLES.map((a) => [a.id, a as LoadedArticle]));
 
+/**
+ * Looks up an article by slug. Returns the compiled MDX component when the
+ * source is `.mdx`, otherwise markdown rendered to an HTML string via marked.
+ */
 export function getArticle(
   slug: string,
-): { article: LoadedArticle; html: string } | undefined {
+):
+  | { article: LoadedArticle; html?: string; component?: LoadedArticle['component'] }
+  | undefined {
   const article = BY_SLUG.get(slug);
   if (!article) return undefined;
+  if (article.component) return { article, component: article.component };
   return {
     article,
     html: marked.parse(article.body, { async: false }),

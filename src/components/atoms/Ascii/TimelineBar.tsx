@@ -238,7 +238,7 @@ export function TimelineBar({
   // Selected wins, then hovered, otherwise the muted default.
   const segmentColor = (index: number) =>
     index === selected
-      ? 'var(--chart-1)'
+      ? 'var(--accent)'
       : index === hovered
         ? 'var(--foreground)'
         : 'var(--muted)';
@@ -246,7 +246,7 @@ export function TimelineBar({
   return (
     <div
       ref={hostRef}
-      className="relative [font-family:inherit] [font-variant-ligatures:none] [font-kerning:none]"
+      className="relative font-[inherit] [font-variant-ligatures:none] [font-kerning:none]"
     >
       {active && (
         <div className="flex justify-between items-start gap-4">
