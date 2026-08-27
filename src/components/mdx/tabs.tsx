@@ -49,12 +49,12 @@ export function Tabs({
       defaultValue={defaultValue ?? tabs[0].value}
       className="my-6"
     >
-      <TabsList className="h-auto w-full justify-start gap-0 rounded-none ascii-dashed-bottom bg-transparent p-0">
+      <TabsList className="h-auto w-full justify-start gap-0 rounded-none ascii-dashed-bottom bg-transparent p-0 overflow-x-auto flex-nowrap scrollbar-none">
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className="rounded-none border-b-2 border-transparent bg-transparent px-3 py-1.5 font-departure text-ascii-sm uppercase tracking-widest text-muted-foreground shadow-none transition-colors data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none"
+            className="rounded-none border-b-2 border-transparent bg-transparent px-3 py-2 sm:py-1.5 font-departure text-ascii-sm uppercase tracking-widest text-muted-foreground shadow-none transition-colors shrink-0 min-h-11 sm:min-h-0 touch-manipulation data-[state=active]:border-accent data-[state=active]:bg-transparent data-[state=active]:text-accent data-[state=active]:shadow-none"
           >
             {tab.value}
           </TabsTrigger>

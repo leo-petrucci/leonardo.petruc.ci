@@ -52,9 +52,12 @@ export function CornerButton({
       className={
         'group relative inline-flex items-center justify-center ' +
         'font-[inherit] text-inherit leading-[1lh] uppercase ' +
-        'border-0 ring-1 ring-border cursor-pointer select-none ' +
+        'border-0 ring-1 ring-border cursor-pointer select-none touch-manipulation ' +
         'bg-muted text-foreground ' +
-        (compact ? 'px-2 ' : 'px-2 py-2 my-1 ') +
+        // keep visual 24px (1lh) but expand hit to 48px (2*24) via invisible before
+        (compact
+          ? 'px-2 h-6 before:content-[""] before:absolute before:-inset-3 before:z-0 '
+          : 'px-2 py-2 my-1 before:content-[""] before:absolute before:-inset-2 before:z-0 ') +
         'transition-colors duration-150 ' +
         'group-hover:bg-accent group-hover:text-white group-hover:ring-accent ' +
         className

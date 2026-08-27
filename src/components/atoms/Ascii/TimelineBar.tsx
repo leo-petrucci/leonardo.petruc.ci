@@ -131,7 +131,7 @@ function buildBar(
 }
 
 const ARROW_BTN =
-  '[font:inherit] text-inherit bg-transparent border-0 px-1.5 m-0 cursor-pointer';
+  '[font:inherit] text-inherit bg-transparent border-0 m-0 cursor-pointer min-h-12 min-w-12 flex items-center justify-center px-2 py-2 sm:min-h-0 sm:min-w-0 sm:px-1.5 sm:py-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm';
 
 export function TimelineBar({
   entries,
@@ -249,21 +249,21 @@ export function TimelineBar({
       className="relative font-[inherit] [font-variant-ligatures:none] [font-kerning:none]"
     >
       {active && (
-        <div className="flex justify-between items-start gap-4">
-          <div className="flex items-start gap-3">
-            <div className="text-left leading-[24px]">
-              <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-3">
+          <div className="flex items-start gap-3 min-w-0 flex-1 order-2 sm:order-1">
+            <div className="text-left leading-[24px] min-w-0">
+              <div className="flex items-center gap-3 min-w-0">
                 {active.image && (
                   <img
                     src={active.image}
                     alt=""
-                    className="w-12 h-12 object-contain"
+                    className="w-12 h-12 object-contain shrink-0"
                     style={{ imageRendering: 'pixelated' }}
                   />
                 )}
-                <div className="flex flex-col">
-                  <div className="font-semibold">{active.title}</div>
-                  <div>
+                <div className="flex flex-col min-w-0">
+                  <div className="font-semibold text-pretty break-words leading-[24px]">{active.title}</div>
+                  <div className="text-xs sm:text-[14px] whitespace-nowrap leading-[24px]">
                     {formatMonthYear(new Date(active.start))} -{' '}
                     {active.end === 'present'
                       ? 'PRESENT'
@@ -271,10 +271,10 @@ export function TimelineBar({
                   </div>
                 </div>
               </div>
-              <div className="text-muted-foreground">{active.subtitle}</div>
+              <div className="text-muted-foreground text-pretty break-words mt-3 pr-2 leading-[24px]">{active.subtitle}</div>
             </div>
           </div>
-          <div className="flex items-center gap-0.5">
+          <div className="flex justify-between sm:justify-end sm:items-center gap-0.5 w-full sm:w-auto sm:shrink-0 order-1 sm:order-2">
             <button
               type="button"
               aria-label="previous"
@@ -296,7 +296,7 @@ export function TimelineBar({
           </div>
         </div>
       )}
-      <div className="whitespace-pre select-none leading-[24px] max-h-6">
+      <div className="whitespace-pre select-none leading-[24px] max-h-6 overflow-x-auto overflow-y-hidden -mx-1 px-1 scrollbar-none touch-manipulation">
         {segments.map((seg, i) => {
           // Render each cell of the segment as its own scramble char. The delay
           // uses the segment's global start index so the whole bar decodes in a
@@ -342,7 +342,7 @@ export function TimelineBar({
                   onMouseEnter={() => setHovered(seg.index)}
                   onMouseLeave={() => setHovered(null)}
                   className={
-                    '[font:inherit] bg-transparent border-0 p-0 m-0 cursor-pointer max-h-6'
+                    '[font:inherit] bg-transparent border-0 p-0 m-0 cursor-pointer max-h-6 py-1 -my-1 touch-manipulation'
                   }
                   style={{ color: segmentColor(seg.index) }}
                 >

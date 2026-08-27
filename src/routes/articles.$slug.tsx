@@ -70,11 +70,11 @@ function RouteComponent() {
   const seed = hash;
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-4 sm:gap-8">
       <CenteredGrid variant="wide">
         <CenteredGridItem
           style={{ gridRow: '1' }}
-          className="z-10 self-start justify-self-stretch"
+          className="z-10 self-start justify-self-stretch min-w-0"
         >
           <AsciiBox
             frameColor="var(--border)"
@@ -83,7 +83,7 @@ function RouteComponent() {
             fill
             className="bg-background"
           >
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center justify-between gap-2 sm:gap-4">
               <SiteTitle />
               <ThemeToggle />
             </div>
@@ -94,6 +94,7 @@ function RouteComponent() {
             gridColumn: '1 / -1',
             gridRow: '1',
           }}
+          className="overflow-hidden"
         >
           <AsciiViz
             type={vizType}
@@ -105,18 +106,16 @@ function RouteComponent() {
         </div>
       </CenteredGrid>
       <CenteredGrid>
-        <CenteredGridItem className="flex flex-col gap-16">
-          <div>
-            <h1 className="text-balance">{article.title}</h1>
-            <div className="text-ascii-sm tabular-nums text-[var(--muted-foreground)]">
+        <CenteredGridItem className="flex flex-col gap-8 sm:gap-16 min-w-0 w-full">
+          <div className="min-w-0">
+            <h1 className="text-balance break-words text-2xl sm:text-3xl leading-tight">{article.title}</h1>
+            <div className="text-ascii-sm tabular-nums text-[var(--muted-foreground)] break-words">
               {article.date} // {words} WORDS // ~{minutes} MIN READ
             </div>
           </div>
           <article
-            className="prose dark:prose-invert max-w-none font-inter text-pretty [&_h2]:text-balance [&_h3]:text-balance [&_p]:text-pretty"
-            style={{
-              gridColumn: '2',
-            }}
+            className="prose dark:prose-invert max-w-none font-inter text-pretty min-w-0 w-full break-words overflow-visible [&_h2]:text-balance [&_h3]:text-balance [&_p]:text-pretty [&_p]:break-words [&_pre]:overflow-x-auto [&_pre]:max-w-full"
+            style={{ overflow: 'visible' }}
           >
             {ArticleBody ? (
               <ArticleBody components={mdxComponents} />

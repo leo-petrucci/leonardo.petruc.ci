@@ -86,11 +86,11 @@ function RouteComponent() {
               <ThemeToggle />
             </div>
             <AsciiBox.Rule />
-            <div className="flex flex-row gap-3">
-              <div className="shrink-0 border-r border-dashed border-border pr-3">
-                <img src="/me-pixel.png" className="w-24 h-24 object-contain" />
+            <div className="flex flex-col sm:flex-row gap-6">
+              <div className="shrink-0 border-b sm:border-b-0 sm:border-r border-dashed border-border pb-6 sm:pb-0 sm:pr-6 flex justify-center sm:justify-start">
+                <img src="/me-pixel.png" className="w-[72px] h-[72px] sm:w-24 sm:h-24 object-contain" />
               </div>
-              <div>
+              <div className="min-w-0 break-words">
                 <p>
                   Software developer at Webflow, specialising in building modern
                   web applications using Typescript and React. I work in both

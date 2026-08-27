@@ -36,7 +36,7 @@ export function CenteredGrid({
     <div
       className={`grid flex-row ${gapClassName} ${className}`.trim()}
       style={{
-        gridTemplateColumns: `1fr minmax(auto, ${width}) 1fr`,
+        gridTemplateColumns: `minmax(0, 1fr) minmax(0, ${width}) minmax(0, 1fr)`,
         ...style,
       }}
       {...rest}

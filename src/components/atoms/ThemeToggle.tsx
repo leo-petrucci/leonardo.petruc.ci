@@ -59,7 +59,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={alt}
       title={alt}
-      className="inline-flex h-6 w-6 items-center justify-center rounded-sm border-0 bg-transparent p-0 leading-none transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      className="relative inline-flex h-6 w-6 items-center justify-center rounded-sm border-0 bg-transparent p-0 leading-none transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0 touch-manipulation before:content-[''] before:absolute before:-inset-3 before:z-0"
     >
       {mounted ? (
         <img

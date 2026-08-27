@@ -57,7 +57,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
 
   return (
     <div
-      className="relative group"
+      className="relative group min-h-24 flex flex-col justify-center"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -72,9 +72,9 @@ export function ArticleCard({ article }: ArticleCardProps) {
           paused={!hovered}
         />
       </div>
-      <div className="grid flex-1 grid-cols-[1fr_auto] grid-rows-[1fr_auto] gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-row items-center gap-2">
+      <div className="grid flex-1 grid-cols-[1fr_auto] grid-rows-[1fr_auto] gap-3 min-w-0">
+        <div className="flex flex-col gap-3 min-w-0">
+          <div className="flex flex-row items-center gap-2 min-w-0">
             <Tooltip>
               <TooltipTrigger asChild>
                 <img
@@ -82,31 +82,31 @@ export function ArticleCard({ article }: ArticleCardProps) {
                   alt={meta.label}
                   width={24}
                   height={24}
-                  className="h-6 w-6 object-contain cursor-help brightness-0 dark:brightness-100"
+                  className="h-6 w-6 object-contain cursor-help brightness-0 dark:brightness-100 shrink-0"
                   style={{ imageRendering: 'pixelated' }}
                 />
               </TooltipTrigger>
               <TooltipContent>{meta.tooltip}</TooltipContent>
             </Tooltip>
-            <h3 className="text-balance">{article.title}</h3>
+            <h3 className="text-balance break-words min-w-0 leading-[24px]">{article.title}</h3>
           </div>
           <p className="text-ascii-sm text-pretty line-clamp-2 min-h-[2lh] break-words">
             {article.excerpt}
           </p>
         </div>
-        <div aria-hidden />
-        <div aria-hidden />
+        <div aria-hidden className="hidden sm:block" />
+        <div aria-hidden className="hidden sm:block" />
         {article.link ? (
           <a
             href={article.link}
             target="_blank"
             rel="noreferrer"
-            className="justify-self-end self-end"
+            className="justify-self-end self-end touch-manipulation"
           >
             <CornerButton compact>VIEW</CornerButton>
           </a>
         ) : (
-          <Link to={article.href} className="justify-self-end self-end">
+          <Link to={article.href} className="justify-self-end self-end touch-manipulation">
             <CornerButton compact>READ</CornerButton>
           </Link>
         )}
