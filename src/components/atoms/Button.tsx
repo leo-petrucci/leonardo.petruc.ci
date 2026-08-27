@@ -39,7 +39,7 @@ function CornerPlus({
   );
 }
 
-export function CornerButton({
+export function Button({
   children,
   className = '',
   compact = false,
@@ -73,4 +73,4 @@ export function CornerButton({
   );
 }
 
-export default CornerButton;
+export default Button;

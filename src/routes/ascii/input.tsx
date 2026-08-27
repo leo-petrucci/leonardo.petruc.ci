@@ -3,7 +3,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { AsciiBox } from '@/components/atoms/Ascii/Ascii';
 import { AsciiInput } from '@/components/atoms/Ascii/AsciiInput';
 import { AsciiFrameInput } from '@/components/atoms/Ascii/AsciiFrameInput';
-import { CornerButton } from '@/components/atoms/CornerButton';
+import { Button } from '@/components/atoms/Button';
 
 export const Route = createFileRoute('/ascii/input')({
   component: RouteComponent,
@@ -67,7 +67,7 @@ function RouteComponent() {
         />
         <AsciiBox.Rule />
         <div className="flex items-center gap-3">
-          <CornerButton compact>CONFIRM</CornerButton>
+          <Button compact>CONFIRM</Button>
           <span className="text-ascii-sm text-muted-foreground">
             {handle ? `hello, @${handle}` : 'waiting for input...'}
           </span>

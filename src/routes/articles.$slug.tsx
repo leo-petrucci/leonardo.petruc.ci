@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { AsciiBox } from '@/components/atoms/Ascii/Ascii';
-import { CornerButton } from '@/components/atoms/CornerButton';
+import { Button } from '@/components/atoms/Button';
 import {
   CenteredGrid,
   CenteredGridItem,
@@ -56,7 +56,7 @@ function RouteComponent() {
           </p>
         </AsciiBox>
         <Link to="/" className="self-start">
-          <CornerButton compact>&lt; BACK</CornerButton>
+          <Button compact>&lt; BACK</Button>
         </Link>
       </div>
     );

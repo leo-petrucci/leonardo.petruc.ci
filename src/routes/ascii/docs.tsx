@@ -5,7 +5,7 @@ import {
   TimelineBar,
   type TimelineEntry,
 } from '@/components/atoms/Ascii/TimelineBar';
-import { CornerButton } from '@/components/atoms/CornerButton';
+import { Button } from '@/components/atoms/Button';
 import {
   Tooltip,
   TooltipContent,
@@ -212,8 +212,8 @@ function RouteComponent() {
         </p>
         <AsciiBox.Rule />
         <div className="flex gap-4 items-center">
-          <CornerButton>DEFAULT</CornerButton>
-          <CornerButton compact>COMPACT</CornerButton>
+          <Button>DEFAULT</Button>
+          <Button compact>COMPACT</Button>
         </div>
         <AsciiBox.Rule />
         <p className="text-ascii-sm">
@@ -231,13 +231,13 @@ function RouteComponent() {
         <div className="flex gap-4 items-center">
           <Tooltip>
             <TooltipTrigger asChild>
-              <CornerButton>HOVER ME</CornerButton>
+              <Button>HOVER ME</Button>
             </TooltipTrigger>
             <TooltipContent>tooltip on top</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <CornerButton compact>TOP</CornerButton>
+              <Button compact>TOP</Button>
             </TooltipTrigger>
             <TooltipContent side="bottom">tooltip on bottom</TooltipContent>
           </Tooltip>

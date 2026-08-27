@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { CornerButton } from '@/components/atoms/CornerButton';
+import { Button } from '@/components/atoms/Button';
 import { DitherField } from '@/components/organisms/DitherField';
 import {
   Tooltip,
@@ -103,11 +103,11 @@ export function ArticleCard({ article }: ArticleCardProps) {
             rel="noreferrer"
             className="justify-self-end self-end touch-manipulation"
           >
-            <CornerButton compact>VIEW</CornerButton>
+            <Button compact>VIEW</Button>
           </a>
         ) : (
           <Link to={article.href} className="justify-self-end self-end touch-manipulation">
-            <CornerButton compact>READ</CornerButton>
+            <Button compact>READ</Button>
           </Link>
         )}
       </div>
