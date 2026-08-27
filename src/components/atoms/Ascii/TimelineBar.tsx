@@ -241,7 +241,7 @@ export function TimelineBar({
       ? 'var(--accent)'
       : index === hovered
         ? 'var(--foreground)'
-        : 'var(--muted)';
+        : 'var(--border)';
 
   return (
     <div
@@ -333,7 +333,7 @@ export function TimelineBar({
               {/* Gap cells are static muted text; entry cells are buttons with
                   hover/click and their own color state. */}
               {seg.kind === 'gap' ? (
-                <span className="text-muted">{cells}</span>
+                <span className="text-border">{cells}</span>
               ) : (
                 <button
                   type="button"

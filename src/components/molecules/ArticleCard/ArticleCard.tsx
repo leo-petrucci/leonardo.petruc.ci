@@ -53,8 +53,8 @@ export function ArticleCard({ article }: ArticleCardProps) {
     >
       <div className="pointer-events-none absolute -inset-3">
         <DitherField
-          color="#ffffff"
-          className="absolute inset-0 -z-10 h-full w-full opacity-0 transition-opacity duration-300 group-hover:opacity-10"
+          color="#000000"
+          className="absolute inset-0 -z-10 h-full w-full opacity-0 transition-opacity duration-300 group-hover:opacity-[0.04]"
           angle={270}
           noise={0.25}
           speed={0.15}
@@ -70,7 +70,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
                 <img
                   src={meta.icon}
                   alt={meta.label}
-                  className="object-contain cursor-help"
+                  className="object-contain cursor-help brightness-0"
                 />
               </TooltipTrigger>
               <TooltipContent>{meta.tooltip}</TooltipContent>

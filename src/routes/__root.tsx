@@ -61,7 +61,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="font-departure dark">
+      <body className="font-departure">
         {/* <div className="flex flex-col items-center">
           <div className="max-w-4xl w-full"> */}
             {children}

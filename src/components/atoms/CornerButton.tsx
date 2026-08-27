@@ -31,7 +31,7 @@ function CornerPlus({
   return (
     <span
       aria-hidden="true"
-      className="absolute pointer-events-none text-[var(--border)] group-hover:text-white"
+      className="absolute pointer-events-none text-muted-foreground/60 group-hover:text-foreground"
       style={{ ...pos[corner], lineHeight: '1lh' }}
     >
       <GlitchChar target="+" />
@@ -52,11 +52,11 @@ export function CornerButton({
       className={
         'group relative inline-flex items-center justify-center ' +
         'font-[inherit] text-inherit leading-[1lh] uppercase ' +
-        'border-0 cursor-pointer select-none ' +
-        'bg-[var(--muted)] text-[var(--foreground,inherit)] ' +
+        'border-0 ring-1 ring-border cursor-pointer select-none ' +
+        'bg-muted text-foreground ' +
         (compact ? 'px-2 ' : 'px-2 py-2 my-1 ') +
         'transition-colors duration-150 ' +
-        'group-hover:bg-[var(--accent)] ' +
+        'group-hover:bg-accent group-hover:text-white group-hover:ring-accent ' +
         className
       }
       style={{ fontVariantLigatures: 'none', fontKerning: 'none' }}
