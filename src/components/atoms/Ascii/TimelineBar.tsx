@@ -296,7 +296,7 @@ export function TimelineBar({
           </div>
         </div>
       )}
-      <div className="whitespace-pre select-none leading-[24px] max-h-6 overflow-x-auto overflow-y-hidden -mx-1 px-1 scrollbar-none touch-manipulation">
+      <div className="whitespace-pre select-none leading-[24px] min-h-lh max-h-6 overflow-x-auto overflow-y-hidden -mx-1 px-1 scrollbar-none touch-manipulation">
         {segments.map((seg, i) => {
           // Render each cell of the segment as its own scramble char. The delay
           // uses the segment's global start index so the whole bar decodes in a

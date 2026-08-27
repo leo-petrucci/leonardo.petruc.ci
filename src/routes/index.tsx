@@ -88,7 +88,7 @@ function RouteComponent() {
             <AsciiBox.Rule />
             <div className="flex flex-col sm:flex-row gap-6">
               <div className="shrink-0 border-b sm:border-b-0 sm:border-r border-dashed border-border pb-6 sm:pb-0 sm:pr-6 flex justify-center sm:justify-start">
-                <img src="/me-pixel.png" className="w-[72px] h-[72px] sm:w-24 sm:h-24 object-contain" />
+                <img src="/me-pixel.png" className="w-18 h-18 sm:w-24 sm:h-24 object-contain" />
               </div>
               <div className="min-w-0 break-words">
                 <p>
