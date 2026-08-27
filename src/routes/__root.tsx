@@ -60,6 +60,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html>
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var m=document.cookie.match(/(?:^|; )theme=([^;]*)/);var t=m?decodeURIComponent(m[1]):null;if(!t)t='dark';var d=t==='dark';var h=document.documentElement,b=document.body;if(d){h.classList.add('dark');if(b)b.classList.add('dark')}else{h.classList.remove('dark');if(b)b.classList.remove('dark')}}catch(e){}`,
+          }}
+        />
       </head>
       <body className="font-departure">
         {/* <div className="flex flex-col items-center">

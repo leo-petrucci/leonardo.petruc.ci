@@ -5,10 +5,11 @@ import {
   CenteredGrid,
   CenteredGridItem,
 } from '@/components/layout/CenteredGrid';
-import { ARTICLES, getArticle } from '@/lib/articles';
+import { getArticle } from '@/lib/articles';
 import { mdxComponents } from '@/components/mdx';
 import { AsciiViz } from '@/components/atoms/Ascii/AsciiViz';
 import { SiteTitle } from '@/components/atoms/SiteTitle';
+import { ThemeToggle } from '@/components/atoms/ThemeToggle';
 import { DitherField } from '@/components/organisms/DitherField';
 
 export const Route = createFileRoute('/articles/$slug')({
@@ -82,7 +83,10 @@ function RouteComponent() {
             fill
             className="bg-background"
           >
-            <SiteTitle />
+            <div className="flex items-center justify-between gap-4">
+              <SiteTitle />
+              <ThemeToggle />
+            </div>
           </AsciiBox>
         </CenteredGridItem>
         <div

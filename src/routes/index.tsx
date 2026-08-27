@@ -12,6 +12,7 @@ import {
   CenteredGridItem,
 } from '@/components/layout/CenteredGrid';
 import { SiteTitle } from '@/components/atoms/SiteTitle';
+import { ThemeToggle } from '@/components/atoms/ThemeToggle';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -80,7 +81,10 @@ function RouteComponent() {
             }}
             fill
           >
-            <SiteTitle />
+            <div className="flex items-center justify-between gap-4">
+              <SiteTitle />
+              <ThemeToggle />
+            </div>
             <AsciiBox.Rule />
             <div className="flex flex-row gap-3">
               <div className="shrink-0 border-r border-dashed border-border pr-3">

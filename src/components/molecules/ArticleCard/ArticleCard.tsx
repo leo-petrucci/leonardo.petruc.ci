@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { CornerButton } from '@/components/atoms/CornerButton';
 import { DitherField } from '@/components/organisms/DitherField';
@@ -44,7 +44,17 @@ type ArticleCardProps = {
 
 export function ArticleCard({ article }: ArticleCardProps) {
   const [hovered, setHovered] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   const meta = TYPE_META[article.type];
+
+  useEffect(() => {
+    const check = () => setIsDark(document.documentElement.classList.contains('dark'));
+    check();
+    const obs = new MutationObserver(check);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <div
       className="relative group"
@@ -53,8 +63,8 @@ export function ArticleCard({ article }: ArticleCardProps) {
     >
       <div className="pointer-events-none absolute -inset-3">
         <DitherField
-          color="#000000"
-          className="absolute inset-0 -z-10 h-full w-full opacity-0 transition-opacity duration-300 group-hover:opacity-[0.04]"
+          color={isDark ? '#ffffff' : '#000000'}
+          className="absolute inset-0 -z-10 h-full w-full opacity-0 transition-opacity duration-300 group-hover:opacity-[0.04] dark:group-hover:opacity-10"
           angle={270}
           noise={0.25}
           speed={0.15}
@@ -70,7 +80,10 @@ export function ArticleCard({ article }: ArticleCardProps) {
                 <img
                   src={meta.icon}
                   alt={meta.label}
-                  className="object-contain cursor-help brightness-0"
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 object-contain cursor-help brightness-0 dark:brightness-100"
+                  style={{ imageRendering: 'pixelated' }}
                 />
               </TooltipTrigger>
               <TooltipContent>{meta.tooltip}</TooltipContent>
