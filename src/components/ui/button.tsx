@@ -10,13 +10,13 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-muted text-foreground ring-border hover:bg-accent hover:text-white hover:ring-accent',
-        destructive: 'ascii-dashed-danger bg-red-500/5 text-red-500 ring-red-400/60 hover:bg-red-500/10 dark:text-red-400',
+        destructive: 'bg-red-500/5 text-red-500 ring-red-400/60 hover:bg-red-500/10 dark:text-red-400',
         outline: 'bg-transparent text-foreground ring-border hover:bg-muted',
         secondary: 'bg-card text-card-foreground ring-border hover:bg-muted',
         ghost: 'bg-transparent text-foreground ring-transparent hover:bg-muted hover:ring-border',
-        info: 'ascii-dashed-info bg-blue-500/5 text-blue-500 ring-blue-400/60 hover:bg-blue-500/10 dark:text-blue-400',
-        warning: 'ascii-dashed-warn bg-amber-500/5 text-amber-600 ring-amber-400/60 hover:bg-amber-500/10 dark:text-amber-400',
-        tip: 'ascii-dashed-tip bg-green-500/5 text-green-600 ring-green-400/60 hover:bg-green-500/10 dark:text-green-400',
+        info: 'bg-blue-500/5 text-blue-500 ring-blue-400/60 hover:bg-blue-500/10 dark:text-blue-400',
+        warning: 'bg-amber-500/5 text-amber-600 ring-amber-400/60 hover:bg-amber-500/10 dark:text-amber-400',
+        tip: 'bg-green-500/5 text-green-600 ring-green-400/60 hover:bg-green-500/10 dark:text-green-400',
       },
     },
     defaultVariants: { variant: 'default' },
