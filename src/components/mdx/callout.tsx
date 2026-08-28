@@ -86,7 +86,7 @@ function CalloutCorner({ corner, type }: { corner: 'tl' | 'tr' | 'bl' | 'br'; ty
   return (
     <span
       aria-hidden="true"
-      className={cn('absolute pointer-events-none', CORNER_COLORS[type])}
+      className={cn('absolute pointer-events-none bg-black px-[2px]', CORNER_COLORS[type])}
       style={{ ...pos[corner], lineHeight: '1lh' }}
     >
       <GlitchChar target="+" />

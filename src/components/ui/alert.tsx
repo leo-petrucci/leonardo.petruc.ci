@@ -38,7 +38,7 @@ function AlertCorner({ corner, variant }: { corner: "tl" | "tr" | "bl" | "br"; v
     br: { bottom: 0, right: 0, transform: "translate(50%, 50%)" },
   }
   return (
-    <span aria-hidden className={cn("absolute pointer-events-none", CORNER_COLORS[variant])} style={{ ...pos[corner], lineHeight: "1lh" }}>
+    <span aria-hidden className={cn("absolute pointer-events-none bg-black px-[2px]", CORNER_COLORS[variant])} style={{ ...pos[corner], lineHeight: "1lh" }}>
       <GlitchChar target="+" />
     </span>
   )

@@ -90,6 +90,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { AsciiBorder } from '@/components/ui/ascii-border';
 import {
   Form,
   FormControl,
@@ -129,6 +130,7 @@ const DOCS: DocItem[] = [
   { id: 'tabs', label: 'Tabs', group: 'Layout' },
   { id: 'accordion', label: 'Accordion', group: 'Layout' },
   { id: 'collapsible', label: 'Collapsible', group: 'Layout' },
+  { id: 'ascii-border', label: 'Ascii Border', group: 'Layout' },
   { id: 'separator', label: 'Separator', group: 'Layout' },
   { id: 'skeleton', label: 'Skeleton', group: 'Feedback' },
   { id: 'progress', label: 'Progress', group: 'Feedback' },
@@ -188,7 +190,7 @@ function ExampleWrap({
         <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
         <p className="text-sm text-muted-foreground mt-1">{description}</p>
       </div>
-      <div className="rounded-xl border bg-card p-6 flex flex-wrap gap-4 items-center justify-start">
+      <div className="flex flex-wrap gap-4 items-center justify-start py-2">
         {children}
       </div>
       <CodeBlock code={code} />
@@ -508,42 +510,47 @@ function DocsPage() {
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold">Card</h2>
                   <p className="text-sm text-muted-foreground">
-                    Container with header, content, footer. New shadcn layout
-                    uses grid + has-data slots.
+                    Container with header, content, footer. Now with ASCII border
+                    and <code className="bg-muted px-1 rounded text-xs">+</code> corners via{" "}
+                    <code className="bg-muted px-1 rounded text-xs">ascii-border ascii-plus</code>.
                   </p>
-                  <Card className="max-w-md">
-                    <CardHeader>
-                      <CardTitle>Card Title</CardTitle>
-                      <CardDescription>
-                        Card description goes here.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm">
-                        This is the card content. Use it for grouped info.
-                      </p>
-                    </CardContent>
-                    <CardFooter className="justify-between">
-                      <Button variant="outline" size="sm">
-                        Cancel
-                      </Button>
-                      <Button size="sm">Save</Button>
-                    </CardFooter>
-                  </Card>
+                  <AsciiBorder className="max-w-md p-0">
+                    <Card className="border-0 shadow-none bg-transparent">
+                      <CardHeader>
+                        <CardTitle>Card Title</CardTitle>
+                        <CardDescription>Card description goes here.</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm">This is the card content. Use it for grouped info.</p>
+                      </CardContent>
+                      <CardFooter className="justify-between">
+                        <Button variant="outline" size="sm">Cancel</Button>
+                        <Button size="sm">Save</Button>
+                      </CardFooter>
+                    </Card>
+                  </AsciiBorder>
                   <CodeBlock
-                    code={`import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+                    code={`import { AsciiBorder } from "@/components/ui/ascii-border"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
-<Card>
-  <CardHeader>
-    <CardTitle>Card Title</CardTitle>
-    <CardDescription>Card description</CardDescription>
-  </CardHeader>
-  <CardContent>Content here</CardContent>
-  <CardFooter>
-    <Button>Save</Button>
-  </CardFooter>
-</Card>`}
+<AsciiBorder className="max-w-md p-0">
+  <Card className="border-0 shadow-none bg-transparent">
+    <CardHeader>
+      <CardTitle>Card Title</CardTitle>
+      <CardDescription>Card description</CardDescription>
+    </CardHeader>
+    <CardContent>Content here</CardContent>
+    <CardFooter>
+      <Button>Save</Button>
+    </CardFooter>
+  </Card>
+</AsciiBorder>
+
+// Or raw utilities
+<div className="ascii-border ascii-plus p-6">
+  Card content
+</div>`}
                   />
                 </div>
               )}
@@ -936,6 +943,54 @@ function MyForm() {
   <CollapsibleTrigger asChild><Button>Toggle</Button></CollapsibleTrigger>
   <CollapsibleContent>Content</CollapsibleContent>
 </Collapsible>`}
+                  />
+                </div>
+              )}
+
+              {active === 'ascii-border' && (
+                <div className="space-y-4">
+                  <div>
+                    <h2 className="text-xl font-semibold tracking-tight">Ascii Border</h2>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      ASCII box with thick dashes (<code className="bg-muted px-1 rounded text-xs">stroke-width 3</code>, <code className="bg-muted px-1 rounded text-xs">oklch(0.3853 0.01 286.03)</code>) and optional <code className="bg-muted px-1 rounded text-xs">+</code> corners. Built on <code className="bg-muted px-1 rounded text-xs">.ascii-border</code> + <code className="bg-muted px-1 rounded text-xs">.ascii-plus</code> in <code className="bg-muted px-1 rounded text-xs">src/styles/app.css</code>. All <code className="bg-muted px-1 rounded text-xs">ascii-dashed*</code> utilities now share same thickness.
+                    </p>
+                  </div>
+                  <div className="rounded-xl border bg-card p-6 flex flex-col gap-6">
+                    <AsciiBorder>
+                      <div className="text-sm font-mono">Default — withCorners (ascii-border + ascii-plus)</div>
+                      <p className="text-sm text-muted-foreground mt-2">Top/bottom 2 6 dashes, sides 10 14. Corners use <code className="bg-muted px-1 rounded text-xs">ascii-plus</code> with <code className="bg-muted px-1 rounded text-xs">#000</code> behind <code className="bg-muted px-1 rounded text-xs">+</code>.</p>
+                    </AsciiBorder>
+                    <AsciiBorder withCorners={false} className="p-4">
+                      <div className="text-sm font-semibold">Without corners</div>
+                      <p className="text-sm text-muted-foreground"><code className="bg-muted px-1 rounded text-xs">withCorners={false}</code> or just <code className="bg-muted px-1 rounded text-xs">ascii-border</code> without <code className="bg-muted px-1 rounded text-xs">ascii-plus</code>.</p>
+                    </AsciiBorder>
+                    <div className="grid sm:grid-cols-2 gap-4 w-full">
+                      <AsciiBorder className="p-4 text-sm">Grid cell</AsciiBorder>
+                      <AsciiBorder withCorners={false} className="p-4 text-sm">Border only</AsciiBorder>
+                    </div>
+                    <div className="flex flex-wrap gap-4">
+                      <div className="ascii-dashed p-4 text-sm flex-1">ascii-dashed (now thick oklch)</div>
+                      <div className="ascii-dashed-bottom p-4 text-sm flex-1">ascii-dashed-bottom</div>
+                      <div className="ascii-dashed-left p-4 pl-6 text-sm flex-1">ascii-dashed-left</div>
+                    </div>
+                  </div>
+                  <CodeBlock
+                    code={`import { AsciiBorder } from "@/components/ui/ascii-border"
+
+<AsciiBorder>
+  Content with ASCII border and + corners
+</AsciiBorder>
+
+<AsciiBorder withCorners={false}>
+  Border without corners
+</AsciiBorder>
+
+// Utilities directly
+<div className="ascii-border p-6">border only</div>
+<div className="ascii-border ascii-plus p-6">border + corners</div>
+<div className="ascii-dashed p-4">full rect</div>
+<div className="ascii-dashed-bottom p-4">bottom only</div>
+<div className="ascii-dashed-left p-4">left only</div>`}
                   />
                 </div>
               )}
