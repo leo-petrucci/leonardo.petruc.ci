@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 
-import { Accordion } from './accordion';
+import { MdxAccordion as Accordion } from '@/components/ui/accordion';
 import { Callout } from './callout';
 import { CodeBlock } from './code-block';
 import { Image } from './image';

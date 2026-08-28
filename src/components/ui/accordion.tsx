@@ -1,10 +1,5 @@
-/**
- * shadcn/ui accordion, built on @radix-ui/react-accordion.
- * Requires the `accordion-up`/`accordion-down` animations from tw-animate-css.
- */
 import * as React from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { ChevronDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -14,7 +9,7 @@ const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
 >(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item ref={ref} className={cn('border-b', className)} {...props} />
+  <AccordionPrimitive.Item ref={ref} className={cn('border-none ascii-dashed-bottom', className)} {...props} />
 ));
 AccordionItem.displayName = 'AccordionItem';
 
@@ -26,13 +21,16 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        'flex flex-1 items-center justify-between py-4 text-left text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
-        className,
+        'group flex flex-1 items-center justify-start gap-3 py-3 font-departure text-ascii uppercase tracking-widest hover:no-underline hover:text-accent data-[state=open]:text-accent [&>svg]:hidden',
+        className
       )}
       {...props}
     >
-      {children}
-      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
+      <span aria-hidden className="text-accent">
+        <span className="group-data-[state=closed]:inline group-data-[state=open]:hidden">+</span>
+        <span className="group-data-[state=closed]:hidden group-data-[state=open]:inline">-</span>
+      </span>
+      <span className="text-left">{children}</span>
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ));
@@ -51,5 +49,29 @@ const AccordionContent = React.forwardRef<
   </AccordionPrimitive.Content>
 ));
 AccordionContent.displayName = AccordionPrimitive.Content.displayName;
+
+/**
+ * MDX wrapper — single collapsible with title, ascii style.
+ * Kept in ui so mdx can import from @/components/ui/accordion
+ */
+export interface MdxAccordionProps {
+  title: string;
+  defaultOpen?: boolean;
+  children?: React.ReactNode;
+}
+
+export function MdxAccordion({ title, defaultOpen, children }: MdxAccordionProps) {
+  return (
+    <Accordion type="single" collapsible defaultValue={defaultOpen ? 'item' : undefined} className="my-6">
+      <AccordionItem value="item">
+        <AccordionTrigger>{title}</AccordionTrigger>
+        <AccordionContent className="pb-4 text-sm text-pretty">{children}</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+
+// keep Accordion name for mdx compatibility — mdx will import this as Accordion
+export { MdxAccordion as MdxAccordionPrimitive };
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };

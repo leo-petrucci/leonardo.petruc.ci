@@ -1,81 +1,79 @@
-import * as React from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
+import { GlitchChar } from '@/components/atoms/Ascii/Scramble';
 
-import { cn } from '@/lib/utils';
-import {
-  encodeSvg,
-  generateSvgString,
-  useGradientProps,
-  wordToNumber,
-} from '../IridescentGenerator/utils';
-import IridescentGenerator from '../IridescentGenerator/Component';
+// kept for backwards compat where some files import buttonVariants
+export const buttonVariants = cva('', { variants: {}, defaultVariants: {} });
 
-const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-  {
-    variants: {
-      variant: {
-        default: 'bg-primary text-primary shadow-xs hover:bg-primary/90',
-        destructive:
-          'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
-        outline:
-          'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
-        secondary:
-          'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
-        ghost:
-          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
-        link: 'text-primary underline-offset-4 hover:underline',
-      },
-      size: {
-        default: 'h-9 px-4 py-2 has-[>svg]:px-3',
-        sm: 'h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
-        lg: 'h-10 rounded-md px-6 has-[>svg]:px-4',
-        icon: 'size-9',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: 'default',
-    },
-  }
-);
+interface CornerButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children?: ReactNode;
+  compact?: boolean;
+  // compat with previous shadcn api — ignored, kept so docs/dialog still type-check
+  variant?: string;
+  size?: string;
+  asChild?: boolean;
+}
 
-function Button({
-  className,
+function CornerPlus({ corner }: { corner: 'tl' | 'tr' | 'bl' | 'br' }) {
+  const pos: Record<typeof corner, React.CSSProperties> = {
+    tl: { top: 0, left: 0, transform: 'translate(-50%, -50%)' },
+    tr: { top: 0, right: 0, transform: 'translate(50%, -50%)' },
+    bl: { bottom: 0, left: 0, transform: 'translate(-50%, 50%)' },
+    br: { bottom: 0, right: 0, transform: 'translate(50%, 50%)' },
+  };
+  return (
+    <span
+      aria-hidden="true"
+      className="absolute pointer-events-none text-muted-foreground/60 group-hover:text-foreground"
+      style={{ ...pos[corner], lineHeight: '1lh' }}
+    >
+      <GlitchChar target="+" />
+    </span>
+  );
+}
+
+export function Button({
+  children,
+  className = '',
+  compact = false,
   variant,
   size,
   asChild = false,
-  seed,
-  ...props
-}: React.ComponentProps<'button'> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean;
-    seed?: string;
-  }) {
-  const gradientProps = useGradientProps(
-    seed ? wordToNumber(seed) : Math.random(),
-    20,
-    250,
-    0.5,
-    0.5,
-    0.5
-  );
+  ...rest
+}: CornerButtonProps) {
+  // map shadcn sizes to compact for compat
+  const isCompact = compact || size === 'sm' || size === 'icon' || size === 'icon-sm' || size === 'xs' || size === 'icon-xs';
 
   const Comp = asChild ? Slot : 'button';
 
   return (
     <Comp
+      // @ts-ignore — Slot vs button props overlap
+      type={asChild ? undefined : 'button'}
+      {...rest}
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      style={{
-        ...gradientProps,
-      }}
-      {...props}
+      className={
+        'group relative inline-flex items-center justify-center ' +
+        'font-[inherit] text-inherit leading-[1lh] uppercase ' +
+        'border-0 ring-1 ring-border cursor-pointer select-none touch-manipulation ' +
+        'bg-muted text-foreground ' +
+        (isCompact
+          ? 'px-2 h-6 before:content-[""] before:absolute before:-inset-3 before:z-0 '
+          : 'px-2 py-2 my-1 before:content-[""] before:absolute before:-inset-2 before:z-0 ') +
+        'transition-colors duration-150 ' +
+        'group-hover:bg-accent group-hover:text-white group-hover:ring-accent ' +
+        className
+      }
+      style={{ fontVariantLigatures: 'none', fontKerning: 'none', ...rest.style }}
     >
-      {props.children}
+      <CornerPlus corner="tl" />
+      <CornerPlus corner="tr" />
+      <CornerPlus corner="bl" />
+      <CornerPlus corner="br" />
+      {children}
     </Comp>
   );
 }
 
-export { Button, buttonVariants };
+export default Button;

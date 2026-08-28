@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { AsciiBox } from '@/components/atoms/Ascii/Ascii';
-import { Button } from '@/components/atoms/Button';
+import { Button } from '@/components/ui/button';
 import {
   CenteredGrid,
   CenteredGridItem,

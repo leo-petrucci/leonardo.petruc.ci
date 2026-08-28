@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Button } from '@/components/atoms/Button';
+import { Button } from '@/components/ui/button';
 import { DitherField } from '@/components/organisms/DitherField';
 import {
   Tooltip,

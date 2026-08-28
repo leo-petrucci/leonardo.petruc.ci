@@ -3,7 +3,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { AsciiBox } from '@/components/atoms/Ascii/Ascii';
 import { AsciiInput } from '@/components/atoms/Ascii/AsciiInput';
 import { AsciiFrameInput } from '@/components/atoms/Ascii/AsciiFrameInput';
-import { Button } from '@/components/atoms/Button';
+import { Button } from '@/components/ui/button';
 
 export const Route = createFileRoute('/ascii/input')({
   component: RouteComponent,

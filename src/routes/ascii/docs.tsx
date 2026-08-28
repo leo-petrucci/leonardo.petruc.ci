@@ -5,7 +5,7 @@ import {
   TimelineBar,
   type TimelineEntry,
 } from '@/components/atoms/Ascii/TimelineBar';
-import { Button } from '@/components/atoms/Button';
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,

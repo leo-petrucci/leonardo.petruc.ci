@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DocsRouteImport } from './routes/docs'
 import { Route as ApiGithubRouteImport } from './routes/api/github'
 import { Route as ApiUsersRouteImport } from './routes/api/users'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
@@ -22,6 +23,11 @@ import { Route as ApiUsersIdRouteImport } from './routes/api/users.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiGithubRoute = ApiGithubRouteImport.update({
@@ -67,6 +73,7 @@ const ApiUsersIdRoute = ApiUsersIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/docs': typeof DocsRoute
   '/api/github': typeof ApiGithubRoute
   '/api/users': typeof ApiUsersRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/docs': typeof DocsRoute
   '/api/github': typeof ApiGithubRoute
   '/api/users': typeof ApiUsersRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/docs': typeof DocsRoute
   '/api/github': typeof ApiGithubRoute
   '/api/users': typeof ApiUsersRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/docs'
     | '/api/github'
     | '/api/users'
     | '/articles/$slug'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/docs'
     | '/api/github'
     | '/api/users'
     | '/articles/$slug'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/docs'
     | '/api/github'
     | '/api/users'
     | '/articles/$slug'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DocsRoute: typeof DocsRoute
   ApiGithubRoute: typeof ApiGithubRoute
   ApiUsersRoute: typeof ApiUsersRouteWithChildren
   ArticlesSlugRoute: typeof ArticlesSlugRoute
@@ -153,6 +166,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/github': {
@@ -228,6 +248,7 @@ const ApiUsersRouteWithChildren = ApiUsersRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DocsRoute: DocsRoute,
   ApiGithubRoute: ApiGithubRoute,
   ApiUsersRoute: ApiUsersRouteWithChildren,
   ArticlesSlugRoute: ArticlesSlugRoute,
