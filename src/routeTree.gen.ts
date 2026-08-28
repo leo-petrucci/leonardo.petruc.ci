@@ -10,13 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DocsRouteImport } from './routes/docs'
+import { Route as DocsRouteRouteImport } from './routes/docs/route'
 import { Route as ApiGithubRouteImport } from './routes/api/github'
 import { Route as ApiUsersRouteImport } from './routes/api/users'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as AsciiAnimationsRouteImport } from './routes/ascii/animations'
 import { Route as AsciiDocsRouteImport } from './routes/ascii/docs'
 import { Route as AsciiInputRouteImport } from './routes/ascii/input'
+import { Route as DocsIndexRouteImport } from './routes/docs/index'
+import { Route as DocsSlugRouteImport } from './routes/docs/$slug'
 import { Route as IridescentDebuggerIndexRouteImport } from './routes/iridescent-debugger/index'
 import { Route as ApiUsersIdRouteImport } from './routes/api/users.$id'
 
@@ -25,7 +27,7 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DocsRoute = DocsRouteImport.update({
+const DocsRouteRoute = DocsRouteRouteImport.update({
   id: '/docs',
   path: '/docs',
   getParentRoute: () => rootRouteImport,
@@ -60,6 +62,16 @@ const AsciiInputRoute = AsciiInputRouteImport.update({
   path: '/ascii/input',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsIndexRoute = DocsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DocsRouteRoute,
+} as any)
+const DocsSlugRoute = DocsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => DocsRouteRoute,
+} as any)
 const IridescentDebuggerIndexRoute = IridescentDebuggerIndexRouteImport.update({
   id: '/iridescent-debugger/',
   path: '/iridescent-debugger/',
@@ -73,38 +85,43 @@ const ApiUsersIdRoute = ApiUsersIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/docs': typeof DocsRoute
+  '/docs': typeof DocsRouteRouteWithChildren
   '/api/github': typeof ApiGithubRoute
   '/api/users': typeof ApiUsersRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
   '/ascii/animations': typeof AsciiAnimationsRoute
   '/ascii/docs': typeof AsciiDocsRoute
   '/ascii/input': typeof AsciiInputRoute
+  '/docs/$slug': typeof DocsSlugRoute
+  '/docs/': typeof DocsIndexRoute
   '/iridescent-debugger/': typeof IridescentDebuggerIndexRoute
   '/api/users/$id': typeof ApiUsersIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/docs': typeof DocsRoute
   '/api/github': typeof ApiGithubRoute
   '/api/users': typeof ApiUsersRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
   '/ascii/animations': typeof AsciiAnimationsRoute
   '/ascii/docs': typeof AsciiDocsRoute
   '/ascii/input': typeof AsciiInputRoute
+  '/docs/$slug': typeof DocsSlugRoute
+  '/docs': typeof DocsIndexRoute
   '/iridescent-debugger': typeof IridescentDebuggerIndexRoute
   '/api/users/$id': typeof ApiUsersIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/docs': typeof DocsRoute
+  '/docs': typeof DocsRouteRouteWithChildren
   '/api/github': typeof ApiGithubRoute
   '/api/users': typeof ApiUsersRouteWithChildren
   '/articles/$slug': typeof ArticlesSlugRoute
   '/ascii/animations': typeof AsciiAnimationsRoute
   '/ascii/docs': typeof AsciiDocsRoute
   '/ascii/input': typeof AsciiInputRoute
+  '/docs/$slug': typeof DocsSlugRoute
+  '/docs/': typeof DocsIndexRoute
   '/iridescent-debugger/': typeof IridescentDebuggerIndexRoute
   '/api/users/$id': typeof ApiUsersIdRoute
 }
@@ -119,18 +136,21 @@ export interface FileRouteTypes {
     | '/ascii/animations'
     | '/ascii/docs'
     | '/ascii/input'
+    | '/docs/$slug'
+    | '/docs/'
     | '/iridescent-debugger/'
     | '/api/users/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/docs'
     | '/api/github'
     | '/api/users'
     | '/articles/$slug'
     | '/ascii/animations'
     | '/ascii/docs'
     | '/ascii/input'
+    | '/docs/$slug'
+    | '/docs'
     | '/iridescent-debugger'
     | '/api/users/$id'
   id:
@@ -143,13 +163,15 @@ export interface FileRouteTypes {
     | '/ascii/animations'
     | '/ascii/docs'
     | '/ascii/input'
+    | '/docs/$slug'
+    | '/docs/'
     | '/iridescent-debugger/'
     | '/api/users/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DocsRoute: typeof DocsRoute
+  DocsRouteRoute: typeof DocsRouteRouteWithChildren
   ApiGithubRoute: typeof ApiGithubRoute
   ApiUsersRoute: typeof ApiUsersRouteWithChildren
   ArticlesSlugRoute: typeof ArticlesSlugRoute
@@ -172,7 +194,7 @@ declare module '@tanstack/react-router' {
       id: '/docs'
       path: '/docs'
       fullPath: '/docs'
-      preLoaderRoute: typeof DocsRouteImport
+      preLoaderRoute: typeof DocsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/github': {
@@ -217,6 +239,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AsciiInputRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/docs/': {
+      id: '/docs/'
+      path: '/'
+      fullPath: '/docs/'
+      preLoaderRoute: typeof DocsIndexRouteImport
+      parentRoute: typeof DocsRouteRoute
+    }
+    '/docs/$slug': {
+      id: '/docs/$slug'
+      path: '/$slug'
+      fullPath: '/docs/$slug'
+      preLoaderRoute: typeof DocsSlugRouteImport
+      parentRoute: typeof DocsRouteRoute
+    }
     '/iridescent-debugger/': {
       id: '/iridescent-debugger/'
       path: '/iridescent-debugger'
@@ -234,6 +270,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DocsRouteRouteChildren {
+  DocsSlugRoute: typeof DocsSlugRoute
+  DocsIndexRoute: typeof DocsIndexRoute
+}
+
+const DocsRouteRouteChildren: DocsRouteRouteChildren = {
+  DocsSlugRoute: DocsSlugRoute,
+  DocsIndexRoute: DocsIndexRoute,
+}
+
+const DocsRouteRouteWithChildren = DocsRouteRoute._addFileChildren(
+  DocsRouteRouteChildren,
+)
+
 interface ApiUsersRouteChildren {
   ApiUsersIdRoute: typeof ApiUsersIdRoute
 }
@@ -248,7 +298,7 @@ const ApiUsersRouteWithChildren = ApiUsersRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DocsRoute: DocsRoute,
+  DocsRouteRoute: DocsRouteRouteWithChildren,
   ApiGithubRoute: ApiGithubRoute,
   ApiUsersRoute: ApiUsersRouteWithChildren,
   ArticlesSlugRoute: ArticlesSlugRoute,
