@@ -21,6 +21,7 @@ import { Route as DocsIndexRouteImport } from './routes/docs/index'
 import { Route as DocsSlugRouteImport } from './routes/docs/$slug'
 import { Route as IridescentDebuggerIndexRouteImport } from './routes/iridescent-debugger/index'
 import { Route as ApiUsersIdRouteImport } from './routes/api/users.$id'
+import { Route as AppsDitherizerIndexRouteImport } from './routes/apps/ditherizer/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -82,6 +83,11 @@ const ApiUsersIdRoute = ApiUsersIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => ApiUsersRoute,
 } as any)
+const AppsDitherizerIndexRoute = AppsDitherizerIndexRouteImport.update({
+  id: '/apps/ditherizer/',
+  path: '/apps/ditherizer/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/docs/': typeof DocsIndexRoute
   '/iridescent-debugger/': typeof IridescentDebuggerIndexRoute
   '/api/users/$id': typeof ApiUsersIdRoute
+  '/apps/ditherizer/': typeof AppsDitherizerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/docs': typeof DocsIndexRoute
   '/iridescent-debugger': typeof IridescentDebuggerIndexRoute
   '/api/users/$id': typeof ApiUsersIdRoute
+  '/apps/ditherizer': typeof AppsDitherizerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   '/docs/': typeof DocsIndexRoute
   '/iridescent-debugger/': typeof IridescentDebuggerIndexRoute
   '/api/users/$id': typeof ApiUsersIdRoute
+  '/apps/ditherizer/': typeof AppsDitherizerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
     | '/docs/'
     | '/iridescent-debugger/'
     | '/api/users/$id'
+    | '/apps/ditherizer/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/docs'
     | '/iridescent-debugger'
     | '/api/users/$id'
+    | '/apps/ditherizer'
   id:
     | '__root__'
     | '/'
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/docs/'
     | '/iridescent-debugger/'
     | '/api/users/$id'
+    | '/apps/ditherizer/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -179,6 +191,7 @@ export interface RootRouteChildren {
   AsciiDocsRoute: typeof AsciiDocsRoute
   AsciiInputRoute: typeof AsciiInputRoute
   IridescentDebuggerIndexRoute: typeof IridescentDebuggerIndexRoute
+  AppsDitherizerIndexRoute: typeof AppsDitherizerIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -267,6 +280,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiUsersIdRouteImport
       parentRoute: typeof ApiUsersRoute
     }
+    '/apps/ditherizer/': {
+      id: '/apps/ditherizer/'
+      path: '/apps/ditherizer'
+      fullPath: '/apps/ditherizer/'
+      preLoaderRoute: typeof AppsDitherizerIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -306,6 +326,7 @@ const rootRouteChildren: RootRouteChildren = {
   AsciiDocsRoute: AsciiDocsRoute,
   AsciiInputRoute: AsciiInputRoute,
   IridescentDebuggerIndexRoute: IridescentDebuggerIndexRoute,
+  AppsDitherizerIndexRoute: AppsDitherizerIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
