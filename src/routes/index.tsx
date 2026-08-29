@@ -121,8 +121,6 @@ function RouteComponent() {
               </Fragment>
             ))}
           </AsciiBox>
-
-          <div className="ascii-border p-4">Test</div>
         </div>
       </CenteredGridItem>
     </CenteredGrid>

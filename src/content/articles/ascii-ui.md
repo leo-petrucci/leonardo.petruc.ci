@@ -1,20 +1,9 @@
 ---
-title: Rendering UI from a character grid
+title: Emma CLI
 category: EXPERIMENTS
-date: 2026-02-04
+date: 2026-08-29
 type: project
-link: https://github.com/leonardopetrucci
+link: https://github.com/leo-petrucci/emma-cli
 ---
 
-Every border on this page lands on a whole monospace cell. Here is the
-measurement trick that makes it honest.
-
-## Measure, do not guess
-
-A hidden probe span reports the exact glyph width and line height. The frame
-is then drawn from single characters snapped to that grid.
-
-## One shared animation loop
-
-The scramble-reveal effect runs on a single requestAnimationFrame loop shared
-by every box on the page, so many boxes at once stay cheap.
+An unofficial CLI implementation for the Emma app to give your agents information about your finances and budgets.
