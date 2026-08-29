@@ -24,6 +24,10 @@ import {
 } from '@/lib/ditherizer/display';
 import { shouldTriggerProcessing } from '@/lib/ditherizer/processing';
 import { triggerDownload } from '@/lib/ditherizer/file';
+import {
+  DEFAULT_DITHERIZER_STATE,
+  isNewFile,
+} from '@/lib/ditherizer/state';
 
 const MAX_COLORS = DITHERIZER_MAX_COLORS;
 const MIN_COLORS = DITHERIZER_MIN_COLORS;
@@ -122,9 +126,33 @@ export function DitherizerApp() {
     });
   };
 
+  const resetAppState = () => {
+    const defaults = DEFAULT_DITHERIZER_STATE;
+    setMaxColors(defaults.maxColors);
+    maxColorsRef.current = defaults.maxColors;
+    setScale(defaults.scale);
+    scaleRef.current = defaults.scale;
+    setDitherMode(defaults.ditherMode);
+    setColorReduction(defaults.colorReduction);
+    setShowProcessed(defaults.showProcessed);
+    setShowSlowProcessing(false);
+    lastProcessedRef.current = null;
+  };
+
   const handleFileSelect = (file: File | null) => {
     reset();
-    lastProcessedRef.current = null;
+    // Reset whole app state when a new picture is loaded
+    let newFile = false;
+    if (file) {
+      newFile = isNewFile(sourceFileRef.current, file);
+      if (newFile) {
+        resetAppState();
+      } else {
+        lastProcessedRef.current = null;
+      }
+    } else {
+      lastProcessedRef.current = null;
+    }
     sourceFileRef.current = file;
     setSourceFile(file);
 
@@ -138,12 +166,17 @@ export function DitherizerApp() {
       URL.revokeObjectURL(sourceUrl);
     }
     setSourceUrl(nextUrl);
-    triggerProcessing(
-      maxColorsRef.current,
-      scaleRef.current,
-      ditherMode,
-      colorReduction
-    );
+    if (newFile) {
+      const d = DEFAULT_DITHERIZER_STATE;
+      triggerProcessing(d.maxColors, d.scale, d.ditherMode, d.colorReduction);
+    } else {
+      triggerProcessing(
+        maxColorsRef.current,
+        scaleRef.current,
+        ditherMode,
+        colorReduction
+      );
+    }
   };
 
   const handleMaxColorsChange = (value: number) => {
@@ -248,6 +281,7 @@ export function DitherizerApp() {
         maxColors={maxColors}
         showSlowProcessing={showSlowProcessing}
         onFileSelected={handleFileSelect}
+        fileKey={sourceFile ? `${sourceFile.name}-${sourceFile.size}-${sourceFile.lastModified}` : null}
       />
     </div>
   );

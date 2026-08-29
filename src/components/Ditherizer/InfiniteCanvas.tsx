@@ -26,6 +26,8 @@ type InfiniteCanvasProps = {
   maxColors: number;
   showSlowProcessing: boolean;
   onFileSelected: (file: File | null) => void;
+  /** Key that changes only when the source file changes, not when dither params change. Used to decide when to auto-fit. */
+  fileKey?: string | null;
 };
 
 export function InfiniteCanvas({
@@ -35,6 +37,7 @@ export function InfiniteCanvas({
   maxColors,
   showSlowProcessing,
   onFileSelected,
+  fileKey,
 }: InfiniteCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -44,6 +47,11 @@ export function InfiniteCanvas({
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [imageSize, setImageSize] = useState<Size | null>(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
+
+  // Track whether we have already fitted for the current file.
+  // When fileKey changes (new file), we should refit on next image load.
+  const hasFittedRef = useRef(false);
+  const prevFileKeyRef = useRef<string | null | undefined>(undefined);
 
   // Mirrors of state so the native wheel listener always sees current values.
   const zoomRef = useRef(zoom);
@@ -78,6 +86,14 @@ export function InfiniteCanvas({
     };
   }, []);
 
+  // Track fileKey changes: when a new source file is loaded, we should refit on next image.
+  useEffect(() => {
+    if (prevFileKeyRef.current !== fileKey) {
+      prevFileKeyRef.current = fileKey ?? null;
+      hasFittedRef.current = false;
+    }
+  }, [fileKey]);
+
   // Clear the known image size whenever the url changes.
   useEffect(() => {
     setImageSize(null);
@@ -101,11 +117,18 @@ export function InfiniteCanvas({
     );
     setZoom(nextZoom);
     setPan(nextPan);
+    hasFittedRef.current = true;
   }, [imageSize, containerSize]);
 
   // Fit the image once we know both the image size and the container size.
+  // Preserve pan/zoom across dither param changes (same fileKey) by only fitting once per file.
   useEffect(() => {
-    if (imageSize && containerSize.width > 0 && containerSize.height > 0) {
+    if (
+      imageSize &&
+      containerSize.width > 0 &&
+      containerSize.height > 0 &&
+      !hasFittedRef.current
+    ) {
       fitToContainer();
     }
   }, [imageSize, containerSize, fitToContainer]);
