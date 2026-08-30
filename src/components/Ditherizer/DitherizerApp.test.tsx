@@ -232,4 +232,11 @@ describe('DitherizerApp', () => {
     // Let's just ensure component renders without crash
     expect(screen.getByText('DITHERIZER')).toBeTruthy();
   });
+
+  it('has a link back home', () => {
+    render(<DitherizerApp />);
+    const link = screen.getByRole('link', { name: /Back home/i });
+    expect(link).toBeTruthy();
+    expect(link.getAttribute('href')).toBe('/');
+  });
 });

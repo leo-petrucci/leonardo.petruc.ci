@@ -250,9 +250,9 @@
   white-space: pre;
   background: linear-gradient(
     to right,
-    #000 0 1.4ch,
+    var(--background) 0 1.4ch,
     transparent 1.4ch calc(100% - 1.4ch),
-    #000 calc(100% - 1.4ch) 100%
+    var(--background) calc(100% - 1.4ch) 100%
   );
   padding: 0 0.1ch;
 }

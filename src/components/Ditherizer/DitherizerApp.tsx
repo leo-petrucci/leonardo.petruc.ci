@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 import { ControlsPanel } from '@/components/Ditherizer/ControlsPanel';
 import { InfiniteCanvas } from '@/components/Ditherizer/InfiniteCanvas';
@@ -235,6 +236,13 @@ export function DitherizerApp() {
   return (
     <div className="flex h-dvh w-full flex-col overflow-hidden md:flex-row">
       <aside className="flex w-full shrink-0 flex-col gap-4 overflow-y-auto border-b border-border p-4 md:w-[360px] md:border-b-0 md:border-r">
+        <a
+          href="/"
+          className="inline-flex items-center gap-1.5 font-departure text-ascii-sm uppercase tracking-wider text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="size-3.5" />
+          Back home
+        </a>
         <h1 className="font-departure text-ascii uppercase tracking-wider">
           DITHERIZER
         </h1>
@@ -259,12 +267,6 @@ export function DitherizerApp() {
           onDitherModeChange={handleDitherModeChange}
           onColorReductionChange={handleColorReductionChange}
           onDownload={handleDownload}
-        />
-
-        <UploadCard
-          sourceFile={sourceFile}
-          sourceSize={sourceSize}
-          onFileSelected={handleFileSelect}
         />
 
         {error && (
