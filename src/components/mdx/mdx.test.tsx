@@ -8,7 +8,7 @@ afterEach(cleanup);
 describe('Callout', () => {
   it('defaults to the info variant', () => {
     const { getByRole } = render(<Callout>hello</Callout>);
-    expect(getByRole('note').className).toContain('border-blue-500/40');
+    expect(getByRole('note').className).toContain('ascii-dashed-info');
   });
 
   it('applies the danger variant and title', () => {
@@ -17,7 +17,7 @@ describe('Callout', () => {
         body
       </Callout>,
     );
-    expect(getByRole('note').className).toContain('border-red-500/40');
+    expect(getByRole('note').className).toContain('ascii-dashed-danger');
     expect(getByText('[!!] danger')).toBeTruthy();
     expect(getByText('// Stop')).toBeTruthy();
   });
@@ -26,7 +26,7 @@ describe('Callout', () => {
 describe('CodeBlock', () => {
   it('renders code with a language badge', () => {
     const { getByText } = render(<CodeBlock code={'a\nb'} language="ts" />);
-    expect(getByText('[ts]')).toBeTruthy();
+    expect(getByText('ts')).toBeTruthy();
     expect(getByText('b')).toBeTruthy();
   });
 

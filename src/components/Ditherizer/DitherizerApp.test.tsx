@@ -66,6 +66,9 @@ beforeEach(() => {
     y: 0,
     toJSON: () => {},
   })) as unknown as () => DOMRect;
+  Element.prototype.hasPointerCapture = () => false;
+  Element.prototype.setPointerCapture = () => {};
+  Element.prototype.releasePointerCapture = () => {};
   mockState = {
     outputUrl: null,
     outputSize: null,
@@ -77,6 +80,14 @@ beforeEach(() => {
   mockReset.mockClear();
   vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:mock');
   vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+  Object.defineProperty(HTMLElement.prototype, 'clientWidth', {
+    get() { return 500; },
+    configurable: true,
+  });
+  Object.defineProperty(HTMLElement.prototype, 'clientHeight', {
+    get() { return 500; },
+    configurable: true,
+  });
 });
 
 afterEach(() => {
@@ -91,6 +102,13 @@ function getColorInput() {
 function getScaleInput() {
   return document.querySelectorAll('input[type="number"]')[1] as HTMLInputElement;
 }
+function getCanvas() {
+  return screen.getByTestId('infinite-canvas');
+}
+function dropFileOnCanvas(canvas: HTMLElement, file: File) {
+  const dataTransfer = { files: [file] } as unknown as DataTransfer;
+  fireEvent.drop(canvas, { dataTransfer, preventDefault: vi.fn() });
+}
 
 describe('DitherizerApp', () => {
   it('renders heading', () => {
@@ -98,7 +116,7 @@ describe('DitherizerApp', () => {
     expect(screen.getByText('DITHERIZER')).toBeTruthy();
   });
 
-  it('renders upload card dropzone', () => {
+  it('renders canvas dropzone', () => {
     render(<DitherizerApp />);
     expect(screen.getAllByText('Drop an image here').length).toBeGreaterThanOrEqual(1);
   });
@@ -108,12 +126,11 @@ describe('DitherizerApp', () => {
     expect(screen.getAllByText('or use the uploader on the left').length).toBeGreaterThanOrEqual(1);
   });
 
-  it('selects file via input and triggers processing', async () => {
+  it('selects file via canvas drop and triggers processing', async () => {
     render(<DitherizerApp />);
-    const input = document.getElementById('dither-image-upload') as HTMLInputElement;
+    const canvas = getCanvas();
     const file = new File(['data'], 'test.png', { type: 'image/png' });
-    Object.defineProperty(input, 'files', { value: [file], writable: false });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file);
     expect(mockReset).toHaveBeenCalled();
     expect(URL.createObjectURL).toHaveBeenCalledWith(file);
     // process should be called with default values
@@ -140,13 +157,12 @@ describe('DitherizerApp', () => {
     expect(downloadBtn.disabled).toBe(true);
   });
 
-  it('download button becomes enabled after file selected', async () => {
+  it('download button becomes enabled after file dropped', async () => {
     mockState.outputUrl = 'blob:output';
     render(<DitherizerApp />);
-    const input = document.getElementById('dither-image-upload') as HTMLInputElement;
+    const canvas = getCanvas();
     const file = new File(['data'], 'test.png', { type: 'image/png' });
-    Object.defineProperty(input, 'files', { value: [file], writable: false });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file);
     // After file select, sourceFile is set, isProcessing false => not disabled
     const btn = screen.getByText('Download PNG').closest('button') as HTMLButtonElement;
     expect(btn.disabled).toBe(false);
@@ -165,11 +181,10 @@ describe('DitherizerApp', () => {
 
   it('changes palette size via input', () => {
     render(<DitherizerApp />);
-    // Need file first to enable processing on commit
-    const inputFile = document.getElementById('dither-image-upload') as HTMLInputElement;
+    // Need file first to enable processing on commit via canvas drop
+    const canvas = getCanvas();
     const file = new File(['data'], 'a.png', { type: 'image/png' });
-    Object.defineProperty(inputFile, 'files', { value: [file], writable: false });
-    fireEvent.change(inputFile);
+    dropFileOnCanvas(canvas, file);
     mockProcess.mockClear();
     const colorInput = getColorInput();
     fireEvent.change(colorInput, { target: { value: '64' } });
@@ -182,10 +197,9 @@ describe('DitherizerApp', () => {
   it('clamps palette size to min/max', () => {
     render(<DitherizerApp />);
     const colorInput = getColorInput();
+    const canvas = getCanvas();
     const file = new File(['data'], 'a.png', { type: 'image/png' });
-    const inputFile = document.getElementById('dither-image-upload') as HTMLInputElement;
-    Object.defineProperty(inputFile, 'files', { value: [file], writable: false });
-    fireEvent.change(inputFile);
+    dropFileOnCanvas(canvas, file);
     mockProcess.mockClear();
     // Change to 64 then to 500 which should clamp to 256
     fireEvent.change(colorInput, { target: { value: '64' } });
@@ -203,10 +217,9 @@ describe('DitherizerApp', () => {
 
   it('does not re-trigger processing for same params', () => {
     render(<DitherizerApp />);
+    const canvas = getCanvas();
     const file = new File(['data'], 'a.png', { type: 'image/png' });
-    const inputFile = document.getElementById('dither-image-upload') as HTMLInputElement;
-    Object.defineProperty(inputFile, 'files', { value: [file], writable: false });
-    fireEvent.change(inputFile);
+    dropFileOnCanvas(canvas, file);
     const initialCalls = mockProcess.mock.calls.length;
     // Try to trigger same params again via same file? The dedup is on triggerProcessing
     // Changing to same scale 1 should not trigger if already processed with 256,1,ordered,perceptual

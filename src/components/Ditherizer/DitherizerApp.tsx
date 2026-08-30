@@ -5,7 +5,6 @@ import { ArrowLeft } from 'lucide-react';
 
 import { ControlsPanel } from '@/components/Ditherizer/ControlsPanel';
 import { InfiniteCanvas } from '@/components/Ditherizer/InfiniteCanvas';
-import { UploadCard } from '@/components/Ditherizer/UploadCard';
 import { useDitherProcessor } from '@/lib/hooks/useDitherProcessor';
 import type {
   ColorReductionMode,

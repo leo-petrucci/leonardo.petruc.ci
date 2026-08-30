@@ -95,21 +95,24 @@ function getColorInput() {
 function getScaleInput() {
   return document.querySelectorAll('input[type="number"]')[1] as HTMLInputElement;
 }
-function getFileInput() {
-  return document.getElementById('dither-image-upload') as HTMLInputElement;
+function getCanvas() {
+  return screen.getByTestId('infinite-canvas');
 }
 function makeFile(name: string, size = 1000, lastModified = Date.now()): File {
   const content = new Array(size).fill('a').join('');
   return new File([content], name, { type: 'image/png', lastModified });
 }
+function dropFileOnCanvas(canvas: HTMLElement, file: File) {
+  const dataTransfer = { files: [file] } as unknown as DataTransfer;
+  fireEvent.drop(canvas, { dataTransfer, preventDefault: vi.fn() });
+}
 
 describe('DitherizerApp - reset on new picture', () => {
   it('resets palette size to 256 when new picture dropped', async () => {
     render(<DitherizerApp />);
+    const canvas = getCanvas();
     const file1 = makeFile('first.png', 1000, 1000);
-    const input = getFileInput();
-    Object.defineProperty(input, 'files', { value: [file1], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file1);
     // Change palette to 64
     const colorInput = getColorInput();
     fireEvent.change(colorInput, { target: { value: '64' } });
@@ -118,10 +121,9 @@ describe('DitherizerApp - reset on new picture', () => {
     expect(screen.getByText('64 colors')).toBeTruthy();
 
     mockProcess.mockClear();
-    // Drop new picture with different name/size
+    // Drop new picture with different name/size via canvas
     const file2 = makeFile('second.png', 2000, 2000);
-    Object.defineProperty(input, 'files', { value: [file2], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file2);
 
     await waitFor(() => expect(screen.getByText('256 colors')).toBeTruthy());
     expect(getColorInput().value).toBe('256');
@@ -131,10 +133,9 @@ describe('DitherizerApp - reset on new picture', () => {
 
   it('resets scale to 100% when new picture dropped', async () => {
     render(<DitherizerApp />);
+    const canvas = getCanvas();
     const file1 = makeFile('a.png', 1000, 1000);
-    const input = getFileInput();
-    Object.defineProperty(input, 'files', { value: [file1], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file1);
 
     const scaleInput = getScaleInput();
     fireEvent.change(scaleInput, { target: { value: '0.5' } });
@@ -144,8 +145,7 @@ describe('DitherizerApp - reset on new picture', () => {
 
     mockProcess.mockClear();
     const file2 = makeFile('b.png', 2000, 2000);
-    Object.defineProperty(input, 'files', { value: [file2], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file2);
 
     await waitFor(() => expect(getScaleInput().value).toBe('1'));
     expect(screen.queryByText('50%')).toBeNull();
@@ -153,30 +153,21 @@ describe('DitherizerApp - reset on new picture', () => {
 
   it('resets dither mode to ordered when new picture dropped', async () => {
     render(<DitherizerApp />);
+    const canvas = getCanvas();
     const file1 = makeFile('a.png', 1000, 1000);
-    const input = getFileInput();
-    Object.defineProperty(input, 'files', { value: [file1], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file1);
 
-    // Change dither mode via select is hard to simulate without opening Radix, so we test via direct state change?
-    // Instead, we will verify that after new file, the preview label is Processed and controls are defaults
-    // For dither mode, we check that the select trigger still shows Ordered after reset
-    // Initial is Ordered, we need to change it first - we can test by checking that after file drop, the mode is ordered
-    // To change mode, we would need to interact with Select, but we can at least verify reset doesn't keep old
-    // For this test, we just verify that after new file, the file input triggers with ordered
     mockProcess.mockClear();
     const file2 = makeFile('b.png', 2000, 2000);
-    Object.defineProperty(input, 'files', { value: [file2], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file2);
     expect(mockProcess).toHaveBeenCalledWith(expect.objectContaining({ ditherMode: 'ordered' }));
   });
 
   it('resets preview toggle to Processed when new picture dropped', async () => {
     render(<DitherizerApp />);
+    const canvas = getCanvas();
     const file1 = makeFile('a.png', 1000, 1000);
-    const input = getFileInput();
-    Object.defineProperty(input, 'files', { value: [file1], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file1);
 
     // Switch to Original
     const originalBtn = screen.getAllByText('Original').find(el => el.closest('button'))!.closest('button') as HTMLButtonElement;
@@ -186,8 +177,7 @@ describe('DitherizerApp - reset on new picture', () => {
 
     mockProcess.mockClear();
     const file2 = makeFile('b.png', 2000, 2000);
-    Object.defineProperty(input, 'files', { value: [file2], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file2);
 
     // After new file, should be back to Processed
     await waitFor(() => {
@@ -199,10 +189,9 @@ describe('DitherizerApp - reset on new picture', () => {
 
   it('resets whole app via drop on canvas', async () => {
     render(<DitherizerApp />);
+    const canvas = getCanvas();
     const file1 = makeFile('first.png', 1000, 1000);
-    const input = getFileInput();
-    Object.defineProperty(input, 'files', { value: [file1], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file1);
 
     // Change a control
     const colorInput = getColorInput();
@@ -212,10 +201,8 @@ describe('DitherizerApp - reset on new picture', () => {
 
     mockProcess.mockClear();
     // Drop new file on canvas (InfiniteCanvas)
-    const canvas = screen.getByTestId('infinite-canvas');
     const file2 = makeFile('second.png', 2000, 2000);
-    const dataTransfer = { files: [file2] } as unknown as DataTransfer;
-    fireEvent.drop(canvas, { dataTransfer, preventDefault: vi.fn() });
+    dropFileOnCanvas(canvas, file2);
 
     await waitFor(() => expect(screen.getByText('256 colors')).toBeTruthy());
     expect(mockProcess).toHaveBeenCalledWith(expect.objectContaining({ maxColors: 256 }));
@@ -223,10 +210,9 @@ describe('DitherizerApp - reset on new picture', () => {
 
   it('does not reset when same file dropped again (re-upload same file)', async () => {
     render(<DitherizerApp />);
+    const canvas = getCanvas();
     const file = makeFile('same.png', 1000, 12345);
-    const input = getFileInput();
-    Object.defineProperty(input, 'files', { value: [file], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file);
 
     const colorInput = getColorInput();
     fireEvent.change(colorInput, { target: { value: '64' } });
@@ -234,10 +220,9 @@ describe('DitherizerApp - reset on new picture', () => {
     expect(screen.getByText('64 colors')).toBeTruthy();
 
     mockProcess.mockClear();
-    // Drop same file again (same name, size, lastModified)
+    // Drop same file again (same name, size, lastModified) via canvas
     const sameFile = makeFile('same.png', 1000, 12345);
-    Object.defineProperty(input, 'files', { value: [sameFile], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, sameFile);
 
     // Should NOT reset to 256, should stay 64? Actually our logic will see same file and not reset, so it will keep 64
     // But it will still trigger processing with 64 (since lastProcessed null for same file? We set null for same file too)
@@ -248,35 +233,28 @@ describe('DitherizerApp - reset on new picture', () => {
     expect(mockProcess).toHaveBeenCalledWith(expect.objectContaining({ maxColors: 64 }));
   });
 
-  it('resets via UploadCard drop', async () => {
+  it('resets via canvas drop (second variation)', async () => {
     render(<DitherizerApp />);
+    const canvas = getCanvas();
     const file1 = makeFile('a.png', 1000, 1000);
-    const input = getFileInput();
-    Object.defineProperty(input, 'files', { value: [file1], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file1);
     fireEvent.change(getColorInput(), { target: { value: '16' } });
     fireEvent.blur(getColorInput());
     expect(screen.getByText('16 colors')).toBeTruthy();
 
     mockProcess.mockClear();
     const file2 = makeFile('b.png', 2000, 2000);
-    // Simulate drop on UploadCard label
-    const label = screen.getByText('Drop an image here').closest('label') as HTMLElement;
-    const dataTransfer = { files: [file2] } as unknown as DataTransfer;
-    fireEvent.drop(label, { dataTransfer, preventDefault: vi.fn() });
+    dropFileOnCanvas(canvas, file2);
 
     await waitFor(() => expect(screen.getByText('256 colors')).toBeTruthy());
   });
 
   it('pan/zoom resets on new file (via fileKey)', async () => {
     render(<DitherizerApp />);
+    const canvas = getCanvas();
     const file1 = makeFile('first.png', 1000, 1000);
-    const input = getFileInput();
-    Object.defineProperty(input, 'files', { value: [file1], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file1);
 
-    // Wait for canvas to be ready and pan
-    const canvas = screen.getByTestId('infinite-canvas');
     // Pan
     fireEvent.pointerDown(canvas, { clientX: 0, clientY: 0, button: 0, pointerId: 1 });
     fireEvent.pointerMove(canvas, { clientX: 100, clientY: 100 });
@@ -285,10 +263,9 @@ describe('DitherizerApp - reset on new picture', () => {
     const world = canvas.querySelector('.will-change-transform') as HTMLElement;
     const beforeTransform = world.style.transform;
 
-    // Drop new file
+    // Drop new file via canvas
     const file2 = makeFile('second.png', 2000, 2000);
-    Object.defineProperty(input, 'files', { value: [file2], writable: false, configurable: true });
-    fireEvent.change(input);
+    dropFileOnCanvas(canvas, file2);
 
     // After new file, the canvas should refit (pan reset). We check that transform changed or is centered
     // The transform after new file should be different from before (since refit)
