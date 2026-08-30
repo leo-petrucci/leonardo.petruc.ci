@@ -36,7 +36,7 @@
         "remark-frontmatter": "^5.0.0",
         "remark-gfm": "^4.0.1",
         "simplex-noise": "^4.0.3",
-        "sst": "3.13.2",
+        "sst": "3.19.3",
         "tailwind-merge": "^2.6.1",
         "tw-animate-css": "^1.4.0",
         "vite": "^7.0.0",
@@ -1280,17 +1280,23 @@
 
     "srvx": ["srvx@0.8.16", "", { "bin": { "srvx": "bin/srvx.mjs" } }, "sha512-hmcGW4CgroeSmzgF1Ihwgl+Ths0JqAJ7HwjP2X7e3JzY7u4IydLMcdnlqGQiQGUswz+PO9oh/KtCpOISIvs9QQ=="],
 
-    "sst": ["sst@3.13.2", "", { "dependencies": { "aws-sdk": "2.1692.0", "aws4fetch": "1.0.18", "jose": "5.2.3", "opencontrol": "0.0.6", "openid-client": "5.6.4" }, "optionalDependencies": { "sst-darwin-arm64": "3.13.2", "sst-darwin-x64": "3.13.2", "sst-linux-arm64": "3.13.2", "sst-linux-x64": "3.13.2", "sst-linux-x86": "3.13.2" }, "bin": { "sst": "bin/sst.mjs" } }, "sha512-pah7nMcpegQptLi+JwWpf0EdpAbJNNvENYNKDl740hd4p1YDgZYA81KyrrMuP4UMRRwIjRvAZy5kRaUva/AzJw=="],
+    "sst": ["sst@3.19.3", "", { "dependencies": { "aws-sdk": "2.1692.0", "aws4fetch": "1.0.18", "jose": "5.2.3", "opencontrol": "0.0.6", "openid-client": "5.6.4" }, "optionalDependencies": { "sst-darwin-arm64": "3.19.3", "sst-darwin-x64": "3.19.3", "sst-linux-arm64": "3.19.3", "sst-linux-x64": "3.19.3", "sst-linux-x86": "3.19.3", "sst-win32-arm64": "3.19.3", "sst-win32-x64": "3.19.3", "sst-win32-x86": "3.19.3" }, "bin": { "sst": "bin/sst.mjs" } }, "sha512-0xA+gBgVG12i9Uc4ULR+8PbWCDOK6B8VAsnsneuCBQcOTVHmiIC2oE/ZlDwmKV78QSnU0+QgX6d0djakjT3Zgg=="],
 
-    "sst-darwin-arm64": ["sst-darwin-arm64@3.13.2", "", { "os": "darwin", "cpu": "arm64" }, "sha512-eEadOchOCc1ueIT9Qys8KlCgPjvEQ0F376BfZj+B8xZc8pXzMN1jteD8h8EWVXtehA66wPi+RDscTsRmH1iFDg=="],
+    "sst-darwin-arm64": ["sst-darwin-arm64@3.19.3", "", { "os": "darwin", "cpu": "arm64" }, "sha512-OgJescI+/Vt5SCtfqLcJE8UH86kBE44CK9UYl0MT+Wt6hr7r2WFpNPyv+lCK/LRhvRZyfTyBlXvyu4/tcNq5bA=="],
 
-    "sst-darwin-x64": ["sst-darwin-x64@3.13.2", "", { "os": "darwin", "cpu": "x64" }, "sha512-RvZSzl55uSOM5dg3c44sj1Ry34fOAt+aGDvhFPILqbPBEB7tXLXJTu6P8lRbW+932pBkJNnLnvG5Sg9TUOU+sg=="],
+    "sst-darwin-x64": ["sst-darwin-x64@3.19.3", "", { "os": "darwin", "cpu": "x64" }, "sha512-So1d3LGpEIgc6mPsaHfUhjdpGhGL4Nbw9RsLmiQXbjnsZb3v3AzAyjCEXESeHB9jtVE1uSu1z3EdheFGT/wkvg=="],
 
-    "sst-linux-arm64": ["sst-linux-arm64@3.13.2", "", { "os": "linux", "cpu": "arm64" }, "sha512-yBWUNYiYvqUPHbPdomQVkPiijIAMDetLDL8S826YWpsEgyTRJomvVEACrOJ/e2RrMbS5Qx/8bqO4azexiZ09ow=="],
+    "sst-linux-arm64": ["sst-linux-arm64@3.19.3", "", { "os": "linux", "cpu": "arm64" }, "sha512-Qi5evqAR+mYW/WUe0yYJvwnGDXEFBpqBx7Kwh8GXg7m/NFEWN83Nlp95msq/dh265GUGtMMNAOM37lUet96WIw=="],
 
-    "sst-linux-x64": ["sst-linux-x64@3.13.2", "", { "os": "linux", "cpu": "x64" }, "sha512-OFEUE7VDUQNAbshlN8D/zwOtsvv3uVn9Fx1MYbXelCp2BW6GGQ3SvZqwCijspXzZpdcinFeEHYfAHNg3qXlm3w=="],
+    "sst-linux-x64": ["sst-linux-x64@3.19.3", "", { "os": "linux", "cpu": "x64" }, "sha512-pmfxKbUQ3B8/9xAdnNalZwCgbsQiQ66ItI3w1eP6U7e7oehiCvcsMpvmbTbtwvlpPjq3al/3nkX48W0OzlasYA=="],
 
-    "sst-linux-x86": ["sst-linux-x86@3.13.2", "", { "os": "linux", "cpu": "none" }, "sha512-7lsxSHD2e7ZRuOzeJOUuS+MHmmw8KOpSq4P8AX+PcafZZcB4D+b+buJjSAKiRk99UFB/dqfrarXftuZ+ojCEhA=="],
+    "sst-linux-x86": ["sst-linux-x86@3.19.3", "", { "os": "linux", "cpu": "none" }, "sha512-kIpWSGrskBPdJkyd2Zrfhp3CmhuNerO69ThGEGgtmTEHoRrGxkHNiIo2OwFrxtcSRIY/vfJrm6Jl+uWdP+5Zpg=="],
+
+    "sst-win32-arm64": ["sst-win32-arm64@3.19.3", "", { "os": "win32", "cpu": "arm64" }, "sha512-YKl+mlgmLnp7Wa2z+9/Wn4uVDRD/78E7uXy7Hfia9aQqgL5jXSyM3mR8GHjll/bO3ZP18+b7w8WES/dn6EnOSg=="],
+
+    "sst-win32-x64": ["sst-win32-x64@3.19.3", "", { "os": "win32", "cpu": "x64" }, "sha512-KXFCrxd7BO8fYYrQWtiZAoY7sWTHcGPI3cScvGB5UddlYEpiOsuEfUXjqPS3q1o6of7pZ/JaxfmVdLPZY4EG2A=="],
+
+    "sst-win32-x86": ["sst-win32-x86@3.19.3", "", { "os": "win32", "cpu": "none" }, "sha512-DPvXC/vcb8uVZ2PX2tRAcyaHnUgP9+rvT4TA/8hBGeAETMqMPMeMvyn40wDiDsQSR/aWgljm8icifwFMVaY2nQ=="],
 
     "stackback": ["stackback@0.0.2", "", {}, "sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw=="],
 
