@@ -48,25 +48,25 @@ function RouteComponent() {
           <div className="flex-1 flex flex-col justify-center px-14 py-10 gap-6">
             {/* Top badge row */}
             <div className="flex items-center gap-2">
-              <Badge variant="default" className="text-[11px]">
+              <Badge variant="default" className="text-[12px]">
                 petruc.ci
               </Badge>
-              <Badge variant="outline" className="text-[11px]">
+              <Badge variant="outline" className="text-[12px]">
                 {CURRENT_JOB.company} · 2025 — Present
               </Badge>
             </div>
 
             {/* Name + Title */}
             <div className="flex flex-col gap-3">
-              <h1 className="font-departure text-[54px] leading-[0.9] tracking-[-0.04em] font-normal text-foreground">
+              <h1 className="font-departure text-[62px] leading-[0.9] tracking-[-0.04em] font-normal text-foreground">
                 Leonardo
                 <br />
                 <span className="text-accent">Petrucci</span>
               </h1>
-              <p className="font-departure text-[18px] leading-[1.4] text-foreground max-w-[560px]">
+              <p className="font-departure text-[21px] leading-[1.4] text-foreground max-w-[560px]">
                 {CURRENT_JOB.title}
               </p>
-              <p className="font-inter text-[14px] leading-[1.5] text-muted-foreground max-w-[560px]">
+              <p className="font-inter text-[16px] leading-[1.5] text-muted-foreground max-w-[560px]">
                 Software developer specialising in modern web applications with TypeScript &amp; React — design systems, fullstack &amp; frontend.
               </p>
             </div>
@@ -77,7 +77,7 @@ function RouteComponent() {
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <span className="size-2 bg-accent inline-block" aria-hidden />
-                <span className="font-departure text-[11px] uppercase tracking-widest text-muted-foreground">
+                <span className="font-departure text-[12px] uppercase tracking-widest text-muted-foreground">
                   Typescript · React · Design Systems
                 </span>
               </div>
@@ -109,7 +109,7 @@ function RouteComponent() {
                 alt="Webflow"
                 className="h-5 w-auto object-contain opacity-80"
               />
-              <span className="font-departure text-[11px] uppercase tracking-widest text-muted-foreground">
+              <span className="font-departure text-[12px] uppercase tracking-widest text-muted-foreground">
                 Senior Frontend Engineer
               </span>
             </div>
