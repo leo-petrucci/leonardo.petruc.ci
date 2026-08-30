@@ -7,5 +7,9 @@
   },
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
+  },
+  // oxlint — use the oxc VS Code extension for inline diagnostics
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
   }
 }
