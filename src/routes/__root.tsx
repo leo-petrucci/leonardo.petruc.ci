@@ -13,6 +13,19 @@ import appCss from '@/styles/app.css?url';
 import { seo } from '@/utils/seo';
 
 export const Route = createRootRoute({
+  beforeLoad: () => {
+    // Client-side fallback for petruc.ci -> leonardo.petruc.ci (302)
+    // Server-side 302 is handled by Nitro middleware middleware/redirect.ts
+    // www.leonardo.petruc.ci is handled as 308 permanent via SST redirects (sst.config.ts:28)
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname.toLowerCase()
+      if (host === 'petruc.ci' || host === 'www.petruc.ci') {
+        window.location.replace(
+          `https://leonardo.petruc.ci${window.location.pathname}${window.location.search}${window.location.hash}`,
+        )
+      }
+    }
+  },
   head: () => ({
     meta: [
       {
@@ -33,9 +46,10 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
-      { rel: 'icon', href: '/favicon.png' },
+      { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+      { rel: 'icon', href: '/favicon.png', type: 'image/png' },
+      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
       { rel: 'canonical', href: 'https://leonardo.petruc.ci/' },
-      { rel: 'apple-touch-icon', href: '/favicon.png' },
     ],
   }),
   errorComponent: (props) => {

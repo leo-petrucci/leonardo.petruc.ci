@@ -26,6 +26,7 @@ export default $config({
       domain: {
         name: 'leonardo.petruc.ci',
         redirects: ['www.leonardo.petruc.ci'],
+        aliases: ['petruc.ci', 'www.petruc.ci'],
       },
       dev: {
         command: 'bun dev',
