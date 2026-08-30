@@ -1,11 +1,9 @@
 import {
   HeadContent,
-  Link,
   Outlet,
   Scripts,
   createRootRoute,
 } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import * as React from 'react';
 import { DefaultCatchBoundary } from '@/components/DefaultCatchBoundary';
 import { NotFound } from '@/components/NotFound';
@@ -13,19 +11,6 @@ import appCss from '@/styles/app.css?url';
 import { seo } from '@/utils/seo';
 
 export const Route = createRootRoute({
-  beforeLoad: () => {
-    // Client-side fallback for leonardo.petruc.ci -> petruc.ci (302)
-    // Server-side 302 is handled by Nitro middleware middleware/redirect.ts
-    // www.* variants are handled as 308 permanent via SST redirects (sst.config.ts:28)
-    if (typeof window !== 'undefined') {
-      const host = window.location.hostname.toLowerCase()
-      if (host === 'leonardo.petruc.ci' || host === 'www.leonardo.petruc.ci' || host === 'www.petruc.ci') {
-        window.location.replace(
-          `https://petruc.ci${window.location.pathname}${window.location.search}${window.location.hash}`,
-        )
-      }
-    }
-  },
   head: () => ({
     meta: [
       {
