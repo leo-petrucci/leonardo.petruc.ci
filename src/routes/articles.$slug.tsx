@@ -38,7 +38,7 @@ export const Route = createFileRoute('/articles/$slug')({
           url,
         }),
       ],
-      links: [{ rel: 'canonical', href: `https://leonardo.petruc.ci${url}` }],
+      links: [{ rel: 'canonical', href: `https://petruc.ci${url}` }],
     };
   },
   component: RouteComponent,

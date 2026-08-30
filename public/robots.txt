@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /hero
 
-Sitemap: https://leonardo.petruc.ci/sitemap.xml
+Sitemap: https://petruc.ci/sitemap.xml

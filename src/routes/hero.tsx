@@ -49,7 +49,7 @@ function RouteComponent() {
             {/* Top badge row */}
             <div className="flex items-center gap-2">
               <Badge variant="default" className="text-[11px]">
-                leonardo.petruc.ci
+                petruc.ci
               </Badge>
               <Badge variant="outline" className="text-[11px]">
                 {CURRENT_JOB.company} · 2025 — Present

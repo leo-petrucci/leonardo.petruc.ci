@@ -1,4 +1,4 @@
-const SITE_URL = 'https://leonardo.petruc.ci'
+const SITE_URL = 'https://petruc.ci'
 
 function absoluteUrl(pathOrUrl: string): string {
   if (/^https?:\/\//.test(pathOrUrl)) return pathOrUrl
