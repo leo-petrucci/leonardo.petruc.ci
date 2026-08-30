@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://leonardo.petruc.ci/</loc><priority>1.0</priority></url>
+  <url><loc>https://leonardo.petruc.ci/docs</loc><priority>0.7</priority></url>
+  <url><loc>https://leonardo.petruc.ci/ascii/docs</loc><priority>0.5</priority></url>
+  <url><loc>https://leonardo.petruc.ci/ascii/animations</loc><priority>0.5</priority></url>
+  <url><loc>https://leonardo.petruc.ci/ascii/input</loc><priority>0.5</priority></url>
+  <url><loc>https://leonardo.petruc.ci/apps/ditherizer</loc><priority>0.6</priority></url>
+  <url><loc>https://leonardo.petruc.ci/articles/ditherizer</loc><priority>0.6</priority></url>
+  <url><loc>https://leonardo.petruc.ci/articles/emma-cli</loc><priority>0.6</priority></url>
+  <url><loc>https://leonardo.petruc.ci/articles/mdx-components</loc><priority>0.6</priority></url>
+  <url><loc>https://leonardo.petruc.ci/iridescent-debugger</loc><priority>0.4</priority></url>
+</urlset>

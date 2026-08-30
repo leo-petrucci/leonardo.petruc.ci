@@ -11,8 +11,36 @@ import { AsciiViz } from '@/components/atoms/Ascii/AsciiViz';
 import { SiteTitle } from '@/components/atoms/SiteTitle';
 import { ThemeToggle } from '@/components/atoms/ThemeToggle';
 import { DitherField } from '@/components/organisms/DitherField';
+import { seo } from '@/utils/seo';
 
 export const Route = createFileRoute('/articles/$slug')({
+  head: ({ params }) => {
+    const found = getArticle(params.slug);
+    if (!found) {
+      return {
+        meta: [
+          { title: 'Article Not Found — Leonardo Petrucci' },
+          { name: 'robots', content: 'noindex' },
+        ],
+      };
+    }
+    const { article } = found;
+    const title = `${article.title} — Leonardo Petrucci`;
+    const description = article.excerpt || article.title;
+    const url = `/articles/${params.slug}`;
+    return {
+      meta: [
+        ...seo({
+          title,
+          description,
+          image: '/OpenGraph.png',
+          imageAlt: title,
+          url,
+        }),
+      ],
+      links: [{ rel: 'canonical', href: `https://leonardo.petruc.ci${url}` }],
+    };
+  },
   component: RouteComponent,
 });
 

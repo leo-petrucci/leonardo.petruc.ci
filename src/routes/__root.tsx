@@ -22,15 +22,20 @@ export const Route = createRootRoute({
         name: 'viewport',
         content: 'width=device-width, initial-scale=1',
       },
+      { name: 'theme-color', content: '#000000' },
       ...seo({
-        title: 'Leonardo Petrucci',
-        description: `Leonardo Petrucci's personal site. A collection of my work, projects, and thoughts.`,
+        title: 'Leonardo Petrucci — Senior Frontend Engineer @ Webflow',
+        description: `Leonardo Petrucci's personal site. A collection of my work, projects, and thoughts. Senior Frontend Engineer at Webflow, building modern web apps with TypeScript and React.`,
         image: '/OpenGraph.png',
+        imageAlt: 'Leonardo Petrucci — Senior Frontend Engineer @ Webflow',
+        url: '/',
       }),
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', href: '/favicon.png' },
+      { rel: 'canonical', href: 'https://leonardo.petruc.ci/' },
+      { rel: 'apple-touch-icon', href: '/favicon.png' },
     ],
   }),
   errorComponent: (props) => {
@@ -57,7 +62,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html lang="en">
       <head>
         <HeadContent />
         <script
