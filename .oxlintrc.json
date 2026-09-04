@@ -1,0 +1,112 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "import",
+    "jsdoc",
+    "react",
+    "jsx-a11y",
+    "vitest",
+    "promise",
+    "typescript",
+    "unicorn",
+    "oxc"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "builtin": true
+  },
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "off",
+    "style": "off",
+    "pedantic": "off",
+    "restriction": "off",
+    "nursery": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "19.2"
+    },
+    "jsx-a11y": {
+      "polymorphicPropName": "as",
+      "components": {
+        "Link": "a"
+      }
+    }
+  },
+  "rules": {
+    "oxc/bad-array-method-on-arguments": "off",
+    "no-console": "off",
+    "jsdoc/require-param-description": "off",
+    "jsdoc/require-returns-description": "off",
+    // React 17+ JSX transform — no need for React in scope
+    "react/react-in-jsx-scope": "off",
+    "react/no-unknown-property": "error",
+    // Common noisy rules — downgrade to warn or off for baseline
+    "unicorn/filename-case": "off",
+    "unicorn/no-null": "off",
+    "unicorn/consistent-function-scoping": "off",
+    "unicorn/no-array-sort": "off",
+    "unicorn/no-new-array": "off",
+    "unicorn/prefer-add-event-listener": "off",
+    "unicorn/require-post-message-target-origin": "warn",
+    "eslint/no-shadow": "off",
+    "eslint/no-unused-vars": "warn",
+    "eslint/no-unused-expressions": "warn",
+    "eslint/no-new": "warn",
+    "eslint/no-underscore-dangle": "off",
+    "typescript/triple-slash-reference": "off",
+    "oxc/erasing-op": "warn",
+    "react/use-memo": "warn",
+    "react/purity": "warn",
+    "jsx-a11y/prefer-tag-over-role": "warn",
+    "react/exhaustive-effect-dependencies": "warn",
+    "react/exhaustive-deps": "warn",
+    "react/memo-dependencies": "warn",
+    "react/set-state-in-effect": "warn",
+    "react/refs": "warn",
+    "react/rules-of-hooks": "error",
+    "react/hooks": "warn",
+    "react/static-components": "warn",
+    "react/no-unstable-nested-components": "warn",
+    "react/jsx-no-comment-textnodes": "off",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "vitest/prefer-expect-assertions": "off",
+    "vitest/require-top-level-describe": "off",
+    "vitest/prefer-lowercase-title": "off",
+    "vitest/no-hooks": "off",
+    "vitest/max-expects": "off",
+    "vitest/prefer-strict-boolean-matchers": "off",
+    "vitest/no-importing-vitest-globals": "off",
+    "vitest/require-mock-type-parameters": "warn",
+    "vitest/no-conditional-expect": "warn",
+    "vitest/expect-expect": "warn",
+    "promise/prefer-await-to-callbacks": "off",
+    "promise/avoid-new": "off",
+    "promise/param-names": "off"
+  },
+  "overrides": [
+    {
+      "files": ["src/routeTree.gen.ts"],
+      "rules": {}
+    }
+  ],
+  "ignorePatterns": [
+    "node_modules/",
+    ".output/",
+    ".nitro/",
+    ".sst/",
+    ".vinxi/",
+    ".tanstack/",
+    "dist/",
+    "build/",
+    "public/build/",
+    "src/routeTree.gen.ts"
+  ]
+}

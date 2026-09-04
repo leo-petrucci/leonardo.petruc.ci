@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /hero
+
+Sitemap: https://petruc.ci/sitemap.xml
